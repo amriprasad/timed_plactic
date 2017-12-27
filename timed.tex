@@ -1,0 +1,146 @@
+\documentclass[12pt]{amsart}
+\usepackage{ytableau}
+\newtheorem{theorem}{Theorem}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newcommand{\rowins}{\mathrm{ROWINS}}
+\newcommand{\ins}{\mathrm{INSERT}}
+\newcommand{\Tab}{\mathrm{Tab}}
+\title{The Timed Plactic Monoid}
+\author{Amritanshu Prasad}
+\begin{document}
+\maketitle
+\begin{abstract}
+  The plactic monoid is a simple algebraic structure that lies at the crossroads of the theory of symmetric polynomials, enumerative geometry, representation theory, and combinatorics.
+  It was introduced by Lascoux and Sch\"utzenberger, who used it to prove the Littlewood-Richardson rule.
+  It is the quotient of the conncatenation-monoid of words in a totally ordered langauge modulo a pair of relations discovered by Knuth.
+  Timed words were introduced by Adur and Dill in the context of timed automata, which model the behavior of real-time computer systems.
+  Timed words too form a monoid under concatenation.
+  This monoid contains the monoid of words as a submonoid.
+  In this article, we extend the definition of the plactic monoid to include timed words by presenting timed analogs of Knuth relations.
+  We extend some basic results from the theory of plactic monoids, such as Greene's theorem and the RSK correspondence to timed words.
+\end{abstract}
+\section{Greene's Theorem}
+\subsection{Tableaux}
+\label{sec:tableaux}
+Recall that a partition is a tuple $\lambda=(\lambda_1,\dotsc,\lambda_l)$ of integers such that $\lambda_1\geq \dotsb\geq \lambda_l>0$.
+The Young diagram of the partition $\lambda$ is defined as the array of points
+\begin{displaymath}
+Y(\lambda)=\{(i,j)\mid 1\leq i\leq l,\;1\leq j\leq \lambda_i\}
+\end{displaymath}
+drawn in matrix notation, so that the point $(i,j)$ lies in the $i$th row and $j$th column of $Y(\lambda)$.
+Let $A_n=\{1,\dotsc,n\}$.
+\begin{definition}
+  A semistandard Young tableau\footnote{It is customary to write the plural of \emph{tableau} as \emph{tableaux}, following French conventions.} in $A_n$ of shape $\lambda$ is an assignment $t:Y(\lambda)\to A_n$ such that the numbers increase weakly from left to right along each row, and from top to bottom along each column.
+  The weight of $t$ is the tuple $(m_1,\dotsc, m_n)$, where $m_i$ is the number of times that $i$ occurs in the image of $t$.
+\end{definition}
+For brevity, a semistandard Young tableaux will be referred to as a tableau in the rest of this article.
+\begin{example}
+  \label{example:ssyt}
+  The following is a tableau of shape $(5,2,1)$ and weight $(2,1,4,1)$ in $A_4$:
+  \begin{displaymath}
+    t=\ytableaushort{11333,24,3}
+  \end{displaymath}
+\end{example}
+We denote by $\Tab_n$ the set of all tableaux in $A_n$, $\Tab_n(\lambda)$ the set of all tableaux of shape $\lambda$ in $A_n$, and by $\Tab(\lambda,\mu)$ the set of all tableaux of shape $\lambda$ and weight $\mu$.
+\subsection{Row Insertion}
+\label{sec:row-insertion}A row of length $k$ is defined to be a weakly increasing sequence $u=a_1a_2\dotsb a_k$ in $A_n$.
+Let $R(A_n)$ denote the set of all rows in $A_n$.
+Each row of a tableau is a row in the sense of this definition.
+For each $u=a_1\dotsb a_k\in R(A_n)$ and $a\in A_n$, define:
+\begin{displaymath}
+  \rowins(u,a) =
+  \begin{cases}
+    (\emptyset, a_1\dotsb a_k a) & \text{if } a_k\leq a,\\
+    (a_j,a_1\dotsb a_{j-1}aa_{j+1}\dotsb a_k) & \text{otherwise, with}\\
+    & j=\min\{i\mid a<a_i\}. 
+  \end{cases}
+\end{displaymath}
+Here $\emptyset$ should be thought of as an empty row of length zero.
+\begin{example}
+  $\rowins(11333,3) = (\emptyset,113333)$, $\rowins(11333,2)=(3,11233)$. 
+\end{example}
+It is clear from the construction that, for any $u\in R(A_n)$ and $a\in A_n$, if $(a',u')=\rowins(u,a)$, then $u'$ is again a row.
+For convenience set $\rowins(u,\emptyset)=(\emptyset,u)$.
+\subsection{Tableau Insertion}
+\label{sec:tableau-insertion}
+Let $t$ be a tableau with rows $u_1,u_2,\dotsc, u_l$.
+Then $\ins(t,a)$ is defined as follows: first $a$ is inserted into $u_1$; if $\rowins(u_1,a)=(a_1',u_1')$, then $u_1$ is replaced by $u_1'$.
+Then $a_1'$ is inserted into $u_2$; if $\rowins(u_2,a_1')=(a_2',u_3)$, then $u_2$ is replaced by $u_2'$, and so on.
+This process continues, generating $a_1',a_2',\dotsc,a_k'$ and $u_1',\dotsc,u_k'$.
+The tableau $t'=\ins(t,a)$ has rows $u_1',\dotsc,u_k'$, and a last row (possibly empty) consisting of $a_k'$.
+\begin{example}
+  \label{example:insertion}
+  For $t$ as in Example~\ref{example:insertion}, we have
+  \begin{displaymath}
+    \ins(t,2) = \ytableaushort{11233,23,34},
+  \end{displaymath}
+  since $\rowins(11333,2)=(3,11233)$, $\rowins(24,3)=(4,23)$, and $\rowins(3,4)=(\emptyset, 34)$.
+\end{example}
+\subsection{Insertion Tableau of a Word}
+\label{sec:insert-tabl-word}
+An arbitrary sequence $a_1\dotsb a_k$ in $A_n$ will be called a word in $A_n$.
+The set of all words in $A_n$ is denoted by $A_n^*$.
+This set may be regarded as a monoid under concatenation, with identity element as the empty word, denoted by $\emptyset$.
+\begin{definition}
+\label{definition:insertion-tableau}
+The insertion tableau $P(w)$ of a word $w$ is defined recursively as:
+\begin{align}
+  P(\emptyset)&=\emptyset\\
+  P(a_1\dotsb a_k)=\ins(P(a_1\dotsb a_{k-1}), a_k).
+\end{align}
+\end{definition}
+\begin{example}
+  \label{example:insertion-tableau}
+  Take $w=133324132$.
+  Then using Definition~\ref{definition:insertion-tableau}, then sequentially inserting the terms of $w$ into the empty tableau $\emptyset$ gives the sequence of tableaux:
+  \begin{displaymath}
+    \ytableausetup{smalltableaux}
+    \ytableaushort{1},\ytableaushort{13},\ytableaushort{133},\ytableaushort{1333},\ytableaushort{1233,3},\ytableaushort{12334,3},\ytableaushort{11334,2,3},\ytableaushort{11,24,3},\ytableaushort{11233,23,34}
+  \end{displaymath}
+  the last of which is the insertion tableau $P(w)$.
+\end{example}
+\subsection{Greene's Theorem}
+\label{sec:words}
+Given a word $w=a_1a_2\dotsb a_l$, a subword is a word of the form
+\begin{displaymath}
+  v = a_{i_1}a_{i_2}\dotsb a_{i_k},
+\end{displaymath}
+for some $1\leq i_1<i_2<\dotsb < i_k$.
+We say that the subword $v$ is a row if $a_{i_1}\leq a_{i_2}\leq a_{i_k}$. 
+The subword $v$ as above is said to be disjoint from a subword $u=a_{j_1} a_{j_2}\dotsb a_{j_h}$ if the sets $\{i_1,i_2,\dotsc,i_k\}$ and $\{j_1,j_2,\dotsc,j_h\}$ of indices are disjoint.
+
+Given a word $w$, its $k$th Greene invariant \emph{Greene invariant} $a_k(w)$ are defined as the maximal cardinality of a union of $k$ pairwise disjoint row subwords.
+
+Schensted~\cite{schensted} showed that the first Greene invariant $a_1(w)$ of a word is the length of the first row of its insertion tableau $P(w)$.
+For instance, the word $w$ from Example~\ref{example:insertion-tableau} has longest increasing row subword of length $5$, and its insertion tableau has first row of length $5$.
+
+\begin{theorem}
+  [Greene~\cite{Greene-schen}]
+  \label{theorem:Greene}
+  For any $w\in A_k$, suppose that the insertion tableau $P(w)$ has $l$ rows of length $\lambda_1,\dotsc,\lambda_l$.
+  Then, for each $k=1,\dotsc,l$, $a_l(w)=\lambda_1+\dotsb + \lambda_k$.
+\end{theorem}
+\subsection{Knuth Relations and the Plactic Monoid}
+\label{sec:knuth-equivalence}
+The most elegant proof of Greene's theorem (Theorem~\ref{theorem:Greene}) proceeds via the notions of Knuth equivalence and the plactic monoid (see \cite{Lascoux}).
+
+The plactic monoid $(A_n)$ is the quotient of the monoid $A_n^*$ by the submonoid generated by the Knuth relations:
+\begin{gather}
+  \tag{$K1$}\label{eq:k1}
+  xzy \equiv zxy \text{ if } x\leq y < z,
+  \\
+  \tag{$K2$}\label{eq:k2}
+  yxz \equiv yzx \text{ if } x < y \leq z.
+\end{gather}
+On a more concrete level, it is the set of words $w\in A_n$ modulo equivalence, were two words $v$ and $w$ are deemed to be equivelent if $w$ can be obtained from $v$ by a sequence of moves of the form (\ref{eq:k1}) and (\ref{eq:k2}) involving any three letters of the words obtained at each stage.
+For example,
+\begin{displaymath}
+  11232\equiv_{K1} 11322\equiv_{K1} 13122 \equiv_{K1} 
+\end{displaymath}
+
+
+\bibliographystyle{abbrv}
+\bibliography{refs}
+\end{document}
