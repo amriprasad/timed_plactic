@@ -1,6 +1,7 @@
 \documentclass[12pt]{amsart}
 \usepackage{color,ytableau}
-\newtheorem{theorem}{Theorem}
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{lemma}[theorem]{Lemma}
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{example}[theorem]{Example}
@@ -13,6 +14,8 @@
 \newcommand{\shape}{\mathrm{shape}}
 \title{The Timed Plactic Monoid}
 \author{Amritanshu Prasad}
+\address{The Institute of Mathematical Sciences, Chennai}
+\address{Homi Bhabha National Institute, Mumbai}
 \begin{document}
 \maketitle
 \begin{abstract}
@@ -59,12 +62,12 @@ For each $u=a_1\dotsb a_k\in R(A_n)$ and $a\in A_n$, define:
   \begin{cases}
     (\emptyset, a_1\dotsb a_k a) & \text{if } a_k\leq a,\\
     (a_j,a_1\dotsb a_{j-1}aa_{j+1}\dotsb a_k) & \text{otherwise, with}\\
-    & j=\min\{i\mid a<a_i\}. 
+    & j=\min\{i\mid a<a_i\}.
   \end{cases}
 \end{displaymath}
 Here $\emptyset$ should be thought of as an empty row of length zero.
 \begin{example}
-  $\rowins(11333,3) = (\emptyset,113333)$, $\rowins(11333,2)=(3,11233)$. 
+  $\rowins(11333,3) = (\emptyset,113333)$, $\rowins(11333,2)=(3,11233)$.
 \end{example}
 It is clear from the construction that, for any $u\in R(A_n)$ and $a\in A_n$, if $(a',u')=\rowins(u,a)$, then $u'$ is again a row.
 For convenience set $\rowins(u,\emptyset)=(\emptyset,u)$.
@@ -114,7 +117,7 @@ Given a word $w=a_1a_2\dotsb a_l$, a subword is a word of the form
   v = a_{i_1}a_{i_2}\dotsb a_{i_k},
 \end{displaymath}
 for some $1\leq i_1<i_2<\dotsb < i_k$.
-We say that the subword $v$ is a row if $a_{i_1}\leq a_{i_2}\leq a_{i_k}$. 
+We say that the subword $v$ is a row if $a_{i_1}\leq a_{i_2}\leq a_{i_k}$.
 The subword $v$ as above is said to be disjoint from a subword $u=a_{j_1} a_{j_2}\dotsb a_{j_h}$ if the sets $\{i_1,i_2,\dotsc,i_k\}$ and $\{j_1,j_2,\dotsc,j_h\}$ of indices are disjoint.
 
 Given a word $w$, its $k$th Greene invariant \emph{Greene invariant} $a_k(w)$ are defined as the maximal cardinality of a union of $k$ pairwise disjoint row subwords.
@@ -160,7 +163,7 @@ Thus $\rd:\Tab_n\to A_n^*$ is an injective function.
 Following Lascoux, Leclerc and Thibon \cite{Lascoux} tableaux are identified with their reading words, and a word in $A_n^*$ is called a tableau if it lies in the image of $\rd$.
 \begin{theorem}
   \label{theorem:unique-tab}
-  Every word $w\in A_n^*$ is Knuth equivalent to the reading word $P(w)$.
+  Every word $w\in A_n^*$ is Knuth equivalent to the reading word of $P(w)$.
   Moreover, if $t,t'\in \Tab_n$ have $\rd(t)\equiv \rd(t')$, then $t=t'$.
   Consequently, $P(w)$ is the unique tableau in the Knuth-equivalence class of $w$.
 \end{theorem}
@@ -171,8 +174,8 @@ The plactic proof of Greene's theorem proceeds via Theorem~\ref{theorem:unique-t
 Theorems \ref{theorem:Greene} and~\ref{theorem:unique-tab} are special cases of their timed versions which will be proved in Section~\ref{sec:timed-vers-green}, inspired by the proof in \cite{Lascoux}.
 \section{A Timed Version of Greene's Theorem}
 \label{sec:timed-vers-green}
-\subsection{Timed Words}
-\label{sec:timed-words}
+\subsection{Timed Tableaux}
+\label{sec:timed-tableaux}
 \begin{definition}
   [Timed Word]
   \label{definition:timed-word}
@@ -197,6 +200,16 @@ We take $A$ to be $A_n=\{1,\dotsc,n\}$.
 The submonoid of $A_n^\dagger$ consisting of timed words where the exponents $t_1,t_2,\dotsc,t_k$ in exponential string (\ref{eq:exp_not}) are integers is the free monoid $A_n^*$ from Section~\ref{sec:tabl-insert-green}.
 In fact, all definitions and theorems in this section will specialize to those of Section~\ref{sec:tabl-insert-green} when the exponents are integral.
 
+\begin{definition}
+  [Timed Subword]
+  Given a timed word $w:[0,r)\to A_n$, and $S\subset [0,r)$ a finite disjoint union of intervals of the form $[a, b)\subset [0,r)$, the timed subword of $w$ with respect to $S$ is defined as the timed word:
+  \begin{displaymath}
+    w_S(t) = w(\inf\{u\in [0,r)\mid \mathrm{meas}([0,u)\cap S) \geq t\}) \text{ for } 0\leq t < \mathrm{meas}(S).
+  \end{displaymath}
+  Given two words $v$ and $w$, $v$ is said to be a subword of $w$ if there exists $S\subset [0,r)$ as above such that $v=w_S$.
+  Subwords $v_1,\dotsc,v_k$ of $w$ are said to be pairwise disjoint if there exist pairwise disjoint subsets $S_1,\dotsc,S_k$ as above such that $v_i=w_{S_i}$ for $i=1,\dotsc,k$.
+\end{definition}
+
 A \emph{timed row} is, by definition, a weakly increasing timed word.
 Every timed word $w$ has a unique decomposition into rows:
 \begin{displaymath}
@@ -204,34 +217,42 @@ Every timed word $w$ has a unique decomposition into rows:
 \end{displaymath}
 such $u_i$ is a row for each $i=1,\dotsc,l$, and $u_iu_{i-1}$ is not a row for any $i=2,\dotsc,l$.
 We shall refer to such a decomposition as the row decomposition of $w$.
+Given two rows $u$ and $v$, say that $u$ is dominated by $v$ (denoted $u\lhd v$) if $l(u)\geq l(v)$ and $u(t)<v(t)$ for all $0\leq t<l(v)$.
 \begin{definition}[Timed Tableau]\label{definition:timed-tableau}
-  A timed tableau $t$ in $A_n$ is a timed word $w$ in $A_n$ with row decomposition $t=u_l u_{l-1}\dotsb u_1$ such that $l(u_i)\geq l(u_{i+1})$ for $i=1,\dotsc,l$, and $u_{i+1}(t)>u_i(t)$ for all $t\in [0,l(u_i))$.
-  The shape of $t$ is the weakly decreasing tuple $(l(u_1),l(u_2),\dotsc,l(u_l))$ of positive real numbers, and the wieght of $t$ is the vector $(\mu_1,\dotsc,\mu_n)$, where $\mu_i$ is the Lebesgue measure of the pre-image of $i$ under $t$, i.e., $\mu_i=m(t^{-1}(i))$.
+  A timed tableau in $A_n$ is a timed word $w$ in $A_n$ with row decomposition $w=u_l u_{l-1}\dotsb u_1$ such that $u_1\lhd \dotsb \lhd u_l$.
+  The shape of $w$ is the weakly decreasing tuple $(l(u_1),l(u_2),\dotsc,l(u_l))$ of positive real numbers (henceforth called a \emph{real partition}), and the wieght of $w$ is the vector:
+  \begin{displaymath}
+    \wt(w) = (m_1,\dotsc,m_n),
+  \end{displaymath}
+where $m_i$ is the Lebesgue measure of the pre-image of $i$ under $t$, i.e., $m_i=\mathrm{meas}(w^{-1}(i))$.
 \end{definition}
 The above is a direct generalization of the notion of the reading word of a tableau in the sense of Section~\ref{sec:tabl-insert-green}.
 \begin{example}
   \label{example:timed-tableau}
-  $t=3^{0.8}4^{1.1}1^{1.4}2^{1.6}3^{0.7}$ is a tableau in $A_5$ of shape $(3.7,1.9)$ and weight $(1.4, 1.6, 1.5, 1.1,0)$.
+  $w=3^{0.8}4^{1.1}1^{1.4}2^{1.6}3^{0.7}$ is a timed tableau in $A_5$ of shape $(3.7,1.9)$ and weight $(1.4, 1.6, 1.5, 1.1,0)$.
 \end{example}
 \subsection{Timed Insertion}
 \label{sec:timed-insertion}
-Given a timed word $w$ and $0\leq a < b \leq l(w)$, write $w_{[a, b)}$ for the timed word of length $b-a$ such that 
+Given a timed word $w$ and $0\leq a < b \leq l(w)$, write $w_{[a, b)}$ for the timed word of length $b-a$ such that
 \begin{displaymath}
   w_{[a, b)}(t) = w(a+ t) \text{ for } 0\leq t<b-a.
 \end{displaymath}
+We call $w_{[a,b)}$ a segment of $w$.
+If $a=0$, then $w_{[a,b)}$ is called an initial segment of $w$.
 \begin{definition}[Timed row insertion]
-  Given a timed row $w$, define the insertion $\rowins(w, c^{t_c})$ of $c^{t_c}$ into $w$ as follows: if $w(t)\leq c$ for all $0\leq t < l(u)$, then 
+  \label{definition:timed-row-insertion}
+  Given a timed row $w$, define the insertion $\rowins(w, c^{t_c})$ of $c^{t_c}$ into $w$ as follows: if $w(t)\leq c$ for all $0\leq t < l(u)$, then
   \begin{displaymath}
     \rowins(w, c^{t_c}) = (\emptyset, wc^{t_c}).
   \end{displaymath}
   Otherwise, there exists $0\leq t < l(u)$ such that $w(t)>c$.
-  Let 
+  Let
   \begin{displaymath}
     t_0 = \min\{0\leq t< u(l)\mid w(t)> c\}.
   \end{displaymath}
   Define
   \begin{displaymath}
-    \rowins(w, c^{t_c}) = 
+    \rowins(w, c^{t_c}) =
     \begin{cases}
       (w_{[t_0, t_0+t_c)}, w_{[0, t_0)}c^{t_c} w_{[t_0+t_c, l(w))}) & \text{if } l(u) - t_0 > t_c,\\
       (w_{[t_0, l(u))}, w_{[0, t_0)} c^{t_c}) & \text{if } l(u) - t_0 \leq t_c.
@@ -252,8 +273,8 @@ Given a timed word $w$ and $0\leq a < b \leq l(w)$, write $w_{[a, b)}$ for the t
 \end{example}
 \begin{definition}
   [Timed Tableau Insertion]
-  Let $t$ be a timed tableau with row decomposition $u_l\dotsc u_1$, and let $v$ be a timed row.
-  Then $\ins(t, v)$, the insertion of $v$ into $t$ is defined as follows:
+  Let $w$ be a timed tableau with row decomposition $u_l\dotsc u_1$, and let $v$ be a timed row.
+  Then $\ins(w, v)$, the insertion of $v$ into $w$ is defined as follows:
   first $v$ is inserted into $u_1$.
   If $\rowins(u_1,v)=(v_1',u_1')$, then $v_1'$ is inserted into $u_2$; if $\rowins(u_2,v_1')=(v_2',u_2')$, then $v_2'$ is inserted in $u_3$, and so on.
   This process continues, generating $v_1',\dotsc,v_l'$ and $u_1',\dotsc,u_l'$.
@@ -261,18 +282,62 @@ Given a timed word $w$ and $0\leq a < b \leq l(w)$, write $w_{[a, b)}$ for the t
   Note that it is quite possible that $v_l'=\emptyset$.
 \end{definition}
 \begin{example}
-  If $t$ is the timed tableau from Example~\ref{example:timed-tableau}, then
+  If $w$ is the timed tableau from Example~\ref{example:timed-tableau}, then
   \begin{displaymath}
-    \ins(t,1^{0.7}2^{0.2})=3^{0.7}4^{0.2}2^{0.7}3^{0.3}4^{0.9}1^{2.1}2^{1.1}3^{0.5}.
+    \ins(w,1^{0.7}2^{0.2})=3^{0.7}4^{0.2}2^{0.7}3^{0.3}4^{0.9}1^{2.1}2^{1.1}3^{0.5}.
   \end{displaymath}
 \end{example}
 \begin{theorem}
-  For any timed tableau $t$ in $A_n$ and any timed row $v$ in $A_n$, $\ins(t,v)$ is again a timed tableau in $A_n$.
-  We have $\wt(\ins(t,v)) = \wt(t) + \wt(v)$, and $\shape(t)$ interleaves $\shape(\ins(t,v))$.
+  \label{theorem:tableauness-of-insertion}
+  For any timed tableau $w$ in $A_n$ and any timed row $v$ in $A_n$, $\ins(w,v)$ is again a timed tableau in $A_n$.
+  We have
+  \begin{displaymath}
+    \wt(\ins(w,v)) = \wt(w) + \wt(v),
+  \end{displaymath}
+  and $\shape(w)$ interleaves $\shape(\ins(w,v))$.
 \end{theorem}
+The proof of Theorem~\ref{theorem:tableauness-of-insertion} can be broken down into three preparatory lemmas:
+\begin{lemma}
+  \label{lemma:dom1.5}
+  Suppose $u$ and $v$ are rows, and $(v',u')=\rowins(u,v)$.
+  Then $v\lhd v'$.
+\end{lemma}
+\begin{proof}
+  Going through the cases in Definition~\ref{definition:timed-row-insertion} shows that $v'$ is a concatenation of segments of $u$, each of which is displaced by a term in the exponential string of an initial segment of $v$.
+  Moreover, the value of the term in $v$ is stricly less than the minimum value of the segment that it displaces.
+  This shows that $v'\lhd v$.
+\end{proof}
+\begin{lemma}
+  \label{lemma:dom1}
+  Suppose $u$ and $v$ are rows, and $(v',u')=\rowins(u,v)$.
+  Then $u'\lhd v$.
+\end{lemma}
+\begin{proof}
+  From the argument in the proof of Lemma~\ref{lemma:dom1.5}, it follows that the row $u'$ contains a subword $v''$ that equals the initial segment of $v$ of length $l(v')$.
+  By Lemma~\ref{lemma:dom1.5}, $v''(t)<v(t)$ for all $0\leq t<l(v')$, and since $u'$ is a row, and $v''$ is a subword of $u'$, $v''(t)\leq u'(t)$ for all $0\leq t<l(v')$.
+  It follows that $u'\lhd v$.
+\end{proof}
+\begin{lemma}
+  \label{lemma:dom2}
+  Suppose $u_1\lhd u_2$ and $v_1\lhd v_2$, $(v_1',u_1')=\rowins(u_1,v_1)$, and $(v_2',u_2')=\rowins(u_2,v_2)$.
+  Then $u_1'\lhd u_2'$ and $v_1'\lhd v_2'$.
+\end{lemma}
+\begin{proof}[Proof of Theorem~\ref{theorem:tableauness-of-insertion}]
+  Suppose $w$ has row decomposition $u_l\dotsb u_1$.
+  Let $(v_1',u_1')=\rowins(u_1,v)$.
+  By Lemma~\ref{lemma:dom1}, $v\lhd v_1'$.
+  Now suppose $(v_2',u_2')=\rowins(u_2,v_1')$.
+  By Lemma~\ref{lemma:dom2}, $v_1'\lhd v_2'$, and $u_1'\lhd u_2'$.
+  Continuing in this manner, since $(v_{i+1}',u_{i+1}')=\rowins(u_{i+1},v_i')$, it follows that $u_i'\lhd u_{i+1}'$ for $i=1,\dotsc,l-1$ by induction on $i$.
+  Finally, it remains to show that $u_l'\lhd v_l'$, but this follows from Lemma~\ref{lemma:dom1.5}.
+\end{proof}
 \begin{definition}
   [Insertion Tableau of a Timed Word]
-  Define recursively using the row decomposition and row insertions.
+  Let $w$ be a timed word with row decompositon $u_1\dotsb u_l$.
+  The insertion tableau of $w$ is defined as:
+  \begin{displaymath}
+    P(w) = \ins(\dotsb\ins(\ins(u_1, u_2),u_3),\dotsc,u_l).
+  \end{displaymath}
 \end{definition}
 \begin{example}
   If $w=3^{0.8}1^{0.5}4^{1.1}1^{0.9}2^{1.6}3^{0.7}1^{0.7}2^{0.2}$ has four rows in its row decomposition.
@@ -294,6 +359,57 @@ Given a timed word $w$ and $0\leq a < b \leq l(w)$, write $w_{[a, b)}$ for the t
     \end{array}
   \end{displaymath}
 \end{example}
+\subsection{Timed Greene Invariants}
+\label{sec:timed-greene-invar}
+\begin{definition}[Timed Greene Invariants]
+  \label{definition:timed-Greene-invars}
+  Given a word $w\in A_n^\dagger$, its $k$th Greene invariant $a_k(w)$ is defined to be the maximum possible sum of lengths of a set of $k$ pairwise disjoint subwords of $w$ whose elements are all rows:
+  \begin{multline*}
+    a_k(w) = \max\{l(u_1)+\dotsb+l(u_k)\mid u_1,\dotsc,u_k \text{ are pairwise disjoint}\\ \text{subwords and each $u_i$ is a row }\}
+  \end{multline*}
+\end{definition}
+\begin{lemma}
+  If $w$ is a timed tableau of shape $\lambda=(\lambda_1,\dotsc,\lambda_l)$, then for each $1\leq k\leq l$,
+  \begin{displaymath}
+    a_k(w) = \lambda_1+\dotsb + \lambda_k.
+  \end{displaymath}
+\end{lemma}
+\begin{proof}
+  Indeed, $u_1,\dotsc,u_k$ are pairwise disjoint subwords that are rows, so
+  \begin{displaymath}
+    a_k(w) \geq \lambda_1+\dotsb + \lambda_l.
+  \end{displaymath}
+  For $j=1,\dotsc, l$, set $r_j=\lambda_1+\dotsb + \lambda_{j-1}$.
+  Then $[0,r)$ is partitioned into segments $T_j=r_j+[0,\lambda_j)$, for $j=1,\dotsb,l$.
+  Note that $u_i(t)=w(r_j+t)$, so that the condition $u_i(t)>u_j(t)$ for $j<i$ can be rewritten as $w(r_j+t)>w(r_i+t)$ if $j<i$.
+  Therefore, if $v$ is the row subword of $w$ with respect to $S$, then $S$ cannot simultaneously contain $r_j+t$ and $r_i+t$ for $j<i$.
+  It follows that the sets $(S-r_j)\cap [0,\lambda_j)$ are pairwise disjoint for $j=1,\dotsc,l$.
+  Suppose that $v_1,\dotsc,v_k$ are pairwise disjoint subwords of $w$ supported on the pairwise disjoint subsets $S_1,\dotsc,S_k$ of $[0,r)$.
+  Consider the subsets $T_{ij} = (S_i-r_j)\cap [0,\lambda_j)$.
+  Define 
+
+
+\end{proof}
+\subsection{Timed Knuth Equivalence}
+\begin{definition}
+  [Timed Knuth relations]
+  The first timed Knuth relation is, given timed rows $x$, $y$, and $z$:
+  \begin{equation}
+    \tag{$\kappa_1$}
+    \label{eq:tk1}
+    xzy \equiv zxy,
+  \end{equation}
+  if $xyz$ is a row, $l(z) = l(y)$, and the last letter of $y$ is strictly less than the first letter of $z$.
+
+  The second timed Knuth relation is, given timed rows $x$, $y$, and $z$:
+  \begin{equation}
+    \tag{$\kappa_2$}
+    \label{eq:tk2}
+    yxz \equiv yzx,
+  \end{equation}
+  if $xyz$ is a row, $l(x)=l(y)$, and the last letter of $x$ is strictly less than the first letter of $y$.
+\end{definition}
+\label{sec:timed-knuth-equiv}
 \bibliographystyle{abbrv}
 \bibliography{refs}
 \end{document}
