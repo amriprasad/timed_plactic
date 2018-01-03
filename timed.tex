@@ -387,6 +387,7 @@ The proof of Theorem~\ref{theorem:tableauness-of-insertion} can be broken down i
 \subsection{Timed Knuth Equivalence and the Timed Plactic Monoid}
 \begin{definition}
   [Timed Knuth Relations]
+  \label{sec:timed-knuth-equiv}
   The first timed Knuth relation is, given timed rows $x$, $y$, and $z$:
   \begin{equation}
     \tag{$\kappa_1$}
@@ -419,7 +420,7 @@ Since this equivalence is stable under left and right multiplication in $A^\dagg
   Then $v$ and $w$ differ by a Knuth move (\ref{eq:tk1}) if and only if $v^\sharp$ and $w^\sharp$ differ by a Knuth move (\ref{eq:tk2}).
 \end{lemma}
 \begin{proof}
-  When the involution $w\mapsto w^\sharp$ is applied to the Knuth relation (\ref{eq:tk1}), (\ref{eq:tk2}) is obtained.
+  When the involution $w\mapsto w^\sharp$ is applied to the Knuth relation (\ref{eq:tk1}), the Knuth relation (\ref{eq:tk2}) is obtained.
 \end{proof}
 \begin{lemma}
   \label{lemma:Knuth-Greene}
@@ -459,7 +460,17 @@ Since this equivalence is stable under left and right multiplication in $A^\dagg
 
   For the Knuth move (\ref{eq:tk2}) a similar argument can be given, however, a more elegant method is to use Lemma~\ref{lemma:sharp-moves}, noting that $a_k(w)=a_k(w^\sharp)$ for all $k\geq 1$ and all $w\in A_n^\dagger$.
 \end{proof}
-\label{sec:timed-knuth-equiv}
+\begin{lemma}
+  Every timed word is Knuth equivalent to its timed insertion tableau.
+\end{lemma}
+\begin{proof}
+  It suffices to show that, for every timed row $u$, and every term $c^t$, if $(v,u')=\rowins(u,c^t)$, then $uc^t\equiv vu'$.
+  If $u(t)\leq c$ for all $0\leq t<l(u)$, there is nothing to show.
+  Otherwise, a segment $v$ of $u$, beginning at $t_0$, and of length $t_1=\min(l(u)-t_0,t)$ is displaced by the segment $c^{t_1}$ of $c^t$.
+  Write $u=u'vu''$.
+  It suffices to show $u'vu''c^{t_1}\equiv vu'c^{t_1}u''$.
+  We have that $c^{t_1}
+\end{proof}
 \bibliographystyle{abbrv}
 \bibliography{refs}
 \end{document}
