@@ -22,7 +22,7 @@
 \begin{abstract}
   The plactic monoid is a simple algebraic structure that lies at the crossroads of the theory of symmetric polynomials, enumerative geometry, representation theory, and combinatorics.
   It was introduced by Lascoux and Sch\"utzenberger, who used it to prove the Littlewood-Richardson rule.
-  It is the quotient of the conncatenation-monoid of words in a totally ordered langauge modulo a pair of relations discovered by Knuth.
+  It is the quotient of the conncatenation monoid of words in a totally ordered langauge modulo a pair of relations discovered by Knuth.
   Timed words were introduced by Adur and Dill in the context of timed automata, which model the behavior of real-time computer systems.
   Timed words too form a monoid under concatenation.
   This monoid contains the monoid of words as a submonoid.
@@ -469,7 +469,11 @@ Since this equivalence is stable under left and right multiplication in $A^\dagg
   Otherwise, a segment $v$ of $u$, beginning at $t_0$, and of length $t_1=\min(l(u)-t_0,t)$ is displaced by the segment $c^{t_1}$ of $c^t$.
   Write $u=u'vu''$.
   It suffices to show $u'vu''c^{t_1}\equiv vu'c^{t_1}u''$.
-  We have that $c^{t_1}
+  But this can be done in two Knuth moves as follows (the segment to which the Knuth move is applied is underlined):
+  \begin{displaymath}
+    u'\underline{v u'' c^t} \equiv_{\kappa_2} u'\underline{vc^tu''} = \underline{u'vc^t}u'' \equiv_{\kappa_1} \underline{vu'c^t}u'',
+  \end{displaymath}
+  completing the proof of the lemma.
 \end{proof}
 \bibliographystyle{abbrv}
 \bibliography{refs}
