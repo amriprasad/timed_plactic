@@ -13,6 +13,8 @@
 \newcommand{\wt}{\mathrm{wt}}
 \newcommand{\shape}{\mathrm{shape}}
 \newcommand{\pl}{\mathrm{pl}}
+\newcommand{\ttab}{\mathrm{tt}}
+\newcommand{\tr}{\mathrm{tR}}
 \title{The Timed Plactic Monoid}
 \author{Amritanshu Prasad}
 \address{The Institute of Mathematical Sciences, Chennai}
@@ -474,6 +476,27 @@ Since this equivalence is stable under left and right multiplication in $A^\dagg
     u'\underline{v u'' c^t} \equiv_{\kappa_2} u'\underline{vc^tu''} = \underline{u'vc^t}u'' \equiv_{\kappa_1} \underline{vu'c^t}u'',
   \end{displaymath}
   completing the proof of the lemma.
+\end{proof}
+For any real partition $\lambda$, let $\ttab_n(\lambda)$ denote the set of all timed tableaux in $A_n$ of shape $\lambda$.
+Let $\tr_n(r)$ denote the set of timed rows in $A_n$ of length $r$.
+\begin{lemma}
+  Let $w, u, v$ be rows in $A_n$, and assume that 
+\end{lemma}
+\begin{lemma}
+  The row insertion algorithm gives rise to a bijection:
+  \begin{multline*}
+    \rowins: \tr_n(r)\times \tr_n(s) \tilde\to \\\{(u',w')\in R_n(s')\times R_n(r+s-s')\mid 0\leq s'\leq s,\; u'\rhd w'\}. 
+  \end{multline*}
+\end{lemma}
+\begin{lemma}[Pieri's Rule]
+  \label{lemma:pieri}
+  The insertion map gives rise to a bijection:
+  \begin{displaymath}
+    \ins: \ttab_n(\lambda)\times \tr_n(r) \tilde\to \coprod_{\begin{smallmatrix}\text{$\lambda$ interleaves $\mu$}\\{l(\lambda)+r = l(\mu)}\end{smallmatrix}} \ttab_n(\mu)
+  \end{displaymath}
+\end{lemma}
+\begin{proof}
+  
 \end{proof}
 \bibliographystyle{abbrv}
 \bibliography{refs}
