@@ -206,6 +206,7 @@ In fact, all definitions and theorems in this section will specialize to those o
 
 \begin{definition}
   [Timed Subword]
+  \label{definition:timed-subword}
   Given a timed word $w:[0,r)\to A_n$, and $S\subset [0,r)$ a finite disjoint union of intervals of the form $[a, b)\subset [0,r)$, the timed subword of $w$ with respect to $S$ is defined as the timed word:
   \begin{displaymath}
     w_S(t) = w(\inf\{u\in [0,r)\mid \mathrm{meas}([0,u)\cap S) \geq t\}) \text{ for } 0\leq t < \mathrm{meas}(S).
@@ -399,31 +400,6 @@ The proof of Theorem~\ref{theorem:tableauness-of-insertion} can be broken down i
     \ins: \ttab_n(\lambda)\times \tr_n(r) \tilde\to \coprod_{\begin{smallmatrix}\text{$\lambda$ interleaves $\mu$}\\{l(\lambda)+r = l(\mu)}\end{smallmatrix}} \ttab_n(\mu)
   \end{displaymath}
 \end{theorem}
-\subsection{Greene's Invariants for Timed Words}
-\label{sec:timed-greene-invar}
-\begin{definition}[Greene's Invariants for Timed Words]
-  \label{definition:timed-Greene-invars}
-  Given a word $w\in A_n^\dagger$, its $k$th Greene's invariant $a_k(w)$ is defined to be the maximum possible sum of lengths of a set of $k$ pairwise disjoint subwords of $w$ whose elements are all rows:
-  \begin{multline*}
-    a_k(w) = \max\{l(u_1)+\dotsb+l(u_k)\mid u_1,\dotsc,u_k \text{ are pairwise disjoint}\\ \text{subwords and each $u_i$ is a row }\}
-  \end{multline*}
-\end{definition}
-\begin{lemma}
-  \label{lemma:tableau-shape-greene}
-  If $w$ is a timed tableau of shape $\lambda=(\lambda_1,\dotsc,\lambda_l)$, then for each $1\leq k\leq l$,
-  \begin{displaymath}
-    a_k(w) = \lambda_1+\dotsb + \lambda_k.
-  \end{displaymath}
-\end{lemma}
-\begin{proof}
-  This proof is very similar to the proof of the corresponding result in \cite{Lascoux}.
-  Indeed, $u_1,\dotsc,u_k$ are pairwise disjoint subwords that are rows, so
-  \begin{displaymath}
-    a_k(w) \geq \lambda_1+\dotsb + \lambda_l.
-  \end{displaymath}
-  Conversely, any row subword of $w$ will cannot consist of overlapping segments from two different rows $u_i$ and $u_j$ of $w$, because if $i>j$, then $u_i(t)>u_j(t)$, but in the row decomposition of $w$, $u_i$ occurs before $u_j$.
-  Therefore, $k$ disjoint subwords can have length at most the sum of lengths of the largest $k$ rows of $w$, which is $\lambda_1+\dotsc+\lambda_k$.
-\end{proof}
 \subsection{Timed Knuth Equivalence and the Timed Plactic Monoid}
 \begin{definition}
   [Timed Knuth Relations]
@@ -455,6 +431,31 @@ Since this equivalence is stable under left and right multiplication in $A^\dagg
 \end{lemma}
 \begin{proof}
   When the involution $w\mapsto w^\sharp$ is applied to the Knuth relation (\ref{eq:tk1}), the Knuth relation (\ref{eq:tk2}) is obtained.
+\end{proof}
+\subsection{Greene's Invariants for Timed Words}
+\label{sec:timed-greene-invar}
+\begin{definition}[Greene's Invariants for Timed Words]
+  \label{definition:timed-Greene-invars}
+  Given a word $w\in A_n^\dagger$, its $k$th Greene's invariant $a_k(w)$ is defined to be the maximum possible sum of lengths of a set of $k$ pairwise disjoint row subwords of $w$:
+  \begin{multline*}
+    a_k(w) = \max\{l(u_1)+\dotsb+l(u_k)\mid u_1,\dotsc,u_k \text{ are pairwise disjoint}\\ \text{subwords and each $u_i$ is a row }\}
+  \end{multline*}
+\end{definition}
+\begin{lemma}
+  \label{lemma:tableau-shape-greene}
+  If $w$ is a timed tableau of shape $\lambda=(\lambda_1,\dotsc,\lambda_l)$, then for each $1\leq k\leq l$,
+  \begin{displaymath}
+    a_k(w) = \lambda_1+\dotsb + \lambda_k.
+  \end{displaymath}
+\end{lemma}
+\begin{proof}
+  This proof is very similar to the proof of the corresponding result in \cite{Lascoux}.
+  Indeed, $u_1,\dotsc,u_k$ are pairwise disjoint subwords that are rows, so
+  \begin{displaymath}
+    a_k(w) \geq \lambda_1+\dotsb + \lambda_l.
+  \end{displaymath}
+  Conversely, any row subword of $w$ will cannot consist of overlapping segments from two different rows $u_i$ and $u_j$ of $w$, because if $i>j$, then $u_i(t)>u_j(t)$, but in the row decomposition of $w$, $u_i$ occurs before $u_j$.
+  Therefore, $k$ disjoint subwords can have length at most the sum of lengths of the largest $k$ rows of $w$, which is $\lambda_1+\dotsc+\lambda_k$.
 \end{proof}
 \begin{lemma}
   \label{lemma:Knuth-Greene}
@@ -494,7 +495,10 @@ Since this equivalence is stable under left and right multiplication in $A^\dagg
 
   For the Knuth move (\ref{eq:tk2}) a similar argument can be given, however, a more elegant method is to use Lemma~\ref{lemma:sharp-moves}, noting that $a_k(w)=a_k(w^\sharp)$ for all $k\geq 1$ and all $w\in A_n^\dagger$.
 \end{proof}
+\subsection{Timed Tableaux and Timed Knuth Equivalence}
+\label{sec:timed-tableaux-timed-equiv}
 \begin{lemma}
+  \label{lemma:insertion-and-equivalence}
   Every timed word is Knuth equivalent to its timed insertion tableau.
 \end{lemma}
 \begin{proof}
@@ -533,7 +537,8 @@ The word $\bar w$ is called the restriction of $w$ to $A_{n-1}$.
   $x\bar z y$ and $\bar z x y$, which are still Knuth equivalent.
 \end{proof}
 \begin{lemma}
-  If two tableau $v$ and $w$ are tableaux in $A_n^\dagger$ that are Knuth equivalent, then $\bar v = \bar w$.
+  \label{lemma:uniqueness-in-class}
+  If timed tableaux $v$ and $w$ in $A_n^\dagger$ are Knuth equivalent, then $v=w$.
 \end{lemma}
 \begin{proof}
   We prove this by induction on $n$.
@@ -545,6 +550,38 @@ The word $\bar w$ is called the restriction of $w$ to $A_{n-1}$.
   By induction $\bar v= \bar w$.
   But $v$ and $w$ are obtained from $\bar v=\bar w$ by adding segments of the form $n^t$ to the rows of the latter to obtain the common shape of $v$ and $w$, and so must be equal too.
 \end{proof}
+\begin{theorem}
+  For any $w\in A_n^\dagger$, $P(w)$ is the unique timed tableau in its timed Knuth equivalence class.
+\end{theorem}
+\begin{proof}
+  By Lemma~\ref{lemma:insertion-and-equivalence}, $P(w)$ lies in the timed Knuth equivalence class of $w$.
+  By Lemma~\ref{lemma:uniqueness-in-class}, $P(w)$ is the only timed tableau in this class.
+\end{proof}
+\subsection{The Greene Invariants of a Timed Tableau}
+\label{sec:greene-invar-timed}
+\begin{lemma}
+  Let $w$ be a timed tableau of shape $\lambda=(\lambda_1,\dotsc,\lambda_l)$.
+  Then the Greene invariants of $w$ are given by:
+  \begin{displaymath}
+    a_k(w) = \lambda_1+\dotsb +\lambda_k \text{ for } k=1,\dotsc,l.
+  \end{displaymath}
+\end{lemma}
+\begin{proof}
+  The proof is similar to that of Theorem~6.2.1 in \cite{Lascoux}.
+
+  If $w$ has row decomposition $u_lu_{l-1}\dotsb u_1$, then the rows $u_1,\dotsc,u_k$ form a set of pairwise disjoint subwords of $w$ which are all rows, and so $a_k(w)\geq \lambda_1+\dotsc+\lambda_k$.
+
+  For the converse, suppose that $v_1,\dotsc, v_k$ are pairwise disjoint row subwords.
+  Each $v_i$ in turn can be written as a concatenation $v_{il}\dotsb v_{i1}$ where $v_{ij}$ is a subword of $u_j$.
+  In the notation of Definition~\ref{definition:timed-subword}, suppose that $v_{ij}=(u_j)_{S_{ij}}$.
+  Then the fact that $v_i$ is a row and the tableau condition (Definition~\ref{definition:timed-tableau}) implies that all of $S_{ij}$ lies strictly to the left of $S_{ij'}$ for $j>j'$.
+  Thus $l(v_i)$ cannot exceed the length of any single row of $w$.
+  Similarly, the total lengths of $v_1,\dotsc, v_k$ cannot exceed the lengths of $k$ longest rows of $w$.
+\end{proof}
+\section{The Real RSK Correspondence}
+\label{sec:real-rsk-corr}
+
+
 \bibliographystyle{abbrv}
 \bibliography{refs}
 \end{document}
