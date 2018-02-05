@@ -622,6 +622,7 @@ Given real partitions $\mu=(\mu_1,\dotsc,\mu_m)$ and $\nu=(\nu_1,\dotsc,\nu_n)$,
 \end{multline*}
 Since $|\mu|$ and $|\nu|$ are both the sum of all the entries of a matrix in $M_{\mu\nu}$, if $M_{\mu\nu}$ is non-empty, then $|\mu|=|\nu|$.
 \begin{theorem}
+  \label{theorem:real-rsk}
   The real RSK map (\ref{eq:rrsk}) defines a bijection:
   \begin{displaymath}
     M_{\mu\nu} \tilde{\to} \coprod_\lambda \ttab(\lambda,\nu)\times \ttab(\lambda,\mu).
@@ -629,12 +630,49 @@ Since $|\mu|$ and $|\nu|$ are both the sum of all the entries of a matrix in $M_
   The disjoint union runs over all real partitions $\lambda$ such that $|\lambda|=|\mu|=|\nu|$.
   When $A$ has integer entries, then the real RSK correspondence coincides with the RSK correspondence introduced in \cite[Section~3]{knuth}.
 \end{theorem}
-It is easy to see that the real RSK map coincides with the correspondence of \cite[Section~3]{knuth}.
-For in this case, the tableau $P$ defined in \cite{knuth} is exactly $P(u_A)$.
+It is easy to see that the real RSK map coincides with Knuth's correspondence \cite[Section~3]{knuth}.
+For in this case, the tableau $P$ defined by Knuth is the insertion tableau $P(u_A)$ of $u_A$.
 Since $v_A = u_{A'}$ (here $A'$ denotes the tranpose of the matrix $A$), by the symmetry property of Knuth's correspodence \cite[Theorem~3]{knuth}, it follows that the tableau $Q$ defined by Knuth must be the tableau $P(v_A)$.
+The proof of Theorem~\ref{theorem:real-rsk} will be the 
+\subsection{Shape of the Tableaux}
+\label{sec:shape-of-tableaux}
+The set $[m]\times [n]$ of entries of $A$ has a natural partial order:
+\begin{displaymath}
+  (i,j)\leq (i',j') \text{ if } i\leq i',\text{ and } j\leq j'.
+\end{displaymath}
+For every $C\subset [m]\times [n]$, and $A\in M_{m\times n}(\RR^+)$, let $A(C)=\sum_{(i,j)\in C} a_{ij}$.
+\begin{definition}
+  [Greene invariants of a Real Matrix]
+  Let $A\in M_{m\times n}(\RR^+)$.
+  The $k$ Greene invariant of $A$ is defined to be:
+  \begin{displaymath}
+    a_k(A) = \max_C A(C),
+  \end{displaymath}
+  where the sum is over all $C\subset [m]\times [n]$ which can be written as a union of $k$ chains in $[m]\times[n]$.
+  The relationship between Greene invariants of timed words (Definition~\ref{definition:timed-Greene-invars}) and Greene invariants of real matrices is given by the following lemma:
+\end{definition}
+\begin{lemma}
+  \label{lemma:Greene-matrix-word}
+  Let $A\in M_{m\times n}(\RR^+)$.
+  Then $a_k(u_A)=a_k(A)$.
+\end{lemma}
+\begin{proof}
+  A timed subword of $u_A$ is of the form:
+  \begin{displaymath}
+    j_1^{b_{i_1j_1}} j_2^{b_{i_2,j_2}} \dotsb j_r^{b_{i_rj_r}},
+  \end{displaymath}
+  where $i_1\leq i_2 \dotsb \leq i_r$, and if $i_s=i_t$ for $s<t$, then $j_s\leq j_t$, and $0<b_{i_sj_s}\leq a_{i_sj_s}$.
+  Such a timed subword is a timed row if $j_1\leq j_2 \leq \dotsb \leq j_r$.
+  Thus chains in $u_A$ come from chains in $[m]\times[n]$, and the lemma follows.
+\end{proof}
+The map $(i,j)\mapsto (j,i)$ is an isomorphism of posets $[m]\times [n]\to [n]\times [m]$.
+Therefore, $a_k(A)=a_k(A')$ for any matrix $A$.
+Combining this with the fact that $v_A=u_{A'}$ gives:
+\begin{corollary}
+  \label{lemma:same-shape}
+  For any $A\in M_{m\times n}(\RR^+)$, $P(u_A)$ and $P(v_A)$ have the same shape.
+\end{corollary}
 
-
-Using Greene's theorem for timed words (Theorem~\ref{theorem:timed-Greene}), it is easy to show that, if 
 
 \bibliographystyle{abbrv}
 \bibliography{refs}
