@@ -1,0 +1,81 @@
+\documentclass{amsart}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newcommand{\sgn}{\mathrm{sgn}}
+\title{What is the Plactic Monoid?}
+\author{Amritanshu Prasad}
+\begin{document}
+\maketitle
+The plactic monoid is a very simple algebraic structure, with profound applications to the theory of symmetric polynomials, combinatorics, enumerative geometry, and representation theory.
+It was introduced by Alain Lascoux and Marcel-Paul Sch\"utzenberger, who used it to provide the first complete proof of the Littlewood-Richardson rule, a rule for evaluating the product of two Schur polynomials as a linear combination of Schur polynomials.
+Since Schur polynomials arise in the cohomology of Grassmannian varieties, the representation theory of symmetric groups, as well as the polynomial representation theory of general linear groups.
+
+This article motivates the construction of the plactic monoid from the theory of symmetric functions, and describe some of its basic properties.
+The goal is to spark the interest of the reader enough to explore the subject more deeply by looking at \cite{fultonyt,Lascoux}.
+This exposition draws shamelessly from the articles \cite{plaxique,Lascoux}.
+\section{Schur Polynomials}
+\label{sec:schur-polynomials}
+An alternating polynomial in the variables $x_1,\dotsc,x_n$ is defined to be a polynomial $f(x_1,\dotsc,x_n)$ (with coefficients in any field of characteristic different from $2$) whose sign changes whenever two of the variables $x_i$ and $x_j$, $i\neq j$ are interchanged:
+\begin{displaymath}
+  f(x_1,\dotsc,x_i,\dotsc,x_j,\dotsc,x_n) = -f(x_1,\dotsc,x_j,\dotsc, x_i,\dotsc, x_n).
+\end{displaymath}
+The fact that the sign of a determinant changes when two of its rows are interchanged suggests a method (going back to the work of Cauchy and Jacobi in the first half of the nineteenth century) of constructing alternating polynomials.
+Let $\lambda=(\lambda_1\geq \dotsc \geq\lambda_l)$ be a weakly decreasing sequence of non-negative integers (henceforth called an integer partition with $n$ parts; see \cite{andrews}).
+Let $\delta=(n-1,n-2,\dotsc,1,0)$.
+Then $\lambda+\delta=(\lambda_1+n-1,\lambda_2+n-2,\dotsc,\lambda_{n-1}+1,\lambda_n)$ is a strictly decreasing sequence of integers.
+The determinant:
+\begin{displaymath}
+  a_{\lambda+\delta} := \left|
+    \begin{matrix}
+      x_1^{\lambda_1+n-1} & x_1^{\lambda_2+n-1} & \dotsb & x_1^{\lambda_n}\\
+      x_2^{\lambda_1+n-1} & x_2^{\lambda_2+n-1} & \dotsb & x_2^{\lambda_n}\\
+      \vdots & \vdots & \ddots & \vdots\\
+      x_n^{\lambda_1+n-1} & x_n^{\lambda_2+n-1} & \dotsb & x_n^{\lambda_n}\\
+    \end{matrix}
+    \right|
+\end{displaymath}
+is clearly an alternating polynomial in $x_1,\dotsc,x_n$, and is called an alternant.
+The special case $\lambda_1=\lambda_2=\dotsb=\lambda_n=0$ is the well-known Vandermonde determinant:
+\begin{displaymath}
+  a_\delta = \prod_{1\leq i<j\leq n}(x_i-x_j).
+\end{displaymath}
+The following discussion will show that every alternating polynomial in $x_1\dotsc,x_n$ is a linear combination of polynomials of the form $a_\lambda$ as $\lambda$ runs over integer partitions with $n$ parts.
+
+For convenience, let $x^\alpha$ denote the monomial $x_1^{\alpha_1}\dotsb x_n^{\alpha_n}$ for any vector $(\alpha_1,\dotsc,\alpha_n)$ of non-negative integers.
+The degree of this monomial is the sum $\alpha_1+\dotsb+\alpha_n$, which is denoted by $|\alpha|$.
+
+Any polynomial in $n$ variables can be expressed as a finite linear combination of monomials:
+\begin{equation}
+\label{eq:poly}
+  f(x_1,\dotsc,x_n)=\sum_\alpha c_\alpha x^\alpha.
+\end{equation}
+This polynomial is alternating if and only if, whenever $\beta$ is obtained from $\alpha$ by interchanging two of its coordinates, then $c_\beta = -c_\alpha$.
+In particular, if two coordinates of $\alpha$ are equal, the $c_\alpha = -c_\alpha$, which means that $c_\alpha=0$.
+
+Thus, if the polynomial (\ref{eq:poly}) is alternating, then in all the monomials $\alpha$ for which $c_\alpha\neq 0$, the indices $\alpha_1,\dotsc,\alpha_n$ are pairwise distinct.
+Therefore, there exists a permutation $\sigma$ of the symbols $1,\dotsc,n$, and a sequence $\beta_1>\beta_2>\dotsb >\beta_n$ such that $\beta_i = \alpha_{\sigma(i)}$ for all $i=1,\dotsc,n$.
+We write $\alpha = \beta^\sigma$.
+Moreover,
+\begin{displaymath}
+  c_\alpha = \sgn(\sigma) c_\beta.
+\end{displaymath}
+Let $\lambda_i=\beta_i-(n-i)$.
+Then $\lambda=(\lambda_1,\dotsc,\lambda_n)$ is an integer partition with $n$ parts.
+The alternating polynomial
+\begin{displaymath}
+  c_\beta a_\lambda = \sum_\alpha c_\alpha x^\alpha,
+\end{displaymath}
+where the sum is over all indices $\alpha=(\alpha_1,\dotsc,\alpha_n)$ which are obtained by permuting the indices $\beta=(\beta_1,\dotsc,\beta_n)$.
+Therefore, if $f(x_1,\dotsc,x_n)$ as in (\ref{eq:poly}) is an alternating polynomial, then
+\begin{displaymath}
+  f(x_1,\dotsc,x_n) = \sum_\lambda c_{\lambda+\delta} a_{\lambda+\delta},
+\end{displaymath}
+where the sum is over all integer partitions $\lambda$ with $n$ parts such that $c_{\lambda+\delta}\neq 0$.
+
+The abve discussion can be summarized as:
+\begin{theorem}
+  The alternants $a_{\lambda+\delta}$, as $\lambda$ runs over all integer partitions with $n$ parts, form a basis for the space of all alternating polynomials in $n$ variables.
+\end{theorem}
+\bibliographystyle{abbrv}
+\bibliography{refs}
+\end{document}
