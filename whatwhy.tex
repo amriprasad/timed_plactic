@@ -1,7 +1,12 @@
 \documentclass{amsart}
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
 \newcommand{\sgn}{\mathrm{sgn}}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{example}[theorem]{Example}
 \title{What is the Plactic Monoid?}
 \author{Amritanshu Prasad}
 \begin{document}
@@ -15,7 +20,18 @@ The goal is to spark the interest of the reader enough to explore the subject mo
 This exposition draws shamelessly from the articles \cite{plaxique,Lascoux}.
 \section{Schur Polynomials}
 \label{sec:schur-polynomials}
-An alternating polynomial in the variables $x_1,\dotsc,x_n$ is defined to be a polynomial $f(x_1,\dotsc,x_n)$ (with coefficients in any field of characteristic different from $2$) whose sign changes whenever two of the variables $x_i$ and $x_j$, $i\neq j$ are interchanged:
+A symmetric polynomial in the variables $x_1,\dotsc,x_n$ is defined to be a polynomial $f(x_1,\dotsc,x_n)$ with integer coefficients such that, for any permutation $\sigma$ of the symbols $1,\dotsc, n$,
+\begin{displaymath}
+  f(x_1,\dotsc,x_n) = f(x_{\sigma(1)},\dotsc,x_{\sigma(n)}).
+\end{displaymath}
+For example,
+\begin{equation}
+  \label{eq:s210}
+  s_{(2,1,0)}(x_1,x_2,x_3) = x_1^2x_2+x_1x_2^2+x_1^2x_3+2x_1x_2x_3+x_2^2x_3+x_1^2x_3+x_2x_3^2
+\end{equation}
+is a symmetric polynomial in $x_1,x_2,x_3$.
+
+An alternating polynomial in the variables $x_1,\dotsc,x_n$ is defined to be a polynomial $f(x_1,\dotsc,x_n)$ with integer coefficients whose sign changes whenever two of the variables $x_i$ and $x_j$, $i\neq j$ are interchanged:
 \begin{displaymath}
   f(x_1,\dotsc,x_i,\dotsc,x_j,\dotsc,x_n) = -f(x_1,\dotsc,x_j,\dotsc, x_i,\dotsc, x_n).
 \end{displaymath}
@@ -36,9 +52,10 @@ The determinant:
 \end{displaymath}
 is clearly an alternating polynomial in $x_1,\dotsc,x_n$, and is called an alternant.
 The special case $\lambda_1=\lambda_2=\dotsb=\lambda_n=0$ is the well-known Vandermonde determinant:
-\begin{displaymath}
+\begin{equation}
+  \label{eq:vandermonde}
   a_\delta = \prod_{1\leq i<j\leq n}(x_i-x_j).
-\end{displaymath}
+\end{equation}
 The following discussion will show that every alternating polynomial in $x_1\dotsc,x_n$ is a linear combination of polynomials of the form $a_\lambda$ as $\lambda$ runs over integer partitions with $n$ parts.
 
 For convenience, let $x^\alpha$ denote the monomial $x_1^{\alpha_1}\dotsb x_n^{\alpha_n}$ for any vector $(\alpha_1,\dotsc,\alpha_n)$ of non-negative integers.
@@ -52,7 +69,7 @@ Any polynomial in $n$ variables can be expressed as a finite linear combination 
 This polynomial is alternating if and only if, whenever $\beta$ is obtained from $\alpha$ by interchanging two of its coordinates, then $c_\beta = -c_\alpha$.
 In particular, if two coordinates of $\alpha$ are equal, the $c_\alpha = -c_\alpha$, which means that $c_\alpha=0$.
 
-Thus, if the polynomial (\ref{eq:poly}) is alternating, then in all the monomials $\alpha$ for which $c_\alpha\neq 0$, the indices $\alpha_1,\dotsc,\alpha_n$ are pairwise distinct.
+Assume that the polynomial (\ref{eq:poly}) is alternating, and let $\alpha$ be such that $c_\alpha\neq 0$. Then the indices $\alpha_1,\dotsc,\alpha_n$ are pairwise distinct.
 Therefore, there exists a permutation $\sigma$ of the symbols $1,\dotsc,n$, and a sequence $\beta_1>\beta_2>\dotsb >\beta_n$ such that $\beta_i = \alpha_{\sigma(i)}$ for all $i=1,\dotsc,n$.
 We write $\alpha = \beta^\sigma$.
 Moreover,
@@ -72,10 +89,105 @@ Therefore, if $f(x_1,\dotsc,x_n)$ as in (\ref{eq:poly}) is an alternating polyno
 \end{displaymath}
 where the sum is over all integer partitions $\lambda$ with $n$ parts such that $c_{\lambda+\delta}\neq 0$.
 
-The abve discussion can be summarized as:
+The above discussion can be summarized as:
 \begin{theorem}
+  \label{theorem:alternant-basis}
   The alternants $a_{\lambda+\delta}$, as $\lambda$ runs over all integer partitions with $n$ parts, form a basis for the space of all alternating polynomials in $n$ variables.
 \end{theorem}
+In particular, note that the minimal degree of an alternating polynomial in $n$ variables is $\binom n2$.
+
+The passage from alternating to symmetric polynomials is via the following lemma:
+\begin{lemma}
+  For every integer partition $\lambda$ with $n$ parts, the polynomial $a_{\lambda+\delta}$ is divisible by the Vandermonde polynomial $a_\delta$.
+\end{lemma}
+\begin{proof}
+  In view of the factorization (\ref{eq:poly}) of $a_\delta$, it suffices to show that $a_{\lambda+\delta}$ is divisible by $(x_i-x_j)$ for all $i<j$ in $\mathbf Z[x_1,\dotsc,x_n]$.
+  Assume, without loss of generality, that $j=n$, and think of $a_{\lambda+\delta}$ as a polynomial $a(x_n)\in R[x_n]$, where $R=\mathbf Z[x_1,\dotsc,x_{n-1}]$.
+  Since $a(x_i)=0$, the factor theorem implies that $a(x_n)$ is divisible by $(x_n-x_i)$.
+\end{proof}
+\begin{example}
+  Take $n=3$, and $\lambda = (2,1,0)$.
+  Then
+  \begin{align*}
+    a_{\lambda+\delta} & = \left|
+      \begin{matrix}
+        x_1^4 & x_1^2 & 1\\
+        x_2^4 & x_2^2 & 1\\
+        x_3^4 & x_3^2 & 1
+      \end{matrix}
+    \right|\\
+    & = a_\delta s_{(2,1,0)}(x_1,x_2,x_3),
+  \end{align*}
+  where $s_{(2,1,0)}$ is a defined in (\ref{eq:s210}).
+\end{example}
+\begin{definition}
+  [Schur polynomial]
+  \label{definition:schur-poly}
+  For every partition $\lambda$ with $n$ parts, the Schur polynomial in $x_1,\dotsc,x_n$ is defined as:
+  \begin{displaymath}
+    s_\lambda(x_1,\dotsc,x_n) = a_{\lambda+\delta}/a_\delta.
+  \end{displaymath}
+  Since $a_{\lambda+\delta}$ and $a_\delta$ are both alternating, it follows that $s_\lambda(x_1,\dotsc,x_n)$ is a symmetric polynomial.
+\end{definition}
+\begin{theorem}
+  The Schur polynomials $s_\lambda(x_1,\dotsc,x_n)$, as $\lambda$ runs over all integer partitions with $n$ parts, form a basis of the space of all symmetric polynomials in $x_1,\dotsc,x_n$.
+\end{theorem}
+\begin{proof}
+  If $f$ is a symmetric polynomial in $x_1,\dotsc,x_n$, then $fa_\delta$ is an alternating polynomial.
+  By Theorem~\ref{theorem:alternant-basis}, $fa_\delta$ can be expressed as unique linear combination (with integer coefficients) of polynomials $a_{\lambda+\delta}$, whence it follows that $f$ can be expressed as a unique linear combination of the polynomials $s_\lambda$. 
+\end{proof}
+Definition~\ref{definition:schur-poly} is due to Cauchy, and predates the work of Schur, whose work brought out the importance of Schur functions in representation theory.
+
+Fix a positive integer $n$.
+Suppose we write:
+\begin{displaymath}
+  s_\lambda(x) = \sum_{\alpha} K_{\lambda\alpha} x^\alpha.
+\end{displaymath}
+It turns out that the coefficients $K_{\lambda\alpha}$ are all non-negative integers.
+Using the plactic monoid, we will be able to obtain a combinatorial interpretation of these coefficients.
+
+A product of two symmetric functions is symmetric.
+Therefore, one may write:
+\begin{displaymath}
+  s_\mu s_\nu = c^\lambda_{\mu\nu} s_\lambda.
+\end{displaymath}
+The coefficients $c^\lambda_{\mu\nu}$ are non-negative integers.
+They are known as Littlewood-Richardson coefficients after D. E. Littlewood and A. R. Richardson, who gave a combinatorial description for them in 1934, known as the Littlewood-Richardson rule.
+This rule defied proof until Lacoux and Sch\"utzenberger \cite{plaxique} proved it using the plactic monoid.
+\end{document}
+\section{Elementary and Complete Symmetric Polynomials}
+\label{sec:elem-compl-symm}
+
+Recall that the coefficients of a polynomial are symmetric polynomials in its roots:
+\begin{multline}
+  \label{eq:elem-id}
+  (t-x_1)(t-x_2)\dotsb (t-x_n) \\= t^n - e_1(x_1,\dotsc, x_n)t^{n-1} + \dotsb + (-1)^n e_n(x_1,\dotsc, x_n),
+\end{multline}
+where coefficient $e_i(x_1,\dotsc, x_n)$ of $t^{n-i}$ is given by:
+\begin{equation}
+  \label{eq:elem}
+  e_i(x_1,\dotsc, x_n) = \sum_{1\leq j_1<\dotsb<j_i\leq n} x_{j_1}x_{j_2}\dotsb x_{j_i}.
+\end{equation}
+The polynomial $e_i$ is called the $i$th \emph{elementary symmetric polynomial}.
+By convention, $e_i(x_1,\dotsc,x_n)=0$, for $i>n$.
+
+The identity (\ref{eq:elem-id}) can be written more elegantly as:
+\begin{displaymath}
+  (1+t x_1) \dotsb (1+tx_n) = \sum_{i=0}^\infty e_i(x_1,\dotsb, x_n)t^i.
+\end{displaymath}
+
+Dually, the \emph{complete symmetric polynomials} are defined by the formal identity:
+\begin{displaymath}
+  \frac 1{(1-x_1t)\dotsb (1-x_nt)} = \sum_{i=0}^\infty h_i(x_1,\dotsb, x_n)t^i.
+\end{displaymath}
+\begin{example}
+  In three variables:
+  \begin{align*}
+    e_2(x_1,x_2,x_3) & = x_1x_2 + x_1x_3 + x_2x_3,\\
+    h_2(x_1,x_2,x_3) & = x_1^2 + x_1x_2 + x_1x_3 + x_2^2 + x_2x_3 + x_2^3.
+  \end{align*}
+\end{example}
+
 \bibliographystyle{abbrv}
 \bibliography{refs}
 \end{document}
