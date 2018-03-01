@@ -16,6 +16,9 @@
 \newcommand{\pl}{\mathrm{pl}}
 \newcommand{\ttab}{\mathrm{tt}}
 \newcommand{\tr}{\mathrm{tR}}
+\newcommand{\RR}{\mathbf R}
+\newcommand{\ot}{\leftarrow}
+\newcommand{\infl}{\mathrm{INFLATE}}
 \title{The Timed Plactic Monoid}
 \author{Amritanshu Prasad}
 \address{The Institute of Mathematical Sciences, Chennai}
@@ -23,11 +26,12 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-  The plactic monoid is a simple algebraic structure that lies at the crossroads of the theory of symmetric polynomials, enumerative geometry, representation theory, and combinatorics.
+  The plactic monoid is a fundamental algebraic structure that lies at the crossroads of the theory of symmetric polynomials, enumerative geometry, representation theory, and combinatorics.
   It was introduced by Lascoux and Sch\"utzenberger, who used it to prove the Littlewood-Richardson rule.
   It is the quotient of the conncatenation monoid of words in a totally ordered langauge modulo a pair of relations discovered by Knuth.
   Timed words were introduced by Adur and Dill in the context of timed automata, which model the behavior of real-time computer systems.
-  Timed words too form a monoid under concatenation.
+  In a timed word, each letter in the alphabet occurs for a real-valued duration of time, rather than discretely.
+  Finite length timed words form a monoid under concatenation.
   This monoid contains the monoid of words as a submonoid.
   In this article, we extend the definition of the plactic monoid to include timed words by presenting timed analogs of Knuth relations.
   We extend some basic results from the theory of plactic monoids, such as Greene's theorem and the RSK correspondence to timed words.
@@ -57,32 +61,32 @@ For brevity, a semistandard Young tableaux will be referred to as a tableau in t
 \end{example}
 We denote by $\Tab_n$ the set of all tableaux in $A_n$, $\Tab_n(\lambda)$ the set of all tableaux of shape $\lambda$ in $A_n$, and by $\Tab(\lambda,\mu)$ the set of all tableaux of shape $\lambda$ and weight $\mu$.
 \subsection{Row Insertion}
-\label{sec:row-insertion}A row of length $k$ is defined to be a weakly increasing sequence $u=a_1a_2\dotsb a_k$ in $A_n$.
+\label{sec:row-insertion}A row of length $k$ is defined to be a weakly increasing sequence $u=c_1c_2\dotsb c_k$ in $A_n$.
 Let $R(A_n)$ denote the set of all rows in $A_n$.
 Each row of a tableau is a row in the sense of this definition.
-For each $u=a_1\dotsb a_k\in R(A_n)$ and $a\in A_n$, define:
+For each $u=c_1\dotsb c_k\in R(A_n)$ and $a\in A_n$, define:
 \begin{displaymath}
-  \rowins(u,a) =
+  \rowins(u,c) =
   \begin{cases}
-    (\emptyset, a_1\dotsb a_k a) & \text{if } a_k\leq a,\\
-    (a_j,a_1\dotsb a_{j-1}aa_{j+1}\dotsb a_k) & \text{otherwise, with}\\
-    & j=\min\{i\mid a<a_i\}.
+    (\emptyset, c_1\dotsb c_k c) & \text{if } c_k\leq c,\\
+    (c_j,c_1\dotsb c_{j-1}cc_{j+1}\dotsb c_k) & \text{otherwise, with}\\
+    & j=\min\{i\mid c<c_i\}.
   \end{cases}
 \end{displaymath}
 Here $\emptyset$ should be thought of as an empty row of length zero.
 \begin{example}
   $\rowins(11333,3) = (\emptyset,113333)$, $\rowins(11333,2)=(3,11233)$.
 \end{example}
-It is clear from the construction that, for any $u\in R(A_n)$ and $a\in A_n$, if $(a',u')=\rowins(u,a)$, then $u'$ is again a row.
+It is clear from the construction that, for any $u\in R(A_n)$ and $c\in A_n$, if $(c',u')=\rowins(u,c)$, then $u'$ is again a row.
 For convenience set $\rowins(u,\emptyset)=(\emptyset,u)$.
 \subsection{Tableau Insertion}
 \label{sec:tableau-insertion}
 Let $t$ be a tableau with rows $u_1,u_2,\dotsc, u_l$.
-Then $\ins(t,a)$, the insertion of $a$ into $t$, is defined as follows: first $a$ is inserted into $u_1$; if $\rowins(u_1,a)=(a_1',u_1')$, then $u_1$ is replaced by $u_1'$.
-Then $a_1'$ is inserted into $u_2$; if $\rowins(u_2,a_1')=(a_2',u_3)$, then $u_2$ is replaced by $u_2'$, and so on.
-This process continues, generating $a_1',a_2',\dotsc,a_k'$ and $u_1',\dotsc,u_k'$.
-The tableau $t'=\ins(t,a)$ has rows $u_1',\dotsc,u_k'$, and a last row (possibly empty) consisting of $a_k'$.
-It turns out that $\ins(t,a)$ is a tableau \cite{knuth}.
+Then $\ins(t,c)$, the insertion of $a$ into $t$, is defined as follows: first $a$ is inserted into $u_1$; if $\rowins(u_1,c)=(c_1',u_1')$, then $u_1$ is replaced by $u_1'$.
+Then $c_1'$ is inserted into $u_2$; if $\rowins(u_2,c_1')=(c_2',u_3)$, then $u_2$ is replaced by $u_2'$, and so on.
+This process continues, generating $c_1',c_2',\dotsc,c_k'$ and $u_1',\dotsc,u_k'$.
+The tableau $t'=\ins(t,a)$ has rows $u_1',\dotsc,u_k'$, and a last row (possibly empty) consisting of $c_k'$.
+It turns out that $\ins(t,c)$ is a tableau (see \cite{knuth}).
 \begin{example}
   \label{example:insertion}
   For $t$ as in Example~\ref{example:insertion}, we have
@@ -93,7 +97,7 @@ It turns out that $\ins(t,a)$ is a tableau \cite{knuth}.
 \end{example}
 \subsection{Insertion Tableau of a Word}
 \label{sec:insert-tabl-word}
-An arbitrary sequence $a_1\dotsb a_k$ in $A_n$ will be called a word in $A_n$.
+An arbitrary sequence $c_1\dotsb c_k$ in $A_n$ will be called a word in $A_n$.
 The set of all words in $A_n$ is denoted by $A_n^*$.
 This set may be regarded as a monoid under concatenation, with identity element as the empty word, denoted by $\emptyset$.
 \begin{definition}
@@ -101,7 +105,7 @@ This set may be regarded as a monoid under concatenation, with identity element 
 The insertion tableau $P(w)$ of a word $w$ is defined recursively as:
 \begin{align}
   P(\emptyset)&=\emptyset\\
-  P(a_1\dotsb a_k)=\ins(P(a_1\dotsb a_{k-1}), a_k).
+  P(c_1\dotsb c_k)&=\ins(P(c_1\dotsb c_{k-1}), c_k).
 \end{align}
 \end{definition}
 \begin{example}
@@ -116,13 +120,13 @@ The insertion tableau $P(w)$ of a word $w$ is defined recursively as:
 \end{example}
 \subsection{Greene's Theorem}
 \label{sec:words}
-Given a word $w=a_1a_2\dotsb a_l$, a subword is a word of the form
+Given a word $w=c_1c_2\dotsb c_l$, a subword is a word of the form
 \begin{displaymath}
-  v = a_{i_1}a_{i_2}\dotsb a_{i_k},
+  v = c_{i_1}c_{i_2}\dotsb c_{i_k},
 \end{displaymath}
-for some $1\leq i_1<i_2<\dotsb < i_k$.
-We say that the subword $v$ is a row if $a_{i_1}\leq a_{i_2}\leq a_{i_k}$.
-The subword $v$ as above is said to be disjoint from a subword $u=a_{j_1} a_{j_2}\dotsb a_{j_h}$ if the sets $\{i_1,i_2,\dotsc,i_k\}$ and $\{j_1,j_2,\dotsc,j_h\}$ of indices are disjoint.
+for some $1\leq i_1<i_2<\dotsb < i_k\leq l$.
+We say that the subword $v$ is a row if $c_{i_1}\leq c_{i_2}\leq\dotsb\leq c_{i_k}$.
+The subword $v$ as above is said to be disjoint from a subword $u=c_{j_1} c_{j_2}\dotsb c_{j_h}$ if the sets $\{i_1,i_2,\dotsc,i_k\}$ and $\{j_1,j_2,\dotsc,j_h\}$ of indices are disjoint.
 
 Given a word $w$, its $k$th Greene invariant \emph{Greene invariant} $a_k(w)$ are defined as the maximal cardinality of a union of $k$ pairwise disjoint row subwords.
 
@@ -206,6 +210,7 @@ In fact, all definitions and theorems in this section will specialize to those o
 
 \begin{definition}
   [Timed Subword]
+  \label{definition:timed-subword}
   Given a timed word $w:[0,r)\to A_n$, and $S\subset [0,r)$ a finite disjoint union of intervals of the form $[a, b)\subset [0,r)$, the timed subword of $w$ with respect to $S$ is defined as the timed word:
   \begin{displaymath}
     w_S(t) = w(\inf\{u\in [0,r)\mid \mathrm{meas}([0,u)\cap S) \geq t\}) \text{ for } 0\leq t < \mathrm{meas}(S).
@@ -371,7 +376,7 @@ The proof of Theorem~\ref{theorem:tableauness-of-insertion} can be broken down i
   \end{displaymath}
 \end{example}
 \begin{definition}
-  [Schuetzenberger Involution on Timed Words]
+  [Sch\"utzenberger Involution on Timed Words]
   \label{definition:schuetzenberger-involution}
   Given $w=c_1^{t_1}\dotsb c_k^{t_k}\in A_n^\dagger$, define
   \begin{equation}
@@ -399,31 +404,6 @@ The proof of Theorem~\ref{theorem:tableauness-of-insertion} can be broken down i
     \ins: \ttab_n(\lambda)\times \tr_n(r) \tilde\to \coprod_{\begin{smallmatrix}\text{$\lambda$ interleaves $\mu$}\\{l(\lambda)+r = l(\mu)}\end{smallmatrix}} \ttab_n(\mu)
   \end{displaymath}
 \end{theorem}
-\subsection{Greene's Invariants for Timed Words}
-\label{sec:timed-greene-invar}
-\begin{definition}[Greene's Invariants for Timed Words]
-  \label{definition:timed-Greene-invars}
-  Given a word $w\in A_n^\dagger$, its $k$th Greene's invariant $a_k(w)$ is defined to be the maximum possible sum of lengths of a set of $k$ pairwise disjoint subwords of $w$ whose elements are all rows:
-  \begin{multline*}
-    a_k(w) = \max\{l(u_1)+\dotsb+l(u_k)\mid u_1,\dotsc,u_k \text{ are pairwise disjoint}\\ \text{subwords and each $u_i$ is a row }\}
-  \end{multline*}
-\end{definition}
-\begin{lemma}
-  \label{lemma:tableau-shape-greene}
-  If $w$ is a timed tableau of shape $\lambda=(\lambda_1,\dotsc,\lambda_l)$, then for each $1\leq k\leq l$,
-  \begin{displaymath}
-    a_k(w) = \lambda_1+\dotsb + \lambda_k.
-  \end{displaymath}
-\end{lemma}
-\begin{proof}
-  This proof is very similar to the proof of the corresponding result in \cite{Lascoux}.
-  Indeed, $u_1,\dotsc,u_k$ are pairwise disjoint subwords that are rows, so
-  \begin{displaymath}
-    a_k(w) \geq \lambda_1+\dotsb + \lambda_l.
-  \end{displaymath}
-  Conversely, any row subword of $w$ will cannot consist of overlapping segments from two different rows $u_i$ and $u_j$ of $w$, because if $i>j$, then $u_i(t)>u_j(t)$, but in the row decomposition of $w$, $u_i$ occurs before $u_j$.
-  Therefore, $k$ disjoint subwords can have length at most the sum of lengths of the largest $k$ rows of $w$, which is $\lambda_1+\dotsc+\lambda_k$.
-\end{proof}
 \subsection{Timed Knuth Equivalence and the Timed Plactic Monoid}
 \begin{definition}
   [Timed Knuth Relations]
@@ -456,6 +436,31 @@ Since this equivalence is stable under left and right multiplication in $A^\dagg
 \begin{proof}
   When the involution $w\mapsto w^\sharp$ is applied to the Knuth relation (\ref{eq:tk1}), the Knuth relation (\ref{eq:tk2}) is obtained.
 \end{proof}
+\subsection{Greene Invariants for Timed Words}
+\label{sec:timed-greene-invar}
+\begin{definition}[Greene Invariants for Timed Words]
+  \label{definition:timed-Greene-invars}
+  Given a word $w\in A_n^\dagger$, its $k$th Greene invariant $a_k(w)$ is defined to be the maximum possible sum of lengths of a set of $k$ pairwise disjoint row subwords of $w$:
+  \begin{multline*}
+    a_k(w) = \max\{l(u_1)+\dotsb+l(u_k)\mid u_1,\dotsc,u_k \text{ are pairwise disjoint}\\ \text{subwords and each $u_i$ is a row }\}
+  \end{multline*}
+\end{definition}
+\begin{lemma}
+  \label{lemma:tableau-shape-greene}
+  If $w$ is a timed tableau of shape $\lambda=(\lambda_1,\dotsc,\lambda_l)$, then for each $1\leq k\leq l$,
+  \begin{displaymath}
+    a_k(w) = \lambda_1+\dotsb + \lambda_k.
+  \end{displaymath}
+\end{lemma}
+\begin{proof}
+  This proof is very similar to the proof of the corresponding result in \cite{Lascoux}.
+  Indeed, $u_1,\dotsc,u_k$ are pairwise disjoint subwords that are rows, so
+  \begin{displaymath}
+    a_k(w) \geq \lambda_1+\dotsb + \lambda_l.
+  \end{displaymath}
+  Conversely, any row subword of $w$ will cannot consist of overlapping segments from two different rows $u_i$ and $u_j$ of $w$, because if $i>j$, then $u_i(t)>u_j(t)$, but in the row decomposition of $w$, $u_i$ occurs before $u_j$.
+  Therefore, $k$ disjoint subwords can have length at most the sum of lengths of the largest $k$ rows of $w$, which is $\lambda_1+\dotsc+\lambda_k$.
+\end{proof}
 \begin{lemma}
   \label{lemma:Knuth-Greene}
   If two timed words are Knuth equivalent, then they have the same Greene invariants.
@@ -463,7 +468,7 @@ Since this equivalence is stable under left and right multiplication in $A^\dagg
 \begin{proof}
   It suffices to prove that if two words differ by a Knuth move they have the same Greene invariants.
   For the Knuth move (\ref{eq:tk1}), suppose that $xyz$ is a timed row with $l(z)=l(y)$, and the last letter of $y$ is strictly less than the first letter of $z$.
-  For any timed words $w$ and $u$, we wish to show that Greene's invariants coincide for $wxzyu$ and $wzxyu$.
+  For any timed words $w$ and $u$, we wish to show that Greene invariants coincide for $wxzyu$ and $wzxyu$.
   Now suppose that $v_1,\dotsc,v_k$ are pairwise disjoint row subwords of $wxzyu$ whose lengths add up to $a_k(wxzyu)$.
   We may write $v_i=w_ix_iz_iy_iu_i$ for each $i$, where $w_i,x_i,z_i,y_i$ and $u_i$ are row subwords of $w,x,z,y$ and $u$ respectively.
 
@@ -494,7 +499,10 @@ Since this equivalence is stable under left and right multiplication in $A^\dagg
 
   For the Knuth move (\ref{eq:tk2}) a similar argument can be given, however, a more elegant method is to use Lemma~\ref{lemma:sharp-moves}, noting that $a_k(w)=a_k(w^\sharp)$ for all $k\geq 1$ and all $w\in A_n^\dagger$.
 \end{proof}
+\subsection{Timed Tableaux and Timed Knuth Equivalence}
+\label{sec:timed-tableaux-timed-equiv}
 \begin{lemma}
+  \label{lemma:insertion-and-equivalence}
   Every timed word is Knuth equivalent to its timed insertion tableau.
 \end{lemma}
 \begin{proof}
@@ -533,7 +541,8 @@ The word $\bar w$ is called the restriction of $w$ to $A_{n-1}$.
   $x\bar z y$ and $\bar z x y$, which are still Knuth equivalent.
 \end{proof}
 \begin{lemma}
-  If two tableau $v$ and $w$ are tableaux in $A_n^\dagger$ that are Knuth equivalent, then $\bar v = \bar w$.
+  \label{lemma:uniqueness-in-class}
+  If timed tableaux $v$ and $w$ in $A_n^\dagger$ are Knuth equivalent, then $v=w$.
 \end{lemma}
 \begin{proof}
   We prove this by induction on $n$.
@@ -545,6 +554,230 @@ The word $\bar w$ is called the restriction of $w$ to $A_{n-1}$.
   By induction $\bar v= \bar w$.
   But $v$ and $w$ are obtained from $\bar v=\bar w$ by adding segments of the form $n^t$ to the rows of the latter to obtain the common shape of $v$ and $w$, and so must be equal too.
 \end{proof}
+\begin{theorem}
+  For any $w\in A_n^\dagger$, $P(w)$ is the unique timed tableau in its timed Knuth equivalence class.
+\end{theorem}
+\begin{proof}
+  By Lemma~\ref{lemma:insertion-and-equivalence}, $P(w)$ lies in the timed Knuth equivalence class of $w$.
+  By Lemma~\ref{lemma:uniqueness-in-class}, $P(w)$ is the only timed tableau in this class.
+\end{proof}
+\subsection{The Greene Invariants of a Timed Tableau}
+\label{sec:greene-invar-timed}
+\begin{lemma}
+  Let $w$ be a timed tableau of shape $\lambda=(\lambda_1,\dotsc,\lambda_l)$.
+  Then the Greene invariants of $w$ are given by:
+  \begin{displaymath}
+    a_k(w) = \lambda_1+\dotsb +\lambda_k \text{ for } k=1,\dotsc,l.
+  \end{displaymath}
+\end{lemma}
+\begin{proof}
+  The proof is similar to that of Theorem~6.2.1 in \cite{Lascoux}.
+
+  If $w$ has row decomposition $u_lu_{l-1}\dotsb u_1$, then the rows $u_1,\dotsc,u_k$ form a set of pairwise disjoint subwords of $w$ which are all rows, and so $a_k(w)\geq \lambda_1+\dotsc+\lambda_k$.
+
+  For the converse, suppose that $v_1,\dotsc, v_k$ are pairwise disjoint row subwords.
+  Each $v_i$ in turn can be written as a concatenation $v_{il}\dotsb v_{i1}$ where $v_{ij}$ is a subword of $u_j$.
+  In the notation of Definition~\ref{definition:timed-subword}, suppose that $v_{ij}=(u_j)_{S_{ij}}$.
+  Then the fact that $v_i$ is a row and the tableau condition (Definition~\ref{definition:timed-tableau}) implies that all of $S_{ij}$ lies strictly to the left of $S_{ij'}$ for $j>j'$.
+  Thus $l(v_i)$ cannot exceed the length of any single row of $w$.
+  Similarly, the total lengths of $v_1,\dotsc, v_k$ cannot exceed the lengths of $k$ longest rows of $w$.
+\end{proof}
+\subsection{Greene's Theorem for Timed Words}
+\label{sec:green-theor-timed}
+We are now ready to prove the main theorem of this section:
+\begin{theorem}
+  [Gerene's Theorem for Timed Words]
+  \label{theorem:timed-Greene}
+  Let $w$ be a timed word whose insertion tableau $P(w)$ has shape $\lambda=(\lambda_1,\dotsc,\lambda_l)$.
+  Then the Greene invariants of $w$ are given by:
+  \begin{equation}
+    \label{eq:Greene-theorem}
+    a_k(w) = \lambda_1+\dotsc+\lambda_k, \text{ for } k=1,\dotsc, l.
+  \end{equation}
+\end{theorem}
+\begin{proof}
+  Each timed word $w$ is Knuth equivalent to its insertion tableau $P(w)$ (Lemmas~\ref{sec:timed-tableaux-timed-equiv}).
+  But Knuth equivalence preserves Greene invatiants (Lemma~\ref{lemma:Knuth-Greene}), so $w$ and $P(w)$ have the same Greene invariants, so $a_k(w)=a_k(P(w))$ for each $k$.
+  By Lemma~\ref{sec:greene-invar-timed}, $a_k(P(w)) = \lambda_1+\dotsb + \lambda_k$, so (\ref{eq:Greene-theorem}) holds.
+\end{proof}
+\section{The Real RSK Correspondence}
+\label{sec:real-rsk-corr}
+\subsection{Timed Words Associated to a Matrix}
+\label{sec:timed-wds-matrix}
+Ley $M_{m\times n}(\RR^+)$ denote the set of all $m\times n$ matrices with non-negative real entries.
+To each $A\in M_{m\times n}(\RR^+)$, one can associate two timed words, $u_A\in A_n^\dagger$, and $v_A\in A_m^\dagger$:
+\begin{align*}
+  u_A & = 1^{a_{11}} 2^{a_{12}}\dotsb n^{a_{1n}}\;1^{a_{21}} 2^{a_{22}}\dotsb n^{a_{2n}}\;\dotsb \;1^{a_{m1}} 2^{a_{m2}}\dotsb n^{a_{mn}}\\
+  v_A & = 1^{a_{11}} 2^{a_{21}}\dotsb m^{a_{m1}}\;1^{a_{12}} 2^{a_{22}}\dotsb m^{a_{m2}}\;\dotsb \;1^{a_{1n}} 2^{a_{2n}}\dotsb m^{a_{mn}}.
+\end{align*}
+\subsection{The Real RSK Correspondence}
+\label{sec:real-rsk-corr-subsec}
+For each $A\in M_{l\times m}(\RR^+)$, define the real RSK map:
+\begin{equation}
+  \label{eq:rrsk}
+  RSK(A) = (P(u_A), P(v_A)).
+\end{equation}
+Given real partitions $\mu=(\mu_1,\dotsc,\mu_m)$ and $\nu=(\nu_1,\dotsc,\nu_n)$, set:
+\begin{multline*}
+  M_{\mu\nu} = \{A\in M_{m\times n}(\RR)\mid \\
+  \sum_{j=1}^n a_{ij} = \mu_i, \sum_{i=1}^m a_{ij}=\nu_j \text{ for }1\leq i \leq m,\; 1\leq j\leq n\}.
+\end{multline*}
+Since $|\mu|$ and $|\nu|$ are both the sum of all the entries of a matrix in $M_{\mu\nu}$, if $M_{\mu\nu}$ is non-empty, then $|\mu|=|\nu|$.
+\begin{theorem}
+  \label{theorem:real-rsk}
+  The real RSK map (\ref{eq:rrsk}) defines a bijection:
+  \begin{displaymath}
+    M_{\mu\nu} \tilde{\to} \coprod_\lambda \ttab(\lambda,\nu)\times \ttab(\lambda,\mu).
+  \end{displaymath}
+  The disjoint union runs over all real partitions $\lambda$ such that $|\lambda|=|\mu|=|\nu|$.
+  When $A$ has integer entries, then the real RSK correspondence coincides with the RSK correspondence introduced in \cite[Section~3]{knuth}.
+\end{theorem}
+It is easy to see that the real RSK map coincides with Knuth's correspondence \cite[Section~3]{knuth}.
+For in this case, the tableau $P$ defined by Knuth is the insertion tableau $P(u_A)$ of $u_A$.
+Since $v_A = u_{A'}$ (here $A'$ denotes the tranpose of the matrix $A$), by the symmetry property of Knuth's correspodence \cite[Theorem~3]{knuth}, it follows that the tableau $Q$ defined by Knuth must be the tableau $P(v_A)$.
+The proof of Theorem~\ref{theorem:real-rsk} will be the 
+\subsection{Shape of the Tableaux}
+\label{sec:shape-of-tableaux}
+The set $[m]\times [n]$ of entries of $A$ has a natural partial order:
+\begin{displaymath}
+  (i,j)\leq (i',j') \text{ if } i\leq i',\text{ and } j\leq j'.
+\end{displaymath}
+For every $C\subset [m]\times [n]$, and $A\in M_{m\times n}(\RR^+)$, let $A(C)=\sum_{(i,j)\in C} a_{ij}$.
+\begin{definition}
+  [Greene invariants of a Real Matrix]
+  Let $A\in M_{m\times n}(\RR^+)$.
+  The $k$ Greene invariant of $A$ is defined to be:
+  \begin{displaymath}
+    a_k(A) = \max_C A(C),
+  \end{displaymath}
+  where the sum is over all $C\subset [m]\times [n]$ which can be written as a union of $k$ chains in $[m]\times[n]$.
+  The relationship between Greene invariants of timed words (Definition~\ref{definition:timed-Greene-invars}) and Greene invariants of real matrices is given by the following lemma:
+\end{definition}
+\begin{lemma}
+  \label{lemma:Greene-matrix-word}
+  Let $A\in M_{m\times n}(\RR^+)$.
+  Then $a_k(u_A)=a_k(A)$.
+\end{lemma}
+\begin{proof}
+  A timed subword of $u_A$ is of the form:
+  \begin{displaymath}
+    j_1^{b_{i_1j_1}} j_2^{b_{i_2,j_2}} \dotsb j_r^{b_{i_rj_r}},
+  \end{displaymath}
+  where $i_1\leq i_2 \dotsb \leq i_r$, and if $i_s=i_t$ for $s<t$, then $j_s\leq j_t$, and $0<b_{i_sj_s}\leq a_{i_sj_s}$.
+  Such a timed subword is a timed row if $j_1\leq j_2 \leq \dotsb \leq j_r$.
+  Thus chains in $u_A$ come from chains in $[m]\times[n]$, and the lemma follows.
+\end{proof}
+The map $(i,j)\mapsto (j,i)$ is an isomorphism of posets $[m]\times [n]\to [n]\times [m]$.
+Therefore, $a_k(A)=a_k(A')$ for any matrix $A$.
+Combining this with the fact that $v_A=u_{A'}$ gives:
+\begin{corollary}
+  \label{lemma:same-shape}
+  For any $A\in M_{m\times n}(\RR^+)$, $P(u_A)$ and $P(v_A)$ have the same shape.
+\end{corollary}
+\subsection{A Knuth-style Algorithm}
+\label{sec:knuth-style}
+Unlike the definition in Section~\ref{sec:real-rsk-corr-subsec}, Knuth's original algorithm in \cite{knuth} was asymmetric with respect to $P$ and $Q$.
+The tableau $P$ was obtained by insertion, and at each stage of insertion, the tableau $Q$ was augmented to keep the same shape as $P$.
+
+Given a timed tableau $t$ of shape $\lambda=(\lambda_1,\dotsc,\lambda_l)$ in $A_{k-1}$ with row decomposition $u_l\dotsb u_1$, and a shape $\mu=(\mu_1,\dotsc,\mu_m)$, where $m\geq l$ and $\mu_j\geq \lambda \lambda_j$ for $j=1,\dotsc,l$, let
+\begin{displaymath}
+  \infl(t,k,\mu)=u_l k^{\mu_m-\lambda_m} u_{l-1} k^{\mu_{m-1}-\lambda_{m-1}} \dotsb u_1 k^{\mu_1-\lambda_1},
+\end{displaymath}
+where $\lambda_i$ is taken as $0$ for $l<i\leq m$.
+If $\lambda$ interleaves $\mu$, then $\infl(t,k,\mu)$ is a timed tableau.
+It may be regarded the tableau obtained by ``augemnting $t$ to shape $\mu$ with the letter $k$''.
+
+\begin{center}
+  \textbf{Algorithm RKNUTH with input matrix $A\in M_{m\times n}(\RR^+)$}
+\end{center}
+\begin{itemize}
+\item $P\ot \emptyset$, $Q\ot \emptyset$.
+\item For $i=1,\dotsc,m$, repeat the following steps:
+  \begin{itemize}
+  \item $P\ot \ins(P, 1^{a_{i1}}2^{a_{i2}}\dotsb n^{a_{in}})$.
+  \item $Q\ot \infl(Q, i,\shape(P))$.
+  \end{itemize}
+\item Return $(P, Q)$.
+\end{itemize}
+
+
+\begin{theorem}
+  The output of the algorithm RKNUTH is $RSK(A)$, as given in (\ref{eq:rrsk}).
+\end{theorem}
+\begin{proof}
+  Proceed by induction on the number of rows of $A$.
+  If $A$ has only one row, the result is obvious.
+  Suppose $A$ has $m$ rows and $A'$ is the submatrix of $A$ consisting of the first $m-1$ rows.
+  Let $u=1^{a_{m1}}2^{a_{m2}}\dotsb n^{a_{mn}}$, so that $u_A=u_{A'}u$. 
+
+  We have $P(u_A)=\ins(P(u_{A'}), u)$, thereofore by induction it follows that the output $P$ of RKNUTH is $P(u_A)$.
+  On the other hand, recalling the notion of \emph{restriction} from Section~\ref{sec:timed-tableaux-timed-equiv}, we have $v_{A'}=\bar v_A$.
+  Since $u_A\equiv P(u_A)$, by Lemma~\ref{lemma:equivalence-restriction}, $u_{A'}=\bar u_A \equiv \overline{P(u_A)}$.
+  Therefore, since every Knuth equivalence class contains a uniuqe timed tableau (Lemma~\ref{lemma:uniqueness-in-class}), $\overline{P(u_A)} = P(u_{A'})$.
+  This, together with the fact that $P(v_A)$ and $P(u_A)$ have the same shape (Lemma~\ref{lemma:same-shape}), implies that $P(v_A)=\infl(P(v_{A'}),m,\shape(P(u_A)))$ which, by induction, is the output of RKNUTH.
+\end{proof}
+\begin{corollary}
+  The map $RSK:M_{m\times n}(\RR^+)\to \coprod_\lambda \ttab_n(\lambda)\times \ttab_m(\lambda)$ is invertible.
+\end{corollary}
+\begin{proof}
+  It suffices to invert each step of the algorithm RKNUTH.
+  But this is achived by Theorem~\ref{theorem:pieri}.
+\end{proof}
+\subsection{A Light and Shadows Algorithm}
+\label{sec:light-shad-algor}
+Viennot \cite{viennot1977forme} described a highly visual algorithm for the Robinson-Schensted correspondence from permutations onto pairs of standard tableaux of the same shape, which simplifies the proofs of many of its properties.
+This construction was generalized to Knuth's correspondence from integer matrices onto the set of pairs of semistandard tableau of the same shape by Fulton using the \emph{matrix ball construction}.
+A different way of achieving this generalization is described in the author's book \cite{rtcv} as the algorithm VRSK.
+The algorithm VRSK has the following obvious interpretation in the real case:
+
+\begin{center}
+  \textbf{Algorithm VRSK with input matrix $A\in M_{m\times n}(\RR^+)$}
+\end{center}
+\begin{itemize}
+\item Initialize $P\ot \emptyset$, $Q\ot \emptyset$ (empty timed words).
+\item While $A$ is non-zero, repeat the following steps:
+  \begin{itemize}
+  \item Initialize $p\ot\emptyset$, $q\ot \emptyset$, $S \ot 0_{m\times n}$.
+  \item While $A$ is non-zero, repeat the following steps:
+    \begin{itemize}
+    \item Let $(i_1,j_1),\dotsc, (i_k,j_k)$ be the set of minimal elements of $\{(i,j)\in [m]\times [n]\mid a_{ij}>0\}$, arranged so that $i_1\geq i_2\geq \dotsb \geq i_k$.
+    \item $m\ot\min\{a_{i_1j_1},\dotsc, a_{i_kj_k}\}$.
+    \item $a_{i_rj_r}\ot a_{i_rj_r}-m$ for $r=1,\dotsc k$.
+    \item $s_{i_rj_{r+1}}\ot s_{i_rj_{r+1}}+m$ for $r=1,\dotsc k+1$.
+    \item $p\ot pj_1^m$, $q\ot qi_k^m$.
+    \end{itemize}
+  \item $P\ot pP$, $Q=qQ$.
+  \item $A\ot S$, $S\ot 0_{m\times n}$.
+  \end{itemize}
+\item Return timed tableaux $(P,Q)$.
+\end{itemize}
+
+\subsection{Equivalence of VRSK and RKNUTH}
+\label{sec:equiv-vrsk-rknuth}
+
+The main loop of VRSK constructs one row of $P$ and $Q$ at each step.
+In order to show that it produces the same output as RKNUTH, the following algorithm for constructing $P(u_A)$ will be used as an intermediate step:
+\begin{center}
+  \textbf{Rowwise RKNUTH with input $A\in M_{m\tines n}(\RR^+)$}
+  \begin{itemize}
+  \item $P\ot \emptyset$, $Q\ot\emptyset$ (empty timed words).
+  \item While $l(u)>0$, repeat the following steps:
+    \begin{itemize}
+    \item $p\to \emptyset$, $q\ot \emptyset$, $u'\ot \emptyset$, $v'=\emptyset$ (empty timed rows).
+    \item for $i=1,\dotsc,m$ repeat the following steps:
+      \begin{itemize}
+      \item for $j=1,\dotsc,n$ repeat the following steps:
+        \begin{itemize}
+        \item $(u'',p)\ot (p, j^{a_{ij}})$.
+        \item $q\ot qi^{l(u'')}$.
+        \item $u'\ot u'u''$.
+        \item 
+
+        \end{itemize}
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{center}
 \bibliographystyle{abbrv}
 \bibliography{refs}
 \end{document}
