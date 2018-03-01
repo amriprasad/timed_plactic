@@ -16,6 +16,8 @@
 \newcommand{\pl}{\mathrm{pl}}
 \newcommand{\ttab}{\mathrm{tt}}
 \newcommand{\tr}{\mathrm{tR}}
+\newcommand{\rp}{\mathbf{R}^+}
+\newcommand{\rsk}{\mathrm{RSK}}
 \title{Greene's Theorem for Timed Words}
 \author{Amritanshu Prasad}
 \address{The Institute of Mathematical Sciences, Chennai}
@@ -85,7 +87,7 @@ We denote by $\Tab_n$ the set of all tableaux in $A_n$, $\Tab_n(\lambda)$ the se
 \label{sec:row-insertion}A row of length $k$ is defined to be a weakly increasing sequence $u=a_1a_2\dotsb a_k$ in $A_n$.
 Let $R(A_n)$ denote the set of all rows in $A_n$.
 Each row of a tableau is a row in the sense of this definition.
-For each $u=a_1\dotsb a_k\in R(A_n)$ and $a\in A_n$, define:
+For each $u=a_1\dotsb a_k\in R(A_n)$ and $a\in A_n$, define the row insertion of $a$ into $u$ by:
 \begin{displaymath}
   \rowins(u,a) =
   \begin{cases}
@@ -104,13 +106,13 @@ For convenience set $\rowins(u,\emptyset)=(\emptyset,u)$.
 \label{sec:tableau-insertion}
 Let $t$ be a tableau with rows $u_1,u_2,\dotsc, u_l$.
 Then $\ins(t,a)$, the insertion of $a$ into $t$, is defined as follows: first $a$ is inserted into $u_1$; if $\rowins(u_1,a)=(a_1',u_1')$, then $u_1$ is replaced by $u_1'$.
-Then $a_1'$ is inserted into $u_2$; if $\rowins(u_2,a_1')=(a_2',u_3)$, then $u_2$ is replaced by $u_2'$, and so on.
+Then $a_1'$ is inserted into $u_2$; if $\rowins(u_2,a_1')=(a_2',u_3)$, then $u_2$ is replaced by $u_2'$, $a_2'$ is inserted into $u_3$, and so on.
 This process continues, generating $a_1',a_2',\dotsc,a_k'$ and $u_1',\dotsc,u_k'$.
 The tableau $t'=\ins(t,a)$ has rows $u_1',\dotsc,u_k'$, and a last row (possibly empty) consisting of $a_k'$.
 It turns out that $\ins(t,a)$ is a tableau \cite{knuth}.
 \begin{example}
   \label{example:insertion}
-  For $t$ as in Example~\ref{example:insertion}, we have
+  For $t$ as in Example~\ref{example:ssyt}, we have
   \begin{displaymath}
     \ins(t,2) = \ytableaushort{11233,23,34},
   \end{displaymath}
@@ -395,7 +397,7 @@ The proof of Theorem~\ref{theorem:tableauness-of-insertion} can be broken down i
   \end{displaymath}
 \end{example}
 \begin{definition}
-  [Schuetzenberger Involution on Timed Words]
+  [Sch\"utzenberger Involution on Timed Words]
   \label{definition:schuetzenberger-involution}
   Given $w=c_1^{t_1}\dotsb c_k^{t_k}\in A_n^\dagger$, define
   \begin{equation}
@@ -569,6 +571,29 @@ The word $\bar w$ is called the restriction of $w$ to $A_{n-1}$.
   By induction $\bar v= \bar w$.
   But $v$ and $w$ are obtained from $\bar v=\bar w$ by adding segments of the form $n^t$ to the rows of the latter to obtain the common shape of $v$ and $w$, and so must be equal too.
 \end{proof}
+
+\section{The Real RSK Correspondence}
+\label{sec:rsk}
+
+Let $M_{m\times n}(\rp)$ denote the set of all $m\times n$ matrices with non-negative real entries.
+Given $A=(a_{ij})\in M_{m\times n}(\rp)$, define its \emph{timed column word} $u_A$, and \emph{timed row word} $v_A$ as follows:
+\begin{align*}
+  u_A & = 1^{a_{11}}2^{a_{12}}\dotsb n^{a_{1n}}\,1^{a_{21}}2^{a_{22}}\dotsb n^{a_{2n}}\,\dotsb \,1^{a_{m1}}2^{a_{m2}}\dotsb n^{a_{mn}}.\\
+  v_A & = 1^{a_{11}}2^{a_{21}}\dotsb m^{a_{m1}}\,1^{a_{12}}2^{a_{22}}\dotsb m^{a_{m2}}\,\dotsb \,1^{a_{1n}}2^{a_{2n}}\dotsb m^{a_{mn}}.
+\end{align*}
+Define:
+\begin{equation}
+  \label{eq:rsk}
+  \rsk(A) = (P(u_A), P(v_A)).
+\end{equation}
+This is a direct generalization of the definition of the RSK correspondence given in \cite[Section~18]{schur_poly}.
+
+\begin{theorem}
+  The function $\rsk$ defines a bijection:
+  \begin{displaymath}
+    RSK: M_{m\times n}(\rp)\tilde\to \coprod_\lambda \Tab_n(\lambda)\Tab_m(\lambda).
+  \end{displaymath}
+\end{theorem}
 \bibliographystyle{abbrv}
 \bibliography{refs}
 \end{document}
