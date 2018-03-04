@@ -5,6 +5,8 @@
 \newtheorem{corollary}[theorem]{Corollary}
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
 \newtheorem{example}[theorem]{Example}
 \newcommand{\rowins}{\mathrm{RINS}}
 \newcommand{\ins}{\mathrm{INSERT}}
@@ -250,7 +252,7 @@ We shall refer to such a decomposition as the row decomposition of $w$.
 Given two rows $u$ and $v$, say that $u$ is dominated by $v$ (denoted $u\lhd v$) if $l(u)\geq l(v)$ and $u(t)<v(t)$ for all $0\leq t<l(v)$.
 \begin{definition}[Timed Tableau]\label{definition:timed-tableau}
   A timed tableau in $A_n$ is a timed word $w$ in $A_n$ with row decomposition $w=u_l u_{l-1}\dotsb u_1$ such that $u_1\lhd \dotsb \lhd u_l$.
-  The shape of $w$ is the weakly decreasing tuple $(l(u_1),l(u_2),\dotsc,l(u_l))$ of positive real numbers (henceforth called a \emph{real partition}), and the wieght of $w$ is the vector:
+  The shape of $w$ is the weakly decreasing tuple $(l(u_1),l(u_2),\dotsc,l(u_l))$ of positive real numbers (henceforth called a \emph{real partition}), and the weight of $w$ is the vector:
   \begin{displaymath}
     \wt(w) = (m_1,\dotsc,m_n),
   \end{displaymath}
@@ -591,11 +593,15 @@ This is a direct generalization of the definition of the RSK correspondence give
 \begin{theorem}
   The function $\rsk$ defines a bijection:
   \begin{displaymath}
-    RSK: M_{m\times n}(\rp)\tilde\to \coprod_\lambda \Tab_n(\lambda)\Tab_m(\lambda).
+    RSK: M_{m\times n}(\rp)\tilde\to \coprod_\lambda \Tab_n(\lambda)\times\Tab_m(\lambda),
   \end{displaymath}
+  where $\lambda$ runs over all real partitions with at most $\min(m,n)$ parts.
 \end{theorem}
+\begin{remark}
+  Let $\mu_i$ denote the sum of the $i$th row of $A$, and $\nu_j$ the sum of the $j$th column.
+  Let $\mu=(\mu_1,\dotsc,\mu_m)$, and $\nu=(\nu_1,\dotsc,\nu_n)$.
+  Then, if $\rsk(A)=(P,Q)$ then $\wt(P)=\nu$, and $\wt(Q)=\mu$.
+\end{remark}
 \bibliographystyle{abbrv}
 \bibliography{refs}
-\end{document}
-
 \end{document}
