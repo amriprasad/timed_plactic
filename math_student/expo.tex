@@ -20,13 +20,14 @@
 \newcommand{\tr}{\mathrm{tR}}
 \newcommand{\rp}{\mathbf{R}^+}
 \newcommand{\rsk}{\mathrm{RSK}}
+\newcommand{\ot}{\leftarrow}
+\newcommand{\infl}{\mathrm{infl}}
 \title{Greene's Theorem for Timed Words}
 \author{Amritanshu Prasad}
 \address{The Institute of Mathematical Sciences, Chennai}
 \address{Homi Bhabha National Institute, Mumbai}
 \begin{document}
 \maketitle
-
 \section{Introduction}
 \label{sec:intro}
 The plactic monoid is a simple algebraic structure that lies at the crossroads of the theory of symmetric polynomials, enumerative geometry, representation theory, and combinatorics.
@@ -221,6 +222,11 @@ Theorems \ref{theorem:Greene} and~\ref{theorem:unique-tab} are special cases of 
   \end{equation}
   where $t_i = r_i-r_{i-1}$.
   We call this the \emph{exponential string} for $w$.
+  The wieght of $w$ is the vector:
+  \begin{displaymath}
+    \wt(w) = (m_1,\dotsc,m_n),
+  \end{displaymath}
+  where $m_i$ is the Lebesgue measure of the pre-image of $i$ under $w$, i.e., $m_i=\mathrm{meas}(w^{-1}(i))$.
 \end{definition}
 The exponential string, as defined above, is not unique; if two successive letters $c_i$ and $c_{i+1}$ are equal, then we can merge them, replacing $c_i^{t_i}c_{i+1}^{t_{i+1}} = c_i^{t_i+t_{i+1}}$.
 
@@ -234,6 +240,7 @@ In fact, all definitions and theorems in this section will specialize to those o
 
 \begin{definition}
   [Timed Subword]
+  \label{definition:timed-subword}
   Given a timed word $w:[0,r)\to A_n$, and $S\subset [0,r)$ a finite disjoint union of intervals of the form $[a, b)\subset [0,r)$, the timed subword of $w$ with respect to $S$ is defined as the timed word:
   \begin{displaymath}
     w_S(t) = w(\inf\{u\in [0,r)\mid \mathrm{meas}([0,u)\cap S) \geq t\}) \text{ for } 0\leq t < \mathrm{meas}(S).
@@ -252,11 +259,7 @@ We shall refer to such a decomposition as the row decomposition of $w$.
 Given two rows $u$ and $v$, say that $u$ is dominated by $v$ (denoted $u\lhd v$) if $l(u)\geq l(v)$ and $u(t)<v(t)$ for all $0\leq t<l(v)$.
 \begin{definition}[Timed Tableau]\label{definition:timed-tableau}
   A timed tableau in $A_n$ is a timed word $w$ in $A_n$ with row decomposition $w=u_l u_{l-1}\dotsb u_1$ such that $u_1\lhd \dotsb \lhd u_l$.
-  The shape of $w$ is the weakly decreasing tuple $(l(u_1),l(u_2),\dotsc,l(u_l))$ of positive real numbers (henceforth called a \emph{real partition}), and the weight of $w$ is the vector:
-  \begin{displaymath}
-    \wt(w) = (m_1,\dotsc,m_n),
-  \end{displaymath}
-where $m_i$ is the Lebesgue measure of the pre-image of $i$ under $t$, i.e., $m_i=\mathrm{meas}(w^{-1}(i))$.
+  The shape of $w$ is the weakly decreasing tuple $(l(u_1),l(u_2),\dotsc,l(u_l))$ of positive real numbers (henceforth called a \emph{real partition}), and the weight of $w$ is the weight of $w$ as a timed word (see Definition~\ref{definition:timed-word}),
 \end{definition}
 The above is a direct generalization of the notion of the reading word of a tableau in the sense of Section~\ref{sec:tabl-insert-green}.
 \begin{example}
@@ -265,7 +268,7 @@ The above is a direct generalization of the notion of the reading word of a tabl
 \end{example}
 \subsection{Timed Insertion}
 \label{sec:timed-insertion}
-Given a timed word $w$ and $0\leq a < b \leq l(w)$, write $w_{[a, b)}$ for the timed word of length $b-a$ such that
+Given a timed word $w$ and $0\leq a < b \leq l(w)$, according to Definition~\ref{definition:timed-subword}, $w_{[a, b)}$ is the timed word of length $b-a$ such that:
 \begin{displaymath}
   w_{[a, b)}(t) = w(a+ t) \text{ for } 0\leq t<b-a.
 \end{displaymath}
@@ -299,6 +302,7 @@ If $a=0$, then $w_{[a,b)}$ is called an initial segment of $w$.
     \rowins(w,u) = (v'v'', w'').
   \end{displaymath}
 \end{definition}
+It is obvious that the above definition is compatible with the definition of $\rowins$ from Section~\ref{sec:timed-insertion} when $u$ is a row in $A_n^*$, and $t_c=1$.
 \begin{example}
   \label{example:timed-row-ins}
   $\rowins(1^{1.4}2^{1.6}3^{0.7},1^{0.7}2^{0.2})=(2^{0.7}3^{0.2},1^{2.1}2^{1.1}3^{0.5})$.
@@ -551,7 +555,7 @@ Given $w\in A_n^\dagger$, let $\bar w$ denote the word in $A_{n-1}^\dagger$ whos
 The word $\bar w$ is called the restriction of $w$ to $A_{n-1}$.
 \begin{lemma}
   \label{lemma:restriction-interleaf}
-  For every timed tableau $w\in A_n^\dagger$, $\shape(\bar w)$ interleaves $\shape(w)$.
+  For every timed tableau $w\in A_n^\dagger$, $\bar w$ is also a timed tableau. Moreover, $\shape(\bar w)$ interleaves $\shape(w)$.
 \end{lemma}
 \begin{proof}
   Suppose $w$ has row decomposition $u_lu_{l-1}\dotsb u_1$.
@@ -559,6 +563,7 @@ The word $\bar w$ is called the restriction of $w$ to $A_{n-1}$.
   Clearly $l(u_i)\geq l(u'_i)$.
   Since $w$ is semistandard, $l(u'_i)\geq l(u_{i+1})$ for $i=1,\dotsc,l-1$. 
   It follows that the shape of $w'$, which is $(l(u'_1),\dotsc,l(u'_l))$ interleaves the shape of $w$, which is $(l(u_1),\dotsc,l(u_l))$.
+  Since $u_i\lhd u_{i+1}$, it follows that $u'_i\lhd u_{i+1}$ for $i=1,\dotsc,l-1$.
 \end{proof}
 \begin{lemma}
   \label{lemma:equivalence-restriction}
@@ -615,18 +620,39 @@ Given $A=(a_{ij})\in M_{m\times n}(\rp)$, define its \emph{timed column word} $u
   u_A & = 1^{a_{11}}2^{a_{12}}\dotsb n^{a_{1n}}\,1^{a_{21}}2^{a_{22}}\dotsb n^{a_{2n}}\,\dotsb \,1^{a_{m1}}2^{a_{m2}}\dotsb n^{a_{mn}}.\\
   v_A & = 1^{a_{11}}2^{a_{21}}\dotsb m^{a_{m1}}\,1^{a_{12}}2^{a_{22}}\dotsb m^{a_{m2}}\,\dotsb \,1^{a_{1n}}2^{a_{2n}}\dotsb m^{a_{mn}}.
 \end{align*}
+The timed word $u_A$ is called the \emph{column word} of $A$; it is obtained by reading column numbers of $A$ along its rows, timed by its entries.
+The timed word $v_A)$ is called the \emph{row word} of $A$, and is obtained by reading the row numbers of $A$ aling its columns, timed by its entries.
 Define:
 \begin{equation}
   \label{eq:rsk}
   \rsk(A) = (P(u_A), P(v_A)).
 \end{equation}
 This is a direct generalization of the definition of the RSK correspondence given in \cite[Section~18]{schur_poly}.
-
+\begin{example}
+  Let
+  \begin{displaymath}
+    A = 
+    \begin{pmatrix}
+      0.81607162 & 0.01111457 & 0.62352458 \\
+      0.04692143 & 0.37792488 & 0.70394455 \\
+      0.18409605 & 0.64200007 & 0.01981106
+    \end{pmatrix}.
+  \end{displaymath}
+  Then $(P, Q) = \rsk(A)$ are given by:
+  \begin{align*}
+    P & = 3^{0.18409605}2^{0.19521063}3^{0.87163576}1^{1.04708911}2^{0.83582891}3^{0.29154840},\\
+    Q & = 3^{0.18409605}2^{0.42484632}3^{0.64200007}1^{1.45071080}2^{0.70394456}3^{0.01981106}.
+  \end{align*}
+  Observe that both $P$ and $Q$ have shape:
+  \begin{displaymath}
+    \lambda = (2.17446641, 1.06684639, 0.18409605).
+  \end{displaymath}
+\end{example}
 \begin{theorem}
   \label{theorem:rsk}
   The function $\rsk$ defines a bijection:
   \begin{displaymath}
-    RSK: M_{m\times n}(\rp)\tilde\to \coprod_\lambda \Tab_n(\lambda)\times\Tab_m(\lambda),
+    \rsk: M_{m\times n}(\rp)\tilde\to \coprod_\lambda \Tab_n(\lambda)\times\Tab_m(\lambda),
   \end{displaymath}
   where $\lambda$ runs over all real partitions with at most $\min(m,n)$ parts.
 \end{theorem}
@@ -670,7 +696,39 @@ This is a direct generalization of the definition of the RSK correspondence give
   \end{displaymath}
   where the maximum is taken over the set of all subsets $C\subset P_{mn}$ which can be written as a union of $k$ chains.
   Since the order relation on $P_{mn}$ corresponds to the order relation on $P_{nm}$ under $(i,j)\leftrightarrow (j,i)$, it follows that $a_k(v_A)=a_k(u_A)$ for all $k$.
-  Thus, the timed version of Greene's theorem (Theorem
+  Thus, the timed version of Greene's theorem (Theorem~\ref{sec:timed-version-greene}) implies that $P$ and $Q$ have the same shape.
+\end{proof}
+
+\subsection{Insertion-Recording Algorithm for $\rsk(A)$}
+\label{sec:insert-record-algor}
+Given real partitions $\lambda$ and $\mu$ such that $\lambda$ interleaves $m$, and $w\in \Tab_{m-1}(\lambda)$, define the \emph{inflation of $w$ to shape $\mu$ by $m$} to be the unique tableau $\infl_\mu(w,m)$ of shape $\mu$ whose restriction to $m-1$ is equal to $w$.
+In the notation of Section~\ref{sec:tabl-knuth-equiv}, $\bar{\infl_\mu(w,m)}=w$. 
+
+Given $A\in M_n(\rp)$, let $r_{i,A} = 1^{a_{i1}}2^{a_{i2}}\dotsb n^{a_{in}}$.
+Then $u_A=r_{1,A}r_{2,A}\dotsb r_{m,A}$.
+\begin{center}
+  \textbf{Insertion-Recording Algorithm}
+\end{center}
+\begin{itemize}
+\item $P\ot \emptyset$, $Q\ot \emptyset$.
+\item For $i=1,\dotsc, m$, repeat the following steps:
+  \begin{itemize}
+  \item $P\ot \ins(P, r_{i,A})$.
+  \item $\lambda \ot \shape(P)$.
+  \item $Q\ot \infl_\lambda(Q,i)$
+  \end{itemize}
+\item Return $(P, Q)$.
+\end{itemize}
+\begin{lemma}
+  For every $A\in M_{m\times n}(\rp)$, the output of the insertion-recording algorithm is $\rsk(A)$.
+\end{lemma}
+\begin{proof}
+  The proof is by induction on the number $m$ of rows in $A$
+  The base case of $m=1$ is trivial.
+
+  Now suppose $A'$ denotes the submatrix consisting of the first $m-1$ rows of $A$.
+  Then $u_A = u_{A'}r_{m,A}$, so that $P(u_A)=\ins(P(u_{A'}),r_{m,A}$,
+  Also, the restriction $\bar v_A$ of $v_A$ to $m-1$ is $v_{A'}$.
 \end{proof}
 \bibliographystyle{abbrv}
 \bibliography{refs}
