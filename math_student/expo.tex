@@ -1,5 +1,5 @@
 \documentclass[10pt]{amsproc}
-\usepackage{color,ytableau}
+\usepackage{hyperref,color,ytableau}
 \newtheorem{theorem}{Theorem}[subsection]
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
@@ -31,21 +31,22 @@
 \section{Introduction}
 \label{sec:intro}
 The plactic monoid is a simple algebraic structure that lies at the crossroads of the theory of symmetric polynomials, enumerative geometry, representation theory, and combinatorics.
-It made its appearance in the story of Littlewood-Richardson coeffieints, an important chapter in the history of algebraic combinatorics (definitive references are \cite{fulton,manivel}).
-The Littlewood-Richardson coefficient $c^\lambda_{\mu\nu}$ is a non-negative integer associated to three integer partitions $\lambda$, $\mu$ and $\nu$, which arises:
+It made its appearance in the story of Littlewood-Richardson coefficients, an important chapter in the history of algebraic combinatorics (two comprehensive references are \cite{fulton,manivel}).
+The Littlewood-Richardson coefficient $c^\lambda_{\mu\nu}$ is a non-negative integer associated to three integer partitions $\lambda$, $\mu$ and $\nu$, which arises as:
 \begin{itemize}
 \item the multiplicity of the irreducible polynomial representation $W_\lambda$ of $GL_n(\mathbf C)$ in a tensor product $W_\mu\otimes W_\nu$.
 \item the coefficient of the Schur polynomial $s_\lambda$ in the expansion of a product $s_\mu s_\nu$ of Schur polynomials.
 \item the number of points  of intersection of Schubert varieties $X_\mu$, $X_\nu$ and $X_{\check\lambda}$ in general position.
 \end{itemize}
-A rule for computing $c^\lambda_{\mu\nu}$ was first conjectured by Littlewood and Richardson in 1934.
+A rule for computing $c^\lambda_{\mu\nu}$ was conjectured by Littlewood and Richardson in 1934.
 The first complete proof of this rule was given by Lascoux and Sch\"utzenberger \cite{plaxique} in 1978 using the plactic monoid.
 Besides the references mentioned earlier, a self-contained accessible exposition of this proof can be found in \cite{schur_poly}.
 
-The plactic monoid is the quotient of the conncatenation monoid of words in a totally ordered langauge modulo a pair of relations discovered by Knuth (precise definitions are postponed to Section~\ref{sec:tabl-insert-green}).
+The plactic monoid is the quotient of the concatenation-monoid of words in a totally ordered langauge modulo a pair of relations discovered by Knuth (precise definitions are postponed to Section~\ref{sec:tabl-insert-green}).
 Knuth relations arise from the study of an algorithm due to Schensted \cite{schensted} for determining the longest increasing subsequence in a sequence of integers.
-At each step of its running, the state of Schensted's algorithm is given by a combinatorial object called a semistandard Young tableau (the algorithm begins with the empty tableau).
-To proceed for each step to the next, the corresponding number in the sequence is ``inserted'' into the tableau.
+At each step of its running, the state of Schensted's algorithm is given by a combinatorial object called a semistandard Young tableau.
+The algorithm begins with the empty tableau.
+At each step of the algorithm, a number in the sequence is ``inserted'' into the tableau.
 Analyzing which sequences of insertions have the same effect on tableaux leads to the plactic equivalence and to Knuth moves \cite[Section~6]{knuth}.
 Knuth moves only involve three consecutive terms of a sequence of integers.
 However, they generate plactic equivalence.
@@ -54,11 +55,11 @@ Schensted showed that the length of the longest increasing sequence can be read 
 It is simply the number of cells in the first row of the tableau.
 Curtis Greene \cite{Greene-schen} exploited the simplicity of Knuth relations to prove a generalization of Schensted's result, giving an interpretation of the lengths of the remaining rows of Schensted's tableau (Theorem~\ref{theorem:Greene}).
 
-Timed words of finite length generalize words in the sense that, while letters of an alphabet occur discretely in a word, each letter occurs for a positive real amount of time in a timed word.
+Timed words of finite length generalize classical words in the sense that, while letters of an alphabet occur discretely in a word, each letter occurs for a positive real amount of time in a timed word.
 Timed words of finite length can be concatenated to form a monoid.
 This monoid contains the monoid of words as a submonoid.
 
-In this article, we extend the plactic monoid to include timed words.
+In this extended abstract, we generalize the plactic monoid to include timed words.
 The main innovation is the introduction of timed versions, (\ref{eq:k1}) and~(\ref{eq:k2}) of Knuth relations, using which Greene's theorem is extended to timed words.
 
 \section{Tableaux, Insertion, and Greene's Theorem}
@@ -74,10 +75,11 @@ Y(\lambda)=\{(i,j)\mid 1\leq i\leq l,\;1\leq j\leq \lambda_i\}
 drawn in matrix notation, so that the point $(i,j)$ lies in the $i$th row and $j$th column of $Y(\lambda)$.
 Let $A_n=\{1,\dotsc,n\}$.
 \begin{definition}
-  A semistandard Young tableau\footnote{It is customary to write the plural of \emph{tableau} as \emph{tableaux}, following French conventions.} in $A_n$ of shape $\lambda$ is an assignment $t:Y(\lambda)\to A_n$ such that the numbers increase weakly from left to right along each row, and increase strictly from top to bottom along each column.
+  A semistandard Young tableau in $A_n$ of shape $\lambda$ is an assignment $t:Y(\lambda)\to A_n$ such that the numbers increase weakly from left to right along each row, and increase strictly from top to bottom along each column.
   The weight of $t$ is the tuple $(m_1,\dotsc, m_n)$, where $m_i$ is the number of times that $i$ occurs in the image of $t$.
 \end{definition}
-For brevity, a semistandard Young tableaux will be referred to as a tableau in the rest of this article.
+Semistandard Young tableaux generalize Young's standard tableaux. They are called modified standard tableaux by Schensted in \cite{schensted}, and generalized Young tableaux by Knuth in \cite{knuth}.
+Following the terminology of Lascoux and Sch\"utzenberger \cite{plaxique}, they will simply be called \emph{tableaux} in the rest of this section.
 \begin{example}
   \label{example:ssyt}
   The following is a tableau of shape $(5,2,1)$ and weight $(2,1,4,1)$ in $A_4$:
@@ -131,13 +133,13 @@ This set may be regarded as a monoid under concatenation, with identity element 
 The insertion tableau $P(w)$ of a word $w$ is defined recursively as:
 \begin{align}
   P(\emptyset)&=\emptyset\\
-  P(a_1\dotsb a_k)=\ins(P(a_1\dotsb a_{k-1}), a_k).
+  P(a_1\dotsb a_k)&=\ins(P(a_1\dotsb a_{k-1}), a_k).
 \end{align}
 \end{definition}
 \begin{example}
   \label{example:insertion-tableau}
   Take $w=133324132$.
-  Then using Definition~\ref{definition:insertion-tableau}, then sequentially inserting the terms of $w$ into the empty tableau $\emptyset$ gives the sequence of tableaux:
+  Sequentially inserting the terms of $w$ into the empty tableau $\emptyset$ gives the sequence of tableaux:
   \begin{displaymath}
     \ytableaushort{1},\ytableaushort{13},\ytableaushort{133},\ytableaushort{1333},\ytableaushort{1233,3},\ytableaushort{12334,3},\ytableaushort{11334,2,3},\ytableaushort{11333,24,3},
   \end{displaymath}
@@ -153,7 +155,7 @@ for some $1\leq i_1<i_2<\dotsb < i_k$.
 We say that the subword $v$ is a row if $a_{i_1}\leq a_{i_2}\leq a_{i_k}$.
 The subword $v$ as above is said to be disjoint from a subword $u=a_{j_1} a_{j_2}\dotsb a_{j_h}$ if the sets $\{i_1,i_2,\dotsc,i_k\}$ and $\{j_1,j_2,\dotsc,j_h\}$ of indices are disjoint.
 
-Given a word $w$, its $k$th Greene invariant \emph{Greene invariant} $a_k(w)$ are defined as the maximal cardinality of a union of $k$ pairwise disjoint row subwords.
+Given a word $w$, its $k$th Greene invariant \emph{Greene invariant} $a_k(w)$ is defined as the maximal cardinality of a union of $k$ pairwise disjoint row subwords.
 
 Schensted~\cite{schensted} showed that the first Greene invariant $a_1(w)$ of a word is the length of the first row of its insertion tableau $P(w)$.
 For instance, the word $w$ from Example~\ref{example:insertion-tableau} has longest increasing row subword of length $5$, and its insertion tableau has first row of length $5$.
@@ -166,9 +168,8 @@ His theorem was generalized by Curtis Greene:
 \end{theorem}
 \subsection{Knuth Relations and the Plactic Monoid}
 \label{sec:knuth-equivalence}
-The most elegant proof of Greene's theorem (Theorem~\ref{theorem:Greene}) proceeds via the notions of Knuth equivalence and the plactic monoid (see \cite{Lascoux}).
-
-The plactic monoid $\pl_0(A_n)$ is the quotient of the monoid $A_n^*$ by the submonoid generated by the Knuth relations:
+Greene \cite{Greene-schen} proved Theorem~\ref{theorem:Greene} using the notions of Knuth equivalence and the plactic monoid.
+The plactic monoid $\pl(A_n)$ is the quotient of the monoid $A_n^*$ by the submonoid generated by the Knuth relations:
 \begin{gather}
   \tag{$K1$}\label{eq:k1}
   xzy \equiv zxy \text{ if } x\leq y < z,
@@ -212,7 +213,7 @@ Theorems \ref{theorem:Greene} and~\ref{theorem:unique-tab} are special cases of 
 \begin{definition}
   [Timed Word]
   \label{definition:timed-word}
-  A timed word of length $r$ in the alphabet $A$ is a peicewise-constant right-continuous function $w:[0,r)\to A_n$.
+  A timed word of length $r$ in the alphabet $A_n$ is a peicewise-constant right-continuous function $w:[0,r)\to A_n$.
   We write $l(w)=r$.
   In other words, for some finite sequence $0=r_0<r_1<\dotsc<r_k=r$ of transition points, and letters $c_1,\dotsc, c_k$ in $A$, $w(x) = c_i$ if $r_{i-1}\leq x < r_i$.
   Given such a function, we write
@@ -245,6 +246,7 @@ In fact, all definitions and theorems in this section will specialize to those o
   \begin{displaymath}
     w_S(t) = w(\inf\{u\in [0,r)\mid \mathrm{meas}([0,u)\cap S) \geq t\}) \text{ for } 0\leq t < \mathrm{meas}(S).
   \end{displaymath}
+  Intuitively, $w_S$ is obtained from $w$ by cutting out the segments that are lie outside $S$.
   Given two words $v$ and $w$, $v$ is said to be a subword of $w$ if there exists $S\subset [0,r)$ as above such that $v=w_S$.
   Subwords $v_1,\dotsc,v_k$ of $w$ are said to be pairwise disjoint if there exist pairwise disjoint subsets $S_1,\dotsc,S_k$ as above such that $v_i=w_{S_i}$ for $i=1,\dotsc,k$.
 \end{definition}
@@ -730,7 +732,8 @@ Then $u_A=r_{1,A}r_{2,A}\dotsb r_{m,A}$.
   Then $u_A = u_{A'}r_{m,A}$, so that $P(u_A)=\ins(P(u_{A'}),r_{m,A}$,
   Also, the restriction $\bar v_A$ of $v_A$ to $m-1$ is $v_{A'}$.
   
-  By Lemma~\ref{lemma:restriction-interleaf} $P(v_{A'})$ is the restriction of $
+  By Lemma~\ref{lemma:restriction-interleaf} $P(v_{A'})$ is the restriction of $P(v_{A})$ to $A_{m-1}$.
+  
 \end{proof}
 \bibliographystyle{abbrv}
 \bibliography{refs}
