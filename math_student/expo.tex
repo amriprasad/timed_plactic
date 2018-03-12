@@ -246,7 +246,7 @@ In fact, all definitions and theorems in this section will specialize to those o
   \begin{displaymath}
     w_S(t) = w(\inf\{u\in [0,r)\mid \mathrm{meas}([0,u)\cap S) \geq t\}) \text{ for } 0\leq t < \mathrm{meas}(S).
   \end{displaymath}
-  Intuitively, $w_S$ is obtained from $w$ by cutting out the segments that are lie outside $S$.
+  Intuitively, $w_S$ is obtained from $w$ by cutting out the segments that are outside $S$.
   Given two words $v$ and $w$, $v$ is said to be a subword of $w$ if there exists $S\subset [0,r)$ as above such that $v=w_S$.
   Subwords $v_1,\dotsc,v_k$ of $w$ are said to be pairwise disjoint if there exist pairwise disjoint subsets $S_1,\dotsc,S_k$ as above such that $v_i=w_{S_i}$ for $i=1,\dotsc,k$.
 \end{definition}
@@ -295,6 +295,7 @@ If $a=0$, then $w_{[a,b)}$ is called an initial segment of $w$.
       (w_{[t_0, l(u))}, w_{[0, t_0)} c^{t_c}) & \text{if } l(u) - t_0 \leq t_c.
     \end{cases}
   \end{displaymath}
+  It is obvious that the above definition is compatible with the definition of $\rowins$ from Section~\ref{sec:timed-insertion} when $u$ is a row in $A_n^*$, and $t_c=1$.
   If $u$ is a row of the form $c_1^{t_1}\dotsb c_l^{t_l}$.
   Define $\rowins(w,u)$ by induction on $l$ as follows:
   Having defined $(v',w')=\rowins(w,c_1^{t_1}\dotsb c_{l-1}^{t_{l-1}})$,
@@ -304,7 +305,6 @@ If $a=0$, then $w_{[a,b)}$ is called an initial segment of $w$.
     \rowins(w,u) = (v'v'', w'').
   \end{displaymath}
 \end{definition}
-It is obvious that the above definition is compatible with the definition of $\rowins$ from Section~\ref{sec:timed-insertion} when $u$ is a row in $A_n^*$, and $t_c=1$.
 \begin{example}
   \label{example:timed-row-ins}
   $\rowins(1^{1.4}2^{1.6}3^{0.7},1^{0.7}2^{0.2})=(2^{0.7}3^{0.2},1^{2.1}2^{1.1}3^{0.5})$.
@@ -343,25 +343,64 @@ It is obvious that the above definition is compatible with the definition of $\r
 \end{theorem}
 The proof of Theorem~\ref{theorem:tableauness-of-insertion} can be broken down into three preparatory lemmas:
 \begin{lemma}
-  \label{lemma:dom1.5}
-  Suppose $u$ and $v$ are rows, and $(v',u')=\rowins(u,v)$.
-  Then $v\lhd v'$.
+  \label{lemma:concatenation-domination}
+  If $u_1$, $u_2$, $v_1$, and $v_2$ are rows such that $u_1u_2$ and $v_1v_2$ are also rows.
+  Then if $u_1\lhd v_1$ and $u_2\lhd v_2$, then $u_1u_2\lhd v_1v_2$.
 \end{lemma}
 \begin{proof}
-  Going through the cases in Definition~\ref{definition:timed-row-insertion} shows that $v'$ is a concatenation of segments of $u$, each of which is displaced by a term in the exponential string of an initial segment of $v$.
-  Moreover, the value of the term in $v$ is stricly less than the minimum value of the segment that it displaces.
-  This shows that $v'\lhd v$.
+  We have $l(u_1u_2)=l(u_1)+l(u_2)\geq l(v_1)+l(v_2)=l(v_1v_2)$.
+  Also, for $0\leq t <l(v_1)$, $v_1v_2(t)=v_1(t)>u_1(t)=u_1u_2(t)$.
+  On the other hand, if $l(v_1)\leq t <l(v_1v_2)$, then 
+  \begin{align*}
+    v_1v_2(t) &=    v_2(t-l(v_1))\\ 
+              &>    u_2(t-l(v_1))\\
+              &=    u_1u_2(t-l(v_1)+l(u_1))\\
+              &\geq u_1u_2(t),
+  \end{align*}
+  proving the lemma.
+\end{proof}
+\begin{lemma}
+  \label{lemma:subword-domination}
+  Let $u$ and $v$ be rows, and $u'$ be a subword of $u$.
+  If $u'\lhd v$, then $u\lhd v$. 
+\end{lemma}
+\begin{proof}
+  We have $l(v)<l(u')\leq l(u)$.
+  Also, $v(t)>u'(t)\geq u(t)$.
+\end{proof}
+\begin{lemma}
+  \label{lemma:dom1.5}
+  Let $u$ and $v$ be rows, and $(v',u')=\rowins(u,v)$.
+  Then $u'\lhd v'$.
+\end{lemma}
+\begin{proof}
+  As the terms of $v$ are inserted into $u$, successive segments (possible even empty ones) are displaced from $u$.
+  These displaced segments are concatenated to form $v'$.
+  Each of these segments has initial value strictly larger than the value of the term that has displaced it.
+  Therefore, each such segment dominates the term that has displaced it.
+  By Lemma~\ref{lemma:concatenation-domination}, $v'$ dominates a subowrd of $u'$, and so by Lemma~\ref{lemma:subword-domination}, it also dominates $u'$.
 \end{proof}
 \begin{lemma}
   \label{lemma:dom1}
-  Suppose $u$ and $v$ are rows, and $(v',u')=\rowins(u,v)$.
-  Then $u'\lhd v$.
+  Let $u$ and $v$ be rows and $(v',u')=\rowins(u,v)$.
+  Then $l(v')\leq l(v)$, and  $v'(t)\geq v(t)$ for $0\leq t <l(v')$.
 \end{lemma}
 \begin{proof}
-  From the argument in the proof of Lemma~\ref{lemma:dom1.5}, it follows that the row $u'$ contains a subword $v''$ that equals the initial segment of $v$ of length $l(v')$.
-  By Lemma~\ref{lemma:dom1.5}, $v''(t)<v(t)$ for all $0\leq t<l(v')$, and since $u'$ is a row, and $v''$ is a subword of $u'$, $v''(t)\leq u'(t)$ for all $0\leq t<l(v')$.
-  It follows that $u'\lhd v$.
+  The proof is similar to that of Lemma~\ref{lemma:dom1.5}.
 \end{proof}
+\begin{lemma}
+  Let $u_1$, $v_1$, $u_2$, and $v_2$ be timed rows such that
+  $u_1\lhd u_2$, $l(v_1)\geq l(v_2)$, and $v_1(t)\leq v_2(t)$ for all $0\leq t<l(v_2)$.
+  Suppose $(v_i',u_i')=\rowins(u_i,v_i)$ for $i=1,2$.
+  Then $u_1'\lhd u_2'$.
+\end{lemma}
+\begin{proof}
+  Assume that $v_1=c_1^t$ and $v_2=c_2^t$ for some $t>0$, and $c_1\leq c_2$.
+  Suppose that the segments corresponding to $[t_1,t_1+t_1')$ and $[t_2,t_2+t_2')$ are bumped out by these insertions, and replaced by segments with values $c_1$ and $c_2$ respectively.
+  Since $[t_2,t_2+t_2')$ is the only segment where the value of $u_2'$ is less than the value of $u_2$ (and $u_1'(t)\leq u_1(t)$ for all $t$), in order to show that $u_1\lhd u_2$, this is the only region of interest.
+  
+\end{proof}
+
 \begin{lemma}
   \label{lemma:dom2}
   Suppose $u_1\lhd u_2$ and $v_1\lhd v_2$, $(v_1',u_1')=\rowins(u_1,v_1)$, and $(v_2',u_2')=\rowins(u_2,v_2)$.
