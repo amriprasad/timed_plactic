@@ -341,79 +341,29 @@ If $a=0$, then $w_{[a,b)}$ is called an initial segment of $w$.
   \end{displaymath}
   and $\shape(w)$ interleaves $\shape(\ins(w,v))$.
 \end{theorem}
-The proof of Theorem~\ref{theorem:tableauness-of-insertion} can be broken down into three preparatory lemmas:
-\begin{lemma}
-  \label{lemma:concatenation-domination}
-  If $u_1$, $u_2$, $v_1$, and $v_2$ are rows such that $u_1u_2$ and $v_1v_2$ are also rows.
-  Then if $u_1\lhd v_1$ and $u_2\lhd v_2$, then $u_1u_2\lhd v_1v_2$.
-\end{lemma}
 \begin{proof}
-  We have $l(u_1u_2)=l(u_1)+l(u_2)\geq l(v_1)+l(v_2)=l(v_1v_2)$.
-  Also, for $0\leq t <l(v_1)$, $v_1v_2(t)=v_1(t)>u_1(t)=u_1u_2(t)$.
-  On the other hand, if $l(v_1)\leq t <l(v_1v_2)$, then 
-  \begin{align*}
-    v_1v_2(t) &=    v_2(t-l(v_1))\\ 
-              &>    u_2(t-l(v_1))\\
-              &=    u_1u_2(t-l(v_1)+l(u_1))\\
-              &\geq u_1u_2(t),
-  \end{align*}
-  proving the lemma.
-\end{proof}
-\begin{lemma}
-  \label{lemma:subword-domination}
-  Let $u$ and $v$ be rows, and $u'$ be a subword of $u$.
-  If $u'\lhd v$, then $u\lhd v$. 
-\end{lemma}
-\begin{proof}
-  We have $l(v)<l(u')\leq l(u)$.
-  Also, $v(t)>u'(t)\geq u(t)$.
-\end{proof}
-\begin{lemma}
-  \label{lemma:dom1.5}
-  Let $u$ and $v$ be rows, and $(v',u')=\rowins(u,v)$.
-  Then $u'\lhd v'$.
-\end{lemma}
-\begin{proof}
-  As the terms of $v$ are inserted into $u$, successive segments (possible even empty ones) are displaced from $u$.
-  These displaced segments are concatenated to form $v'$.
-  Each of these segments has initial value strictly larger than the value of the term that has displaced it.
-  Therefore, each such segment dominates the term that has displaced it.
-  By Lemma~\ref{lemma:concatenation-domination}, $v'$ dominates a subowrd of $u'$, and so by Lemma~\ref{lemma:subword-domination}, it also dominates $u'$.
-\end{proof}
-\begin{lemma}
-  \label{lemma:dom1}
-  Let $u$ and $v$ be rows and $(v',u')=\rowins(u,v)$.
-  Then $l(v')\leq l(v)$, and  $v'(t)\geq v(t)$ for $0\leq t <l(v')$.
-\end{lemma}
-\begin{proof}
-  The proof is similar to that of Lemma~\ref{lemma:dom1.5}.
-\end{proof}
-\begin{lemma}
-  Let $u_1$, $v_1$, $u_2$, and $v_2$ be timed rows such that
-  $u_1\lhd u_2$, $l(v_1)\geq l(v_2)$, and $v_1(t)\leq v_2(t)$ for all $0\leq t<l(v_2)$.
-  Suppose $(v_i',u_i')=\rowins(u_i,v_i)$ for $i=1,2$.
-  Then $u_1'\lhd u_2'$.
-\end{lemma}
-\begin{proof}
-  Assume that $v_1=c_1^t$ and $v_2=c_2^t$ for some $t>0$, and $c_1\leq c_2$.
-  Suppose that the segments corresponding to $[t_1,t_1+t_1')$ and $[t_2,t_2+t_2')$ are bumped out by these insertions, and replaced by segments with values $c_1$ and $c_2$ respectively.
-  Since $[t_2,t_2+t_2')$ is the only segment where the value of $u_2'$ is less than the value of $u_2$ (and $u_1'(t)\leq u_1(t)$ for all $t$), in order to show that $u_1\lhd u_2$, this is the only region of interest.
-  
-\end{proof}
+  Without loss of generality, assume that $v=c^t$ for some $c\in A_n$ and some $t>0$.
+  Let $w$ have row decomposition $u_lu_{l-1}\dotsb u_1$.
+  If $u_1(t)\leq c$ for all $0\leq t<l(u_1)$, then $u_1'=u_1c^t$, and $u_2'=u_2$, and so $u_1'\lhd u_2'$.
+  Otherwise, when $c^t$ is inserted into $u_1$, $v_1'$ is a segment of $u_1$ corresponding to an interval $[t_0,t_0+\delta)$ such that $u_1(t_0)>c$.
+  This segment in $u_1$ is replaced by a segment $c^\delta$ to obtain $u_1'$.
+  Let $v_1'=c_1^{t_1}\dotsb c_k^{t_k}$ (so $c<c_1< \dotsb <c_k$) be the exponential notation for $v_1'$.
 
-\begin{lemma}
-  \label{lemma:dom2}
-  Suppose $u_1\lhd u_2$ and $v_1\lhd v_2$, $(v_1',u_1')=\rowins(u_1,v_1)$, and $(v_2',u_2')=\rowins(u_2,v_2)$.
-  Then $u_1'\lhd u_2'$ and $v_1'\lhd v_2'$.
-\end{lemma}
-\begin{proof}[Proof of Theorem~\ref{theorem:tableauness-of-insertion}]
-  Suppose $w$ has row decomposition $u_l\dotsb u_1$.
-  Let $(v_1',u_1')=\rowins(u_1,v)$.
-  By Lemma~\ref{lemma:dom1}, $v\lhd v_1'$.
-  Now suppose $(v_2',u_2')=\rowins(u_2,v_1')$.
-  By Lemma~\ref{lemma:dom2}, $v_1'\lhd v_2'$, and $u_1'\lhd u_2'$.
-  Continuing in this manner, since $(v_{i+1}',u_{i+1}')=\rowins(u_{i+1},v_i')$, it follows that $u_i'\lhd u_{i+1}'$ for $i=1,\dotsc,l-1$ by induction on $i$.
-  Finally, it remains to show that $u_l'\lhd v_l'$, but this follows from Lemma~\ref{lemma:dom1.5}.
+  Proceed by induction on $k$.
+  If $k=1$, $v_1'=c_1^{t_1}$.
+  Now $u_2(t_0)>u_1(t_0)=c_1$, so $c_1^{t_1}$ will displace a segment of $u_2$ that begins to the left of $t_0$ with $c_1^{t_1}$, and so $u_1'\lhd u_2'$.
+
+  For $k>1$, perform the insertion of $c^t$ into $w$ in two steps, first inserting $c^{t_1}$, and then inserting $c^{t-t_1}$.
+  If $(v_1'',u_1'')=\rowins(u_1,c^{t_1})$, then $v_1''=c_1^{t_1}$.
+  Let $(v_2'',u_2'')=\rowins(u_2,v_1'')$.
+  By the $k=1$ case, $u_1''\lhd u_2''$.
+  
+  Now $(c_2^{t_2}\dotsb c_k^{t_k},u_1')=\rowins(u_1'',c^{t-t_1})$, and $u_2'$ is obtained by inserting $c_2^{t_2}\dotsb c_k^{t_k}$ into $u_2''$.
+  Therefore, by induction hypothesis, $u_1'\lhd u_2'$.
+
+  Repeating this argument with the remaining rows shows that $u_1'\lhd u_2' \lhd \dotsb u_l'$, as required.
+
+  The assertion about weights is obvious.
 \end{proof}
 \begin{definition}
   [Insertion Tableau of a Timed Word]
