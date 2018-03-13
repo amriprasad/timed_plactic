@@ -342,7 +342,8 @@ If $a=0$, then $w_{[a,b)}$ is called an initial segment of $w$.
   and $\shape(w)$ interleaves $\shape(\ins(w,v))$.
 \end{theorem}
 \begin{proof}
-  Without loss of generality, assume that $v=c^t$ for some $c\in A_n$ and some $t>0$.
+  We first prove that $\ins(v,w)$ is a timed tableau.
+  For this purpose, without loss of generality, one may assume that $v=c^t$ for some $c\in A_n$ and some $t>0$.
   Let $w$ have row decomposition $u_lu_{l-1}\dotsb u_1$.
   If $u_1(t)\leq c$ for all $0\leq t<l(u_1)$, then $u_1'=u_1c^t$, and $u_2'=u_2$, and so $u_1'\lhd u_2'$.
   Otherwise, when $c^t$ is inserted into $u_1$, $v_1'$ is a segment of $u_1$ corresponding to an interval $[t_0,t_0+\delta)$ such that $u_1(t_0)>c$.
@@ -360,8 +361,18 @@ If $a=0$, then $w_{[a,b)}$ is called an initial segment of $w$.
   
   Now $(c_2^{t_2}\dotsb c_k^{t_k},u_1')=\rowins(u_1'',c^{t-t_1})$, and $u_2'$ is obtained by inserting $c_2^{t_2}\dotsb c_k^{t_k}$ into $u_2''$.
   Therefore, by induction hypothesis, $u_1'\lhd u_2'$.
+  Repeating this argument with the remaining rows shows that $u_1'\lhd u_2' \lhd \dotsb \lhd u_l'$, as required.
 
-  Repeating this argument with the remaining rows shows that $u_1'\lhd u_2' \lhd \dotsb u_l'$, as required.
+  To see that $\shape(w)$ interleaves $\shape(\ins(w,v))$, observe that $v_1'$ is a concatenation of segments of $u_1$.
+  Write $v_1'=xy$, where $x$ consists of segments that come from $u_{1[0,l(u_2))}$ and $y$ consists of segements that come from $u_{1[l(u_2),l(u_1))}$.
+  Then, from the arguments of the first part of this proof, these segments will all replace segments of $u_2$, so if $(\tilde v,\tilde u_2)=\rowins(u_2,x)$, then $l(\tilde u_2)=l(u_2)$.
+  Now $(v_2',u_2')=\rowins(\tilde u_2,y)$, whence 
+  \begin{align*}
+    l(u_2') &\leq l(\tilde u_2)+l(y)\\
+    &\leq l(u_2)+[l(u_1)-l(u_2)]\\
+    & = l(u_1).
+  \end{align*}
+  The same argument shows that $l(u_i')\leq l(u_{i-1})$ for $i>2$ as well, so that $\shape(w)$ interleaves $\shape(\ins(w,v))$.
 
   The assertion about weights is obvious.
 \end{proof}
@@ -405,16 +416,39 @@ If $a=0$, then $w_{[a,b)}$ is called an initial segment of $w$.
 \end{definition}
 \begin{lemma}
   \label{lemma:reverse-row-insertion}
-  Suppose $\rowins(w,u)=(u',w')$, and $l(u')=l(u)$.
-  Then $\rowins({w'}^\sharp,{u'}^\sharp)=(u^\sharp,w^\sharp)$.
+  Let $u$ and $v$ be timed rows.
+  Suppose $\rowins(u,v)=(v',u')$, and $l(v')=l(v)$.
+  Then $\rowins({u'}^\sharp,{v'}^\sharp)=(v^\sharp,u^\sharp)$.
 \end{lemma}
+\begin{proof}
+  It suffices to consider the case where $v=c^t$.
+  The hypothesis $l(v')=l(v)$ implies that $t_0=\inf\{t\mid u(t)>c\}$ satisfies $0\leq t_0<l(u)-c$, and
+  \begin{displaymath}
+    u'=u_{[0,t_0)}c^tu_{[t_0+t,l(u))}, \text{ and } v'=u_{[t_0,t_0+t)}.
+  \end{displaymath}
+  Using induction as in the proof of Theorem~\ref{theorem:tableauness-of-insertion}, we may assume that $v'$ is constant, so $v'=d^t$ for some $d>c$.
+
+  Now
+  \begin{displaymath}
+    {u'}^\sharp=u_{[t_0+t,l(u))}^\sharp (n-c+1)^t u_{[0,t_0)}^\sharp \text{ and } {v'}^\sharp=(n-d+1)^t.
+  \end{displaymath}
+  Since all the values of $u_{[t_0+t,l(u))}$ are greater than or equal to the last value of $d$, all the values of $u_{[t_0+t,l(u))}^\sharp$ are less than or equal to $n-d+1$.
+  Moreover, $n-c+1>n-d+1$.
+  It follows immediately from Definition~\ref{definition:timed-row-insertion} that $\rowins({u'}^\sharp,{v'}^\sharp)=(v^\sharp,u^\sharp)$.
+\end{proof}
 \begin{corollary}
   \label{corollary:row-insertion-bijection}
   The timed row insertion algorithm gives rise to a bijection:
   \begin{multline*}
-    \rowins: \tr_n(r)\times \tr_n(s) \tilde\to \\\{(u',w')\in R_n(s')\times R_n(r+s-s')\mid 0\leq s'\leq s,\; u'\rhd w'\}. 
+    \rowins: \tr_n(r)\times \tr_n(s) \tilde\to \\\{(v',u')\in R_n(s')\times R_n(r+s-s')\mid 0\leq s'\leq \min(r,s),\; u'\rhd w'\}. 
   \end{multline*}
 \end{corollary}
+\begin{proof}
+  Suppose $(u,v)\in \tr_n(r)\times \tr_n(s)$, and $(v',u')=\rowins(u,v)$.
+  Then $(u,v)$ can be recovered from $(v',u')$ (given the prior knowledge of $r$ and $s$) as follows:
+  let $(v_1^\sharp, u_1^\sharp)=\rowins(u'_{[0,r)}^\sharp, {v'}^\sharp)$.
+  Then using Lemma~\ref{lemma:reverse-row-insertion}, $u$ and $v$ can be recovered as $u&=u_1$, and $v=v_1u'_{[r,r+s-s')}$.
+\end{proof}
 \begin{theorem}[Timed Pieri Rule]
   \label{theorem:pieri}
   The timed insertion algorithm gives rise to a bijection:
