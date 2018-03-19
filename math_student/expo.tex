@@ -43,11 +43,11 @@ A rule for computing $c^\lambda_{\mu\nu}$ was conjectured by Littlewood and Rich
 The first complete proof of this rule was given by Lascoux and Sch\"utzenberger \cite{plaxique} in 1978 using the plactic monoid.
 Besides the references mentioned earlier, a self-contained accessible exposition of this proof can be found in \cite{schur_poly}.
 
-The plactic monoid is the quotient of the concatenation-monoid of words in a totally ordered langauge modulo a pair of relations discovered by Knuth (precise definitions are postponed to Section~\ref{sec:tabl-insert-green}).
+The plactic monoid is the quotient of the concatenation-monoid of words in a totally ordered language modulo a pair of relations discovered by Knuth (precise definitions are postponed to Section~\ref{sec:tabl-insert-green}).
 Knuth relations arise from the study of an algorithm due to Schensted \cite{schensted} for determining the longest increasing subsequence in a sequence of integers.
 At each step of its running, the state of Schensted's algorithm is given by a combinatorial object called a semistandard Young tableau.
 The algorithm begins with the empty tableau.
-At each step of the algorithm, a number in the sequence is ``inserted'' into the tableau.
+As the algorithm runs, a number in the sequence is ``inserted'' into the tableau.
 Analyzing which sequences of insertions have the same effect on tableaux leads to the plactic equivalence and to Knuth moves \cite[Section~6]{knuth}.
 Knuth moves only involve three consecutive terms of a sequence of integers.
 However, they generate plactic equivalence.
@@ -62,7 +62,8 @@ This monoid contains the monoid of words as a submonoid.
 
 In this extended abstract, we generalize the plactic monoid to include timed words.
 The main innovation is the introduction of timed versions, (\ref{eq:k1}) and~(\ref{eq:k2}) of Knuth relations, using which Greene's theorem is extended to timed words.
-
+As an application, the Robinson-Schensted-Knuth correspondence (the first of the two correspondences described by Knuth in \cite{knuth}) is generalized from matrices with non-negative integer matrices to matrices with non-negative real entries.
+When timed tableau are expressed as Gelfand-Tsetlin patterns, the piecewise linear RSK correspondence of Berenstein and Kirillov \cite{kir-trop}.
 \section{Tableaux, Insertion, and Greene's Theorem}
 \label{sec:tabl-insert-green}
 \ytableausetup{smalltableaux}
@@ -178,7 +179,7 @@ The plactic monoid $\pl(A_n)$ is the quotient of the monoid $A_n^*$ by the submo
   \tag{$K2$}\label{eq:k2}
   yxz \equiv yzx \text{ if } x < y \leq z.
 \end{gather}
-On a more concrete level, it is the set of words $w\in A_n$ modulo Knuth equivalence, were words $v$ and $w$ are said to be Knuth equivelent if $w$ can be obtained from $v$ by a sequence of moves of the form (\ref{eq:k1}) and (\ref{eq:k2}) involving any three letters of the words obtained at each stage.
+On a more concrete level, it is the set of words $w\in A_n$ modulo Knuth equivalence, were words $v$ and $w$ are said to be Knuth equivalent if $w$ can be obtained from $v$ by a sequence of moves of the form (\ref{eq:k1}) and (\ref{eq:k2}) involving any three letters of the words obtained at each stage.
 For example,
 \begin{displaymath}
   113\rc{332}\equiv_{K2} 11\rc{332}3\equiv_{K2} 1\rc{132}33 \equiv_{K1} \rc{131}233 \equiv_{K1} 311233.
@@ -214,7 +215,7 @@ Theorems \ref{theorem:Greene} and~\ref{theorem:unique-tab} are special cases of 
 \begin{definition}
   [Timed Word]
   \label{definition:timed-word}
-  A timed word of length $r$ in the alphabet $A_n$ is a peicewise-constant right-continuous function $w:[0,r)\to A_n$.
+  A timed word of length $r$ in the alphabet $A_n$ is a piecewise-constant right-continuous function $w:[0,r)\to A_n$.
   We write $l(w)=r$.
   In other words, for some finite sequence $0=r_0<r_1<\dotsc<r_k=r$ of transition points, and letters $c_1,\dotsc, c_k$ in $A$, $w(x) = c_i$ if $r_{i-1}\leq x < r_i$.
   Given such a function, we write
@@ -224,7 +225,7 @@ Theorems \ref{theorem:Greene} and~\ref{theorem:unique-tab} are special cases of 
   \end{equation}
   where $t_i = r_i-r_{i-1}$.
   We call this the \emph{exponential string} for $w$.
-  The wieght of $w$ is the vector:
+  The weight of $w$ is the vector:
   \begin{displaymath}
     \wt(w) = (m_1,\dotsc,m_n),
   \end{displaymath}
@@ -365,7 +366,7 @@ If $a=0$, then $w_{[a,b)}$ is called an initial segment of $w$.
   Repeating this argument with the remaining rows shows that $u_1'\lhd u_2' \lhd \dotsb \lhd u_l'$, as required.
 
   To see that $\shape(w)$ interleaves $\shape(\ins(w,v))$, observe that $v_1'$ is a concatenation of segments of $u_1$.
-  Write $v_1'=xy$, where $x$ consists of segments that come from $u_{1[0,l(u_2))}$ and $y$ consists of segements that come from $u_{1[l(u_2),l(u_1))}$.
+  Write $v_1'=xy$, where $x$ consists of segments that come from $u_{1[0,l(u_2))}$ and $y$ consists of segments that come from $u_{1[l(u_2),l(u_1))}$.
   Then, from the arguments of the first part of this proof, these segments will all replace segments of $u_2$, so if $(\tilde v,\tilde u_2)=\rowins(u_2,x)$, then $l(\tilde u_2)=l(u_2)$.
   Now $(v_2',u_2')=\rowins(\tilde u_2,y)$, whence 
   \begin{align*}
@@ -379,7 +380,7 @@ If $a=0$, then $w_{[a,b)}$ is called an initial segment of $w$.
 \end{proof}
 \begin{definition}
   [Insertion Tableau of a Timed Word]
-  Let $w$ be a timed word with row decompositon $u_1\dotsb u_l$.
+  Let $w$ be a timed word with row decomposition $u_1\dotsb u_l$.
   The insertion tableau of $w$ is defined as:
   \begin{displaymath}
     P(w) = \ins(\dotsb\ins(\ins(u_1, u_2),u_3),\dotsc,u_l).
@@ -580,7 +581,7 @@ Since this equivalence is stable under left and right multiplication in $A^\dagg
   It follows that $a_k(wzxyu)\geq a_k(wxzyu)$.
 
   If at least one $x_i\neq \emptyset$ and one $y_i\neq\emptyset$, assume that $x_1$ has the least first letter among $x_1,\dotsc,x_r$, and that $y_k$ has the largest last letter among $y_{r+1},\dotsc,y_k$.
-  Let $x_0$ be the row subword of $x$ obtained by concatenating the segements of $x_1,\dotsc,x_r$ in the order in which they appear in $x$ (so $x_0$ is a row of length $l(x_1)+\dotsb + l(x_r)$).
+  Let $x_0$ be the row subword of $x$ obtained by concatenating the segments of $x_1,\dotsc,x_r$ in the order in which they appear in $x$ (so $x_0$ is a row of length $l(x_1)+\dotsb + l(x_r)$).
   Let $y_0$ be the row subword of $y$ obtained by concatenating the segments of $y_{r+1},\dotsc, y_k$ in the order in which they appear in $y$ (so $y_0$ is a row of length $l(y_{r+1})+\dotsb + l(y_k)$).
   Define
   \begin{align*}
@@ -620,7 +621,7 @@ The word $\bar w$ is called the restriction of $w$ to $A_{n-1}$.
 \end{lemma}
 \begin{proof}
   Suppose $w$ has row decomposition $u_lu_{l-1}\dotsb u_1$.
-  Since $n$ is the largest element of $A_n$, we meay write $u_i=u'_in^{t_i}$ for some $t_i\geq 0$.
+  Since $n$ is the largest element of $A_n$, we may write $u_i=u'_in^{t_i}$ for some $t_i\geq 0$.
   Clearly $l(u_i)\geq l(u'_i)$.
   Since $w$ is semistandard, $l(u'_i)\geq l(u_{i+1})$ for $i=1,\dotsc,l-1$. 
   It follows that the shape of $w'$, which is $(l(u'_1),\dotsc,l(u'_l))$ interleaves the shape of $w$, which is $(l(u_1),\dotsc,l(u_l))$.
@@ -639,7 +640,7 @@ The word $\bar w$ is called the restriction of $w$ to $A_{n-1}$.
   Every Knuth equivalence class in $A_n^\dagger$ contains a unique timed tableau.
 \end{theorem}
 \begin{proof}
-  The existence of a timed tableau in each Knuth equivalence class is enusred by Lemma~\ref{lemma:reduction-to-tab}.
+  The existence of a timed tableau in each Knuth equivalence class is ensured by Lemma~\ref{lemma:reduction-to-tab}.
   The proof of uniqueness is by induction on $n$.
   The base case, where $n=1$ is trivially true.
   Now suppose $v$ and $w$ are Knuth equivalent timed tableaux in $A_n^\dagger$.
@@ -660,7 +661,7 @@ Given $A=(a_{ij})\in M_{m\times n}(\rp)$, define its \emph{timed column word} $u
   v_A & = 1^{a_{11}}2^{a_{21}}\dotsb m^{a_{m1}}\,1^{a_{12}}2^{a_{22}}\dotsb m^{a_{m2}}\,\dotsb \,1^{a_{1n}}2^{a_{2n}}\dotsb m^{a_{mn}}.
 \end{align*}
 The timed word $u_A$ is called the \emph{column word} of $A$; it is obtained by reading column numbers of $A$ along its rows, timed by its entries.
-The timed word $v_A)$ is called the \emph{row word} of $A$, and is obtained by reading the row numbers of $A$ aling its columns, timed by its entries.
+The timed word $v_A)$ is called the \emph{row word} of $A$, and is obtained by reading the row numbers of $A$ along its columns, timed by its entries.
 Define:
 \begin{equation}
   \label{eq:rsk}
