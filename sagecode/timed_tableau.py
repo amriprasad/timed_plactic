@@ -1,3 +1,6 @@
+from copy import copy
+from random import random, randint
+
 class TimedWord:
     def __init__(self, w):
         if hasattr(w, "_w"):
@@ -5,7 +8,7 @@ class TimedWord:
         elif len(w) == 0:
             self._w = []
         else:
-            v = [w[0]]
+            v = [[w[0][0],w[0][1]]]
             for i in range(1, len(w)):
                 if w[i][1] == 0:
                     pass
@@ -17,6 +20,9 @@ class TimedWord:
 
     def __repr__(self):
         return str(self._w)
+
+    def __eq__(self, other, tol=1e-10):
+        return all([v[0]==u[0] and abs(v[1]-u[1])<tol for u, v in zip(self._w,other._w)])
 
     def to_list(self):
         return self._w
@@ -31,26 +37,31 @@ class TimedWord:
                 output[-1].append(entry)
             else:
                 output.append([entry])
-        return output
+        return [TimedRow(r) for r in output]
         
     def length(self):
-        return length(self._w)
+        return sum([l[1] for l in self._w])
 
     def value(self, t):
-        return value(self._w, t)
+        t0 = 0
+        for i, l in enumerate(self._w):
+            t1 = t0 + l[1]
+            if t1 > t:
+                return l[0]
+            else:
+                t0 = t1
+        return 0
 
-    def segments(self):
-        return segements(self._w)
-
-    def dominates(self, other):
-        return dominates(self._w, other._w)
+    def time_stamps(self):
+        durations = [l[1] for l in self._w]
+        return [sum(durations[:i]) for i in range(len(self._w))]
 
     def is_tableau(self):
         b = self.rows()
         if len(b) == 1:
             return True
         else:
-            return all([TimedRow(b[i]).dominates(TimedRow(b[i+1])) for i in range(len(b)-1)])
+            return all([b[i].dominates(b[i+1]) for i in range(len(b)-1)])
 
     def number_of_rows(self):
         return len(self.rows())
@@ -84,14 +95,30 @@ class TimedWord:
         Return only terms with letters at most ``m``.
         """
         return TimedWord([c for c in self._w if c[0]<= m])
+
+    def schuetzenberger_involution(self, max_let=None):
+        if max_let is None:
+            max_let = self.max()
+        return TimedWord([[max_let-v[0]+1, v[1]] for v in reversed(self._w)])
+
+    def truncate(self, l):
+        if l>= self.length():
+            return self
+        else:
+            output = []
+            s = self.time_stamps() + [l]
+            for i, v in enumerate(self._w):
+                if s[i+1] < l:
+                    output.append(v)
+                else:
+                    output.append([v[0], l-s[i]])
+                    return TimedWord(output)
     
 class TimedTableau(TimedWord):
     def __init__(self, w, rows=False):
         if rows:
             w = sum(reversed(w), [])
         TimedWord.__init__(self, w)
-        if not self.is_tableau():
-            raise ValueError("%s is not a tableau"%(self))
 
     def split_first_row(self):
         for i in range(1, len(self._w)):
@@ -126,8 +153,18 @@ class TimedTableau(TimedWord):
 class TimedRow(TimedWord):
     def __init__(self, w):
         TimedWord.__init__(self, w)
-        if self.number_of_rows() > 1:
-            raise ValueError("Input is not a row")
+
+    def dominates(self, other):
+        """
+        Return True if self dominates other.
+        """
+        if self.length() > other.length():
+            return False
+        else:
+            s1 = self.time_stamps()
+            s2 = other.time_stamps()
+            comb = sorted(s1+s2)
+            return all([self.value(t) > other.value(t) for t in comb if t < self.length()])
 
     def insert_term(self, term):
         c = term[0]
@@ -173,61 +210,20 @@ class TimedRow(TimedWord):
             second_row = step[1]
             first_row = TimedRow(first_row.concatenate(step[0]))
         return TimedRow(first_row), TimedRow(second_row)
-        
 
-def length(w):
-    return sum([l[1] for l in w])
-
-def value(w, t):
-    t0 = 0
-    for i, l in enumerate(w):
-        t1 = t0 + l[1]
-        if t1 > t:
-            return l[0]
-        else:
-            t0 = t1
-    return 0
+    def schuetzenberger_involution(self, max_let=None):
+        return TimedRow(TimedWord.schuetzenberger_involution(self))
     
-def segments(w):
-    durations = [l[1] for l in w]
-    return [sum(durations[:i]) for i in range(len(w))]
-        
-def dominates(row1, row2):
-    """
-    Return True if row1 dominates row2.
-    """
-    if length(row1) > length(row2):
-        return False
-    else:
-        s1 = segments(row1)
-        s2 = segments(row2)
-        comb = sorted(s1+s2)
-        return all([value(row1, t) > value(row2, t) for t in comb if t < length(row1)])
-
-def is_tableau(w):
-    b = break_into_rows(w)
-    if len(b) == 1:
-        return True
-    return all([dominates(b[i], b[i+1]) for i in range(len(b)-1)])
-        
-
-def real_schensted(w):
-    w = TimedWord(w)
-    output = TimedTableau([])
-    for row in w.rows():
-        output = output.insert_row(TimedRow(row))
-    return output
-
 def random_word(max_let, terms, max_time=1):
     return TimedWord([[randint(1, max_let), max_time*random()] for i in range(terms)])
 
-def random_row(max_let):
-    return TimedRow([[i+1, random()] for i in range(max_let)])
+def random_row(max_let, max_time=1):
+    return TimedRow([[i+1, max_time*random()] for i in range(max_let)])
 
 def random_term(max_let):
     return [randint(1, max_let), random()]
 
-def plactic_rsk(A):
+def real_rsk(A):
     m,n = A.shape
     return real_schensted(TimedWord([[j+1, A[i,j]] for i in range(m) for j in range(n)])), real_schensted(TimedWord([[i+1, A[i,j]] for j in range(n) for i in range(m)]))
     
