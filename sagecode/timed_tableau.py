@@ -56,6 +56,26 @@ class TimedWord:
         durations = [l[1] for l in self._w]
         return [sum(durations[:i]) for i in range(len(self._w))]
 
+    def segment(self, interval):
+        left, right = interval[0], interval[1]
+        l = self.length()
+        ts = self.time_stamps() + [l]
+        output = []
+        for i, s in enumerate(ts):
+            if s <= left:
+                pass
+            else:
+                output.append([self._w[i-1][0], min(s, right)- max(ts[i-1], left)])
+            if s>=right:
+                return TimedWord(output)
+        return TimedWord(output)
+    
+    def subword(self, intervals):
+        output = TimedWord([])
+        for interval in intervals:
+            output.concatenate(self.segment(interval))
+        return output
+        
     def is_tableau(self):
         b = self.rows()
         if len(b) == 1:
@@ -79,7 +99,10 @@ class TimedWord:
         return "".join(["%s^{%.8f}"%(term[0],term[1]) for term in self._w])
 
     def max(self):
-        return max([term[0] for term in self._w])
+        if len(self._w)==0:
+            return 0
+        else:
+            return max([term[0] for term in self._w])
     
     def weight(self):
         output = [0]*self.max()
@@ -210,10 +233,34 @@ class TimedRow(TimedWord):
             second_row = step[1]
             first_row = TimedRow(first_row.concatenate(step[0]))
         return TimedRow(first_row), TimedRow(second_row)
-
-    def schuetzenberger_involution(self, max_let=None):
-        return TimedRow(TimedWord.schuetzenberger_involution(self))
     
+    def schuetzenberger_involution(self, max_let=None):
+        return TimedRow(TimedWord.schuetzenberger_involution(self, max_let=max_let))
+
+def inverse_rowins(vv, uu, r, max_let=None):
+    if max_let is None:
+        n = max(vv.max(), uu.max())
+    else:
+        n = max_let
+    rr = uu.length()
+    v1, u1 = TimedRow(uu.segment([0,r]).schuetzenberger_involution(max_let=n)).insert_row(vv.schuetzenberger_involution(max_let=n))
+    return u1.schuetzenberger_involution(max_let=n), v1.schuetzenberger_involution(max_let=n).concatenate(uu.segment([r,rr]))
+    
+    
+def delete(w, la):
+    mu = w.shape()
+    if len(la) < len(mu):
+        la = [0]+la
+    n = w.max()
+    wrows = w.rows()
+    output = TimedWord([])
+    
+    for u in wrows:
+        pass
+        
+        
+    
+
 def random_word(max_let, terms, max_time=1):
     return TimedWord([[randint(1, max_let), max_time*random()] for i in range(terms)])
 
@@ -225,9 +272,8 @@ def random_term(max_let):
 
 def real_rsk(A):
     m,n = A.shape
-    return real_schensted(TimedWord([[j+1, A[i,j]] for i in range(m) for j in range(n)])), real_schensted(TimedWord([[i+1, A[i,j]] for j in range(n) for i in range(m)]))
-    
-w1 = TimedWord([[1, 1], [2, 1.5], [4, 2], [3, 1.2], [1, 3]])
-w2 = TimedTableau([[2, 1], [3, 1.5], [1, 1.5], [2, 1.5], [3, 0.2]])
-w3 = TimedWord([[2, 1], [2, 1], [1, 2]])
-r = TimedRow([[1, 0.5], [2, 0.3], [3, 0.1], [4, 0.7]])
+    return TimedWord([[j+1, A[i,j]] for i in range(m) for j in range(n)]).insertion_tableau(), TimedWord([[i+1, A[i,j]] for j in range(n) for i in range(m)]).insertion_tableau()
+
+import numpy
+def random_real_matrix(m, n):
+    return numpy.random.rand(m,n)
