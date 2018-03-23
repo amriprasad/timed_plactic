@@ -477,11 +477,12 @@ If $a=0$, then $w_{[a,b)}$ is called an initial segment of $w$.
 \begin{definition}
   [Deletion]
   \label{definition:deletion}
-  Let $w'$ be a timed tableau of shape $\mu=(\mu_1,\dotsc,\mu_{m+1})$ (we permit $\mu_{m+1}=0$), and let $\lambda=(\lambda_1,\dotsc,\lambda_l)$ be a real partition that interleaves $\mu$.
+  Let $w'$ be a timed tableau of shape \linebreak $\mu=(\mu_1,\dotsc,\mu_{m+1})$ (we permit $\mu_{m+1}=0$), and let $\lambda=(\lambda_1,\dotsc,\lambda_l)$ be a real partition that interleaves $\mu$.
   Then we write
   \begin{displaymath}
     \del_\lambda(w')=(v,w) \text{ if and only if } \ins(w,v)=w'.
   \end{displaymath}
+  The pair $(v,w)$ is computed from $w'$ and $\lambda$ by the algorithm described in the proof of Theorem~\ref{theorem:pieri}.
 \end{definition}
 \subsection{Greene's Invariants for Timed Words}
 \label{sec:timed-greene-invar}
@@ -781,6 +782,18 @@ Then $u_A=r_{1,A}r_{2,A}\dotsb r_{m,A}$.
   For this, observe that $P(v_{A'})$ is just the restriction of $P(v_A)$ to $A_{m-1}$.
   If $\mu$ is the shape of $P(v_{A'})$, then $(r_{m,A},P(u_{A'}))=\del_\mu(P(u_A))$ (see Definition~\ref{definition:deletion}).
 \end{proof}
+
+\subsection{Note on software}
+\label{sec:software}
+
+All the algorithms in this article are demonstrated using python code.
+This includes an implementation of classes of timed words, timed rows, and timed tableau (with methods for concatenation, insertion, construction of insertion tableau, and many other operations).
+It also includes an implementation of the RSK correspondence and its inverse.
+The code is available at \url{http://www.imsc.res.in/~amri/timed_plactic/timed_tableau.py}.
+
+The code is accompanying by a demo jupyter worksheet, where the use of all these algorithms is illustrated.
+The worksheet also includes verifications of all the theorems in this paper using randomized inputs.
+The worksheet is available at \url{http://www.imsc.res.in/~amri/timed_plactic/timed_tableau.ipynb}.
 \bibliographystyle{abbrv}
 \bibliography{refs}
 \end{document}

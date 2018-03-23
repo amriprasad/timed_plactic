@@ -1,8 +1,16 @@
 from copy import copy
 from random import random, randint
+from numpy import zeros
+from numpy.random import rand
 
 class TimedWord:
+    """
+    The class of timed words.
+    """
     def __init__(self, w):
+        """
+        Construct instance from ``w``.
+        """
         if hasattr(w, "_w"):
             self._w = w._w
         elif len(w) == 0:
@@ -249,17 +257,16 @@ def inverse_rowins(vv, uu, r, max_let=None):
     
 def delete(w, la):
     mu = w.shape()
-    if len(la) < len(mu):
-        la = [0]+la
     n = w.max()
     wrows = w.rows()
-    output = TimedWord([])
-    
-    for u in wrows:
-        pass
-        
-        
-    
+    if len(la) == len(mu):
+        wrows = [TimedRow([])] + wrows
+    output = TimedTableau([])
+    x = wrows[0]
+    for i, u in enumerate(wrows[1:]):
+        r, x = inverse_rowins(x, u, la[-i-1], max_let=n)
+        output = output.concatenate(r)
+    return x, output
 
 def random_word(max_let, terms, max_time=1):
     return TimedWord([[randint(1, max_let), max_time*random()] for i in range(terms)])
@@ -274,6 +281,16 @@ def real_rsk(A):
     m,n = A.shape
     return TimedWord([[j+1, A[i,j]] for i in range(m) for j in range(n)]).insertion_tableau(), TimedWord([[i+1, A[i,j]] for j in range(n) for i in range(m)]).insertion_tableau()
 
-import numpy
+def inverse_real_rsk(P,Q):
+    m = Q.max()
+    n = P.max()
+    A = zeros([m,n])
+    for i in range(m,0,-1):
+        Q = Q.restrict(i-1)
+        u, P = delete(P, Q.shape())
+        for term in u.to_list():
+            A[i-1,term[0]-1]= term[1]
+    return A
+
 def random_real_matrix(m, n):
-    return numpy.random.rand(m,n)
+    return rand(m,n)
