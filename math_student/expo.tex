@@ -666,7 +666,15 @@ The word $\bar w$ is called the restriction of $w$ to $A_{n-1}$.
   By the timed version of Greene's theorem (Theorem~\ref{theorem:timed-version-greene}) $a_k(uwv)=a_k(uw'v)$ for all $u,v\in A_n^\dagger$.
 
   For the converse, suppose that $w$ and $w'$ are not Knuth equivalent.
-  Then $P(w)\neq P(w')$
+  Then $P(w)\neq P(w')$.
+  If $P(w)$ and $P(w')$ do not have the same shape, then by Theorem~\ref{theorem:timed-version-greene}, they do not have the same Greene invariants, so taking $u=v=\emptyset$ proves the result.
+
+  Let $w=u_l\dotsb u_1$ and $u'_l\dotsb u'_1$ be the row decompositions of $w$ and $w'$ respectively.
+  Let $i$ be the least integer such that $u_i\neq u'_i$.
+  Let $t\geq 0$ be minimial such that $u_i(t)\neq u'_i(t)$.
+  Without loss of generality, assume that $c=u_i(t)<u'_i(t)$.
+  Take $t_1>l(u_i)$.
+  If $\rowins(u_i,c^{t_1}) = (\tilde v,\tilde u)$ and $\rowins(u'_i,c^{t_1}) = (\tilde v',\tilde u')$ then it follows from Definition~\ref{definition:timed-row-insertion} that $l(\tilde u)>l(\tilde u')$ (intuitively, $c^{t_1}$ bumps out less from $u_i$ than it does from $u'_i$)
 \end{proof}
 \section{The Real RSK Correspondence}
 \label{sec:rsk}
