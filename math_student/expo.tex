@@ -654,12 +654,11 @@ The word $\bar w$ is called the restriction of $w$ to $A_{n-1}$.
   By Lemma~\ref{sec:knuth-equiv-green}, $v$ and $w$ have the same Greene invariants, and therefore the same shape $\mu=(\mu_1,\dotsc,\mu_{l+1})$.
   It follows that both $v$ and $w$ are obtained from $bar v=\bar w$ by appending a segment of the form $n^{\lambda_i-\mu_i}$ to the $i$th row of $\bar v= \bar w$ for each $i$, hence $v=w$.
 \end{proof}
-
 \subsection{Characterization of Knuth Equivalence Classes}
 \label{sec:char-timed-knuth}
 \begin{theorem}
   Let $w$ and $w'$ be timed words in $A_n^\dagger$.
-  Then $w$ and $w'$ are Knuth equivalent if and only if, for all timed words $u$ and $v$ in $A_n^\dagger$, $a_k(uwv)=a_k(uw'v)$ for all $k$.
+  Then $w$ and $w'$ are Knuth equivalent if and only if, for all timed words $u$ and $v$ in $A_n^\dagger$, $a_k(uwv)=a_k(uw'v)$ for all $k\geq 1$.
 \end{theorem}
 \begin{proof}
   If $w$ and $w'$ are Knuth equivalent, then so are $uwv$ and $uw'v$.
@@ -669,12 +668,33 @@ The word $\bar w$ is called the restriction of $w$ to $A_{n-1}$.
   Then $P(w)\neq P(w')$.
   If $P(w)$ and $P(w')$ do not have the same shape, then by Theorem~\ref{theorem:timed-version-greene}, they do not have the same Greene invariants, so taking $u=v=\emptyset$ proves the result.
 
-  Let $w=u_l\dotsb u_1$ and $u'_l\dotsb u'_1$ be the row decompositions of $w$ and $w'$ respectively.
+  Now suppose that $w$ and $w'$ are rows of the same length.
+  If $w\neq w'$, there exist decompositions $w=xc^ty$ and $w'=x{c'}^ty'$, where $c\neq c'$, and $t>0$.
+  If $c<c'$, then for $T>t+l(y)$,
+  \begin{displaymath}
+    a_1(xc^tyc^T) = l(x)+t+T, \text{ while } a_1(x{c'}^tyc^T) = l(x)+T,
+  \end{displaymath}
+  thereby proving the result.
+
+  In the general case, suppose $w=u_lu_{l-1}\dotsb u_1$ and $w'=u'_lu'_{l=1}\dotsb u'_1$ are row decompositions.
   Let $i$ be the least integer such that $u_i\neq u'_i$.
-  Let $t\geq 0$ be minimial such that $u_i(t)\neq u'_i(t)$.
-  Without loss of generality, assume that $c=u_i(t)<u'_i(t)$.
-  Take $t_1>l(u_i)$.
-  If $\rowins(u_i,c^{t_1}) = (\tilde v,\tilde u)$ and $\rowins(u'_i,c^{t_1}) = (\tilde v',\tilde u')$ then it follows from Definition~\ref{definition:timed-row-insertion} that $l(\tilde u)>l(\tilde u')$ (intuitively, $c^{t_1}$ bumps out less from $u_i$ than it does from $u'_i$)
+  By the proof for rows, there exists $c\in A_n$, and $T>0$ such that when $(v,x)=\rowins(u_i,c^T)$ and $(v',x')=\rowins(u'_i,c^T)$, then $l(x)\neq l(x')$.
+  Also, note that $c$ is at least $i$, the least possible value of the $i$th row of a tableau.
+
+  Now assume that $T>l(u_j)$ for $j=1,\dotsc,i-1$.
+  Take $u=1^T2^T\dotsb (i-1)^T$.
+  Then we have
+  \begin{align*}
+    P(uw)&=u_l\dotsb u_{i+1} i^T u'_i (i-1)^T u_{i-1} \dotsb 1^T u_1,\\
+    P(uw')&=u'_l\dotsb u'_{i+1} i^T u'_i (i-1)^T u_{i-1} \dotsb 1^T u_1.\\
+  \end{align*}
+  Now $z=c^T(i-1)^T u_{i-1} \dotsb 1^T u_1$ is a timed tableau.
+  Let 
+  \begin{displaymath}
+    (v,\bar z)=\del_{(T+\lambda_1,\dotsc,T+\lambda_{i-1})}(z).
+  \end{displaymath}
+  Then when $P(uwv)$ and $P(uw'v)$ are computed, the calculations are the same for the first $i-1$ rows.
+  But then $c^T$ is inserted into $u_i$ and $u'_i$ to obtain the $i$th rows of $P(uwv)$ and $P(uw'v)$, which, by our earlier argument, will have different lengths.
 \end{proof}
 \section{The Real RSK Correspondence}
 \label{sec:rsk}
