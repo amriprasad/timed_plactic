@@ -231,7 +231,18 @@ However, the subword, being weakly increasing, cannot contain $y$, so the $z$ ca
 This could be a problem if $y$ is part of another weakly increasing subword $g'$ in a collection of pairwise disjoint weakly increasing subwords.
 In that case, we have $g=g_1xzg_2$ and $g'=g'_1y g'_2$.
 We may replace them with $g_1xyg'_2$ and $g_1'zg_2$, which would still be weakly increasing, and would have the same total length as $g$ and $g'$.
+\subsection{Characterization of Knuth Equivalence}
+\label{sec:characterization}
+Knuth equivalence can be characterized in terms of Greene invariants (see \cite[Theorem~2.15]{plaxique}).
+\begin{theorem}
+  Two words $w$ and $w'$ in $A_n^*$ are Knuth equivalent if and only if $a_k(uwv)=a_k(uw'v)$ for all words $u$ and $v$ in $A_n^*$.
+\end{theorem}
 \section{Timed Words}
+
+\subsection{The Monoid of Words}
+\label{sec:word-monoid}
+
+
 \label{sec:timed-words}
 \bibliographystyle{abbrv}
 \bibliography{refs}
