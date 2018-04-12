@@ -8,6 +8,7 @@
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
 \newcommand{\rowins}{\mathrm{RINS}}
 \newcommand{\ins}{\mathrm{INSERT}}
 \newcommand{\del}{\mathrm{DELETE}}
@@ -23,14 +24,245 @@
 \newcommand{\rsk}{\mathrm{RSK}}
 \newcommand{\ot}{\leftarrow}
 \newcommand{\infl}{\mathrm{INFL}}
-\title[Timed Plactic Monoid and Greene's theorem]{The Timed Plactic Monoid and\\Greene's Theorem for Timed Words}
+\title{Knuth's moves on Timed Words}
 \author{Amritanshu Prasad}
 \address{The Institute of Mathematical Sciences, Chennai}
 \address{Homi Bhabha National Institute, Mumbai}
 \begin{document}
 \maketitle
-\section{Introduction}
+\ytableausetup{smalltableaux}
+\section{Schensted's Algorithm}
 \label{sec:intro}
+\subsection{Words}
+\label{sec:words}
+Let $A_n$ denote the set $\{1,\dotsc,n\}$, which we regard as an \emph{ordered alphabet}.
+A \emph{word} in $A_n$ is a finite sequence $w=c_1\dotsb c_k$ of elements of $A_n$.
+The set of all words in $A_n$ is denoted $A_n^*$.
+A \emph{subword} of $w=c_1\dotsb c_k$ is defined to be a word of the form
+\begin{displaymath}
+  w' = c_{i_1}\dotsb c_{i_m}, \text{ where } 1\leq i_1 < \dotsb < i_m \leq k.
+\end{displaymath}
+The subword $w'$ is said to be \emph{weakly increasing} if $c_{i_1}\leq \dotsb \leq c_{i_m}$.
+
+Consider the following computational problem:
+\begin{quote}
+  Given a word $w\in A_n^*$, determine the maximal length of an increasing subword of $w$.
+\end{quote}
+\subsection{Tableaux}
+Schensted~\cite{schensted} gave an elegant algorithm to solve the preceding computational problem.
+His algorithm makes one pass over the word.
+At each stage of its running, it stores a combinatorial object called a \emph{semistandard Young tableau} (see Section~\ref{definition:ssyt}) which is modified as each successive letter of the word is read.
+The length of the longest increasing subword can be read off from the tableau (see Sections~\ref{sec:insert-tabl-word} and~\ref{sec:schensted-theorem}) obtained when all of $w$ has been read.
+
+\begin{definition}
+  [Semistandard Young Tableau]
+  \label{definition:ssyt}
+  A semistandard Young \linebreak tableau in $A_n$ is a finite arrangement of integers from $A_n$ in rows and columns so that the numbers increase weakly along rows, strictly along columns, so that there is an element in the first row of each column, there is an element in the first column of each row, and there are no gaps between numbers.
+
+  Let $l$ be the number of rows in the tableau, and for each $i=1,\dotsc,l$, let $\lambda_i$ be the length of the $i$th row.
+  Then $\lambda=(\lambda_1,\dotsc,\lambda_l)$ is called the \emph{shape} of the tableau.
+\end{definition}
+\begin{example}
+  \label{example:ssyt}
+  The arrangement
+  \begin{displaymath}
+    \ytableaushort{115,24,3}
+  \end{displaymath}
+  is a semistandard Young tableau of shape $(3,2,1)$ in $A_5$.
+\end{example}
+
+The notion of a semistandard Young tableau is a generalization of \emph{Young tableau}, which was introduced by Young~\cite[p.~133]{doi:10.1112/plms/s1-33.1.97} during the course of his investigations into the representation theory of the symmetric group (which he called \emph{substitutional analysis}).
+In Young's version, each element of $A_n$ occurs exactly once in the tableau.
+For brevity, we shall henceforth use the term \emph{tableau} to refer to a \emph{semistandard Young tableau}.
+\subsection{Row Insertion}
+\label{sec:row-insertion}A row of length $k$ is defined to be a weakly increasing sequence $u=a_1a_2\dotsb a_k$ in $A_n$.
+Let $R(A_n)$ denote the set of all rows in $A_n$.
+Each row of a tableau is a row in the sense of this definition.
+For each $u=a_1\dotsb a_k\in R(A_n)$ and $a\in A_n$, define the row insertion of $a$ into $u$ by:
+\begin{displaymath}
+  \rowins(u,a) =
+  \begin{cases}
+    (\emptyset, a_1\dotsb a_k a) & \text{if } a_k\leq a,\\
+    (a_j,a_1\dotsb a_{j-1}aa_{j+1}\dotsb a_k) & \text{otherwise, with}\\
+    & j=\min\{i\mid a<a_i\}.
+  \end{cases}
+\end{displaymath}
+Here $\emptyset$ should be thought of as an empty row of length zero.
+\begin{example}
+  $\rowins(115,5) = (\emptyset,1155)$, $\rowins(115,3)=(5,113)$.
+\end{example}
+It is clear from the construction that, for any $u\in R(A_n)$ and $a\in A_n$, if $(a',u')=\rowins(u,a)$, then $u'$ is again a row.
+For convenience set $\rowins(u,\emptyset)=(\emptyset,u)$.
+\subsection{Tableau Insertion}
+\label{sec:tableau-insertion}
+Let $t$ be a tableau with rows $u_1,u_2,\dotsc, u_l$.
+Then $\ins(t,a)$, the insertion of $a$ into $t$, is defined as follows: first $a$ is inserted into $u_1$; if $\rowins(u_1,a)=(a_1',u_1')$, then $u_1$ is replaced by $u_1'$.
+Then $a_1'$ is inserted into $u_2$; if $\rowins(u_2,a_1')=(a_2',u_3)$, then $u_2$ is replaced by $u_2'$, $a_2'$ is inserted into $u_3$, and so on.
+This process continues, generating $a_1',a_2',\dotsc,a_k'$ and $u_1',\dotsc,u_k'$.
+The tableau $t'=\ins(t,a)$ has rows $u_1',\dotsc,u_k'$, and a last row (possibly empty) consisting of $a_k'$.
+It turns out that $\ins(t,a)$ is a tableau \cite{knuth}.
+\begin{example}
+  \label{example:insertion}
+  For $t$ as in Example~\ref{example:ssyt}, we have
+  \begin{displaymath}
+    \ins(t,3) = \ytableaushort{113,245,3},
+  \end{displaymath}
+  since $\rowins(115,3)=(5,113)$, $\rowins(24,5)=(\emptyset,245)$.
+\end{example}
+\subsection{Insertion Tableau of a Word}
+\label{sec:insert-tabl-word}
+An arbitrary sequence $a_1\dotsb a_k$ in $A_n$ will be called a word in $A_n$.
+The set of all words in $A_n$ is denoted by $A_n^*$.
+This set may be regarded as a monoid under concatenation, with identity element as the empty word, denoted by $\emptyset$.
+\begin{definition}
+\label{definition:insertion-tableau}
+The insertion tableau $P(w)$ of a word $w$ is defined recursively as:
+\begin{align}
+  P(\emptyset)&=\emptyset\\
+  P(c_1\dotsb c_k)&=\ins(P(c_1\dotsb c_{k-1}), c_k).
+\end{align}
+\end{definition}
+\begin{example}
+  \label{example:insertion-tableau}
+  Take $w=3421153$.
+  Sequentially inserting the terms of $w$ into the empty tableau $\emptyset$ gives the sequence of tableaux:
+  \begin{displaymath}
+    \ytableaushort{3},\ytableaushort{34},\ytableaushort{24,3},\ytableaushort{14,2,3},\ytableaushort{11,24,3},\ytableaushort{115,24,3},
+  \end{displaymath}
+  and finally, the insertion tableau $P(w)=\ytableaushort{113,245,3}$.
+\end{example}
+\subsection{Schensted's Theorem}
+\label{sec:schensted-theorem}
+Schensted's proved the following theorem:
+\begin{theorem}
+  The length of the longest increasing subword of any $w\in A_n^*$ is the length of the first row of $P(w)$.
+\end{theorem}
+In other words, the algorithm for constructing the insertion tableau of $w$ solves the computational problem posed in Section~\ref{sec:words}.
+
+The proof of Schensted's theorem is not very difficult, and the reader is invited to attempt it.
+The proof is by induction on $k$, and uses the observation is that the last entry of the first row of $P(a_1\dotsb a_k)$ is the \emph{least last element} of all maximal length weakly increasing subword of $a_1\dotsb a_k$.
+\subsection{Greene's Theorem}
+\label{sec:greenes-theorem}
+The insertion tableau $P(w)$ obtained from a word $w$ seems to contain a lot more information tham just the length of the longest weakly increasing subword.
+For example, what do the lengths of the remaining rows of $P(w)$ signify?
+The answer to this question was given by Greene~\cite{Greene-schen}.
+We say that subwords $c_{1_1}\dotsb c_{i_r}$ and $c_{j_1}\dotsb c_{j_s}$ are \emph{disjoint} if the subsets $\{i_1,\dotsc,i_r\}$ and $\{j_1,\dotsc,j_s\}$ are disjoint.
+\begin{definition}
+  [Greene Invariants]
+  The $r$th Greene invariant of a word $w\in A_n^*$ is defined to be the maximum cardinality of a union of $k$ pairwise disjoint weakly increasing subwords of $w$.
+\end{definition}
+\begin{example}
+  \label{example:greene}
+  For $w=3421153$, the longest weakly increasing subwords have length $3$ (for example, $113$ and $345$).
+  The subwords $345$ and $113$ are disjoint, and no pair of disjoint weakly increasing subwords of $w$ can have cardinality greater than $6$.
+  However, the entire word $w$ is a union of three disjoint weakly increasing subwords (for example $345$, $23$ and $15$).
+  So the Greene invariants of $w$ are $a_1(w)=3$, $a_2(w)=6$, and $a_3(w)=7$.
+\end{example}
+\begin{theorem}
+  [Greene]
+  \label{theorem:greene}
+  For any $w\in A_n$, if $P(w)$ has shape $\lambda=(\lambda_1,\dotsc, \lambda_l)$, then for each $r=1,\dotsc,l$, $a_r(w)=\lambda_1+\dotsb + \lambda_l$.
+\end{theorem}
+Example~\ref{example:greene} is consistent with Greene's theorem as the shape of $P(w)$ is $(3, 3, 1)$ and the Greene invariants are $3$, $6=3+3$ and $7=3+3+1$, respectively.
+
+\subsection{Knuth Equivalence}
+\label{sec:knuth-equivalence}
+
+Greene's proof of Theorem~\ref{theorem:greene} is based on the notion of Knuth equivalence.
+Knuth \cite{knuth} identified a pair of elementary moves on words:
+\begin{gather}
+  \tag{$K1$}\label{eq:k1}
+  xzy \equiv zxy \text{ if } x\leq y < z,
+  \\
+  \tag{$K2$}\label{eq:k2}
+  yxz \equiv yzx \text{ if } x < y \leq z.
+\end{gather}
+For example, in the word $4213443$, the segment $213$ is of the form $yxz$, with $x<y\leq z$.
+A knuth move of type (\ref{eq:k2}) replaces this segment by $yzx$, which is $231$.
+Thus a Knuth move of type (\ref{eq:k2}) transforms $4\textbf{213}443$ into $4\textbf{231}443$.
+Knuth equivalence is the equivalence relation on $A_n^*$ generated by Knuth moves:
+\begin{definition}[Knuth Equvalence]
+  \label{definition:Knuth-equiv}
+  Words $w,w'\in A_n^*$ are said to be Knuth equivalent if $w$ can be transformed into $w'$ by a series of Knuth moves (\ref{eq:k1}) and (\ref{eq:k2}).
+  If this happens, we write $w\equiv w'$.
+\end{definition}
+\begin{example}
+  \label{example:knuth-red}
+  The word $3421153$ is Knuth equivalent to $3245113$:
+  \begin{displaymath}
+    \textbf{342}1153 \equiv_{K2} 3\textbf{241}153 \equiv_{K2} 32\textbf{141}53 \equiv_{K1} 3241\textbf{153} \equiv_{K1} 324\textbf{151}3 \equiv_{K1} 3245113.
+  \end{displaymath}
+  At each stage, the letters to which the Knuth moves will be applied to obtain the next stage are highlighted.
+\end{example}
+\subsection{Reading Word of a Tableau}
+\label{sec:reading-word}
+Givem a tableau, its reading word is obtained by reading its rows from left to right, starting with the bottom row, and moving up to its first row.
+\begin{example}
+  \label{example:reading-word}
+  The reading word of the tableau:
+  \begin{displaymath}
+    \ytableaushort{113,245,3}
+  \end{displaymath}
+  is $3245113$.
+\end{example}
+\begin{exercise}
+  Show that every tableau is the insertion tableau of its reading word.
+\end{exercise}
+\subsection{Proof of Greene's Theorem}
+\label{sec:proof-greene}
+The proof of Greene's theorem is based on three observations, all fairly easy to prove:
+\begin{enumerate}
+\item If $w$ is the reading word of a tableau of shape $\lambda=(\lambda_1,\dotsc,\lambda_l)$, then $a_r(w)=\lambda_1+\dotsb + \lambda_r$ for $r=1,\dotsc,l$.
+\item Every word is Knuth equivalent to the reading word of its insertion tableau.
+\item Greene invariants remain unchanged under Knuth moves.
+\end{enumerate}
+We illustrate these points with examples (for detailed proofs, see Lascoux, Leclerc and Thibon~\cite{Lascoux}, or Fulton \cite{fultonyt}).
+For the first point, in Example~\ref{example:reading-word} the first $k$ rows of the tableau
+\begin{displaymath}
+  \ytableaushort{113,245,3}
+\end{displaymath}
+are indeed disjoint weakly increasing subwords of its reading word of maximal cardinality.
+For the second point, observe that the sequence of Knuth moves in Example~\ref{example:knuth-red} transform $3421153$ to the reading word of its insertion tableau.
+For the third point, consider the case of the Knuth move (\ref{eq:k1}).
+A word of the from $w=uxzyv$ is transformed into the word $w'=uzxyv$.
+The only issue is that a weakly increasing subword $g$ of $w$ may contain both the letters $x$ and $z$.
+Then it no longer remains a weakly increasing subword of $w'$.
+However, the subword, being weakly increasing, cannot contain $y$, so the $z$ can be swapped for a $y$.
+This could be a problem if $y$ is part of another weakly increasing subword $g'$ in a collection of pairwise disjoint weakly increasing subwords.
+In that case, we have $g=g_1xzg_2$ and $g'=g'_1y g'_2$.
+We may replace them with $g_1xyg'_2$ and $g_1'zg_2$, which would still be weakly increasing, and would have the same total length as $g$ and $g'$.
+\section{Timed Words}
+\label{sec:timed-words}
+\bibliographystyle{abbrv}
+\bibliography{refs}
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 The plactic monoid is a simple algebraic structure that lies at the crossroads of the theory of symmetric polynomials, enumerative geometry, representation theory, and combinatorics.
 It made its appearance in the story of Littlewood-Richardson coefficients, an important chapter in the history of algebraic combinatorics (two comprehensive references are \cite{fulton,manivel}).
 The Littlewood-Richardson coefficient $c^\lambda_{\mu\nu}$ is a non-negative integer associated to three integer partitions $\lambda$, $\mu$ and $\nu$, which arises as:
