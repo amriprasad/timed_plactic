@@ -238,11 +238,33 @@ Knuth equivalence can be characterized in terms of Greene invariants (see \cite[
   Two words $w$ and $w'$ in $A_n^*$ are Knuth equivalent if and only if $a_k(uwv)=a_k(uw'v)$ for all words $u$ and $v$ in $A_n^*$.
 \end{theorem}
 \section{Timed Words}
+\subsection{From Words to Timed Words}
+\label{sec:words-to-timed-words}
+Words, in the sense of Section~\ref{sec:intro}, play an important role in computer science, specifically in the formal verification of systems.
+Each letter of the alphabet is thought of as an event.
+A sequence of events it then nothing but a word in $A_n^*$.
+The system has a starting state, and each time an event occurs, its state changes, depending both, on its current state, and the event that has occured.
+Following the groundbreaking work of Rabin and Scott \cite{rabin1959finite}, finite state automata are widely used to model and formally verify the integrity of systems.
 
-\subsection{The Monoid of Words}
-\label{sec:word-monoid}
+For many real-time systems, such as controllers of washing machines, industrial processes, and air or railway traffic control, the \emph{time gaps} between the occurences of the events modeled by words are as important as the events themselves.
 
-
+To deal with real-time systems, Alur and Dill \cite{alur-dill} developed the theory of \emph{timed automata}.
+A timed automaton responds to a sequence of events that come with time stamps for their occurence.
+We introduce a finite variant of the notion of timed word that was used by Alur and Dill:
+\begin{definition}
+  [Timed Word]
+  \label{definition:timed-word}
+  A timed word in $A_n$ is a sequence of the form:
+  \begin{displaymath}
+    w=c_1^{t_1} c_2^{t_2}\dotsb c_k^{t_k},
+  \end{displaymath}
+  where $c_1,\dotsc,c_k\in A_n$, and $t_1,\dotsc,t_k$ are positive real numbers.
+  The length of the timed word $w$ above is $l(w)=t_1+\dotsb+t_k$.
+\end{definition}
+The timed word $w$ above may also be regarded as a piecewise constant left-continuos funtion $w:[0,l)\to A_n$, where
+\begin{displaymath}
+  w(t) = c_i \text{ if } t_1+\dotsb+t_{i-1}\leq t < t_1+\dotsb + t_i.
+\end{displaymath}
 \label{sec:timed-words}
 \bibliographystyle{abbrv}
 \bibliography{refs}
