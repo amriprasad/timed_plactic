@@ -239,6 +239,7 @@ Knuth equivalence can be characterized in terms of Greene invariants (see \cite[
 \end{theorem}
 \section{Timed Words}
 \subsection{From Words to Timed Words}
+\label{sec:timed-words}
 \label{sec:words-to-timed-words}
 Words, in the sense of Section~\ref{sec:intro}, play an important role in computer science, specifically in the formal verification of systems.
 Each letter of the alphabet is thought of as an event.
@@ -261,11 +262,65 @@ We introduce a finite variant of the notion of timed word that was used by Alur 
   where $c_1,\dotsc,c_k\in A_n$, and $t_1,\dotsc,t_k$ are positive real numbers.
   The length of the timed word $w$ above is $l(w)=t_1+\dotsb+t_k$.
 \end{definition}
-The timed word $w$ above may also be regarded as a piecewise constant left-continuos funtion $w:[0,l)\to A_n$, where
+The timed word $w$ above may also be regarded as a piecewise constant left-continuos funtion $\mathbf w:[0,l(w))\to A_n$, where
 \begin{displaymath}
-  w(t) = c_i \text{ if } t_1+\dotsb+t_{i-1}\leq t < t_1+\dotsb + t_i.
+  \mathbf w(t) = c_i \text{ if } t_1+\dotsb+t_{i-1}\leq t < t_1+\dotsb + t_i.
 \end{displaymath}
-\label{sec:timed-words}
+The function $\mathbf w:[0, l(w))\to A_n$ is called the \emph{function associated to the timed word $w$}.
+\subsection{Subwords of Timed Words}
+\label{sec:subwords-timed-words}
+\begin{definition}
+  [Time Sample]
+  A \emph{time sample} of a word $w$ is a subset of $[0,l(w))$ of the form:
+  \begin{displaymath}
+    S = [a_1,b_1)\cup \dotsb \cup [a_k,b_k),
+  \end{displaymath}
+  where $0\leq a_1 < b_1 < a_2 < b_2 < \dotsb <a_k < b_k \leq l(w)$.
+  The length of the time sample $S$ is defined as $l(S)=\sum_i (b_i-a_i)$, the Lebesgue measure $\mu(S)$ of $S$.
+\end{definition}
+Given a time sample $S\subset [0, l(w))$, and $0\leq t\leq l(S))$, there exists a unique $\tilde t\in [0, l(S))$ such that
+\begin{displaymath}
+  \mu(S\cap [0,\tilde t)) = t.
+\end{displaymath}
+Indeed, the function $t'\mapsto \mu(S\cap [0,t'))$ is a continuous function on $[0,l(w)]$ which takes value $0$ at $0$, and $l(S)$ at $1$, so by the intermediate value theorem, must take value $t$ for some $\tilde t \in [0, l(w))$. 
+\begin{definition}
+  [Subword of a Timed Word]
+  The subword of a timed word with respect to a time sample $S\subset [0, l(w))$ is the timed word $w_S$ whose associated function is given by:
+  \begin{displaymath}
+    \mathbf w_S(t) =  \mathbf w(\tilde t),
+  \end{displaymath}
+  where $\tilde t\in [0,l(w))$ satisfies $\mu(S\cap [0, \tilde t)) = t$.
+\end{definition}
+\subsection{Timed Tableau}
+\label{sec:Timed-Tableau}
+\begin{definition}
+  [Timed Tableau]
+  A timed tableau is a collection $u_1,u_2,\dotsc, u_l$ of timed words such that
+  \begin{enumerate}
+  \item Each associated function $\mathbf u_i$ is weakly increasing.
+  \item For each $i=1,\dotsc,l-1$, $l(u_i)\geq l(u_{i+1})$.
+  \item For each $i=1,\dotsc,l-1$ and $0\leq t<l(u_{i+1})$, 
+  \end{enumerate}
+\end{definition}
+\subsection{Insertion for Timed Words}
+\label{sec:insertion-timed-words}
+\subsection{Greene Invariants for Timed Words}
+\label{sec:greene-invar-timed}
+\begin{definition}
+  [Greene Invariants for Timed Words]
+  The $r$th Greene invariant for a timed word $w$ is defined as:
+  \begin{displaymath}
+    a_r(w) = \sup\left\{\mu(S_1)+\dotsb + \mu(S_r)\left|
+      \begin{array}{cc}
+        S_1,\dotsc, S_r \text{ are pairwise disjoint time samples}\\
+        \text{of $w$ with $w_{S_i}$ weakly increasing for each $i$}
+      \end{array}
+      \right.
+    \right\}.
+  \end{displaymath}
+\end{definition}
+
+
 \bibliographystyle{abbrv}
 \bibliography{refs}
 \end{document}
