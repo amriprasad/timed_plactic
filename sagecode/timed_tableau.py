@@ -104,7 +104,7 @@ class TimedWord:
         return output
 
     def latex(self):
-        return "".join(["%s^{%.8f}"%(term[0],term[1]) for term in self._w])
+        return "".join(["%s^{%.2f}"%(term[0],term[1]) for term in self._w])
 
     def max(self):
         if len(self._w)==0:

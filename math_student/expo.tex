@@ -1,5 +1,5 @@
 \documentclass[10pt]{amsproc}
-\usepackage{hyperref,color,ytableau}
+\usepackage{graphicx,hyperref,color,ytableau}
 \newtheorem{theorem}{Theorem}[subsection]
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
@@ -267,6 +267,21 @@ The timed word $w$ above may also be regarded as a piecewise constant left-conti
   \mathbf w(t) = c_i \text{ if } t_1+\dotsb+t_{i-1}\leq t < t_1+\dotsb + t_i.
 \end{displaymath}
 The function $\mathbf w:[0, l(w))\to A_n$ is called the \emph{function associated to the timed word $w$}.
+\begin{example}
+  \label{example:timed-word}
+  An example of a timed word in $A_6^\dagger$ of length $7.19$ is:
+  \begin{displaymath}
+    w = 3^{0.82}5^{0.08}2^{0.45}6^{0.64}5^{0.94}1^{0.15}5^{0.09}1^{0.52}4^{0.29}1^{0.59}3^{0.97}4^{0.42}2^{0.61}1^{0.07}4^{0.55}
+  \end{displaymath}
+  Using a colormap to represent the integers $1$ to $6$,
+  \begin{center}
+    \includegraphics[width=0.85\textwidth]{colormap.png}
+  \end{center}
+  the timed word $w$ can be represented as a colored ribbon:
+  \begin{center}
+    \includegraphics[width=\textwidth]{word.png}.
+  \end{center}
+\end{example}
 \subsection{Subwords of Timed Words}
 \label{sec:subwords-timed-words}
 \begin{definition}
@@ -285,6 +300,7 @@ Given a time sample $S\subset [0, l(w))$, and $0\leq t\leq l(S))$, there exists 
 Indeed, the function $t'\mapsto \mu(S\cap [0,t'))$ is a continuous function on $[0,l(w)]$ which takes value $0$ at $0$, and $l(S)$ at $1$, so by the intermediate value theorem, must take value $t$ for some $\tilde t \in [0, l(w))$. 
 \begin{definition}
   [Subword of a Timed Word]
+  \label{definition:timed-subword}
   The subword of a timed word with respect to a time sample $S\subset [0, l(w))$ is the timed word $w_S$ whose associated function is given by:
   \begin{displaymath}
     \mathbf w_S(t) =  \mathbf w(\tilde t),
@@ -295,6 +311,7 @@ Indeed, the function $t'\mapsto \mu(S\cap [0,t'))$ is a continuous function on $
 \label{sec:Timed-Tableau}
 \begin{definition}
   [Timed Tableau]
+  \label{definition:timed-tableau}
   A timed tableau is a collection $u_1,u_2,\dotsc, u_l$ of timed words such that
   \begin{enumerate}
   \item Each associated function $\mathbf u_i$ is weakly increasing.
@@ -302,8 +319,81 @@ Indeed, the function $t'\mapsto \mu(S\cap [0,t'))$ is a continuous function on $
   \item For each $i=1,\dotsc,l-1$ and $0\leq t<l(u_{i+1})$, 
   \end{enumerate}
 \end{definition}
+\begin{example}
+  A timed tableau of shape $(3.20,1.93,1.09,0.61,0.29,0.07)$ is given by:
+  \begin{align*}
+    t = & 1^{1.33}2^{0.54}3^{0.36}4^{0.97}\\
+    & 2^{0.52}3^{0.91}5^{0.50}\\
+    &3^{0.52}4^{0.22}5^{0.32}6^{0.03}\\
+    &4^{0.07}5^{0.22}6^{0.32}\\
+    &5^{0.07}6^{0.22}\\
+    &6^{0.07}
+  \end{align*}
+  In using the colormap from Section~\ref{sec:timed-words}, it can be visualized as:
+  \begin{center}
+    \includegraphics[width=0.5\textwidth]{tableau.png}
+  \end{center}
+  From the figure the three properties of Definition \ref{definition:timed-tableau} are immediately evident.
+\end{example}
 \subsection{Insertion for Timed Words}
 \label{sec:insertion-timed-words}
+\subsection{Timed Insertion}
+\label{sec:timed-insertion}
+Given a timed word $w$ and $0\leq a < b \leq l(w)$, according to Definition~\ref{definition:timed-subword}, $w_{[a, b)}$ is the timed word of length $b-a$ such that:
+\begin{displaymath}
+  w_{[a, b)}(t) = w(a+ t) \text{ for } 0\leq t<b-a.
+\end{displaymath}
+We call $w_{[a,b)}$ a segment of $w$.
+If $a=0$, then $w_{[a,b)}$ is called an initial segment of $w$.
+\begin{definition}[Timed row insertion]
+  \label{definition:timed-row-insertion}
+  Given a timed row $w$, define the insertion $\rowins(w, c^{t_c})$ of $c^{t_c}$ into $w$ as follows: if $w(t)\leq c$ for all $0\leq t < l(u)$, then
+  \begin{displaymath}
+    \rowins(w, c^{t_c}) = (\emptyset, wc^{t_c}).
+  \end{displaymath}
+  Otherwise, there exists $0\leq t < l(u)$ such that $w(t)>c$.
+  Let
+  \begin{displaymath}
+    t_0 = \min\{0\leq t< u(l)\mid w(t)> c\}.
+  \end{displaymath}
+  Define
+  \begin{displaymath}
+    \rowins(w, c^{t_c}) =
+    \begin{cases}
+      (w_{[t_0, t_0+t_c)}, w_{[0, t_0)}c^{t_c} w_{[t_0+t_c, l(w))}) & \text{if } l(u) - t_0 > t_c,\\
+      (w_{[t_0, l(u))}, w_{[0, t_0)} c^{t_c}) & \text{if } l(u) - t_0 \leq t_c.
+    \end{cases}
+  \end{displaymath}
+  It is obvious that the above definition is compatible with the definition of $\rowins$ from Section~\ref{sec:tableau-insertion} when $u$ is a row in $A_n^*$, and $t_c=1$.
+  If $u$ is a row of the form $c_1^{t_1}\dotsb c_l^{t_l}$.
+  Define $\rowins(w,u)$ by induction on $l$ as follows:
+  Having defined $(v',w')=\rowins(w,c_1^{t_1}\dotsb c_{l-1}^{t_{l-1}})$,
+  let $(v'',w'')=\rowins(w',c_l^{t_l})$.
+  Then define
+  \begin{displaymath}
+    \rowins(w,u) = (v'v'', w'').
+  \end{displaymath}
+\end{definition}
+\begin{example}
+  \label{example:timed-row-ins}
+  $\rowins(1^{1.4}2^{1.6}3^{0.7},1^{0.7}2^{0.2})=(2^{0.7}3^{0.2},1^{2.1}2^{1.1}3^{0.5})$.
+\end{example}
+\begin{definition}
+  [Timed Tableau Insertion]
+  Let $w$ be a timed tableau with row decomposition $u_l\dotsc u_1$, and let $v$ be a timed row.
+  Then $\ins(w, v)$, the insertion of $v$ into $w$ is defined as follows:
+  first $v$ is inserted into $u_1$.
+  If $\rowins(u_1,v)=(v_1',u_1')$, then $v_1'$ is inserted into $u_2$; if $\rowins(u_2,v_1')=(v_2',u_2')$, then $v_2'$ is inserted in $u_3$, and so on.
+  This process continues, generating $v_1',\dotsc,v_l'$ and $u_1',\dotsc,u_l'$.
+  $\ins(t,v)$ is defined to be $v_l'u_l'\dotsb u_1'$.
+  Note that it is quite possible that $v_l'=\emptyset$.
+\end{definition}
+\begin{example}
+  If $w$ is the timed tableau from Example~\ref{example:timed-tableau}, then
+  \begin{displaymath}
+    \ins(w,1^{0.7}2^{0.2})=3^{0.7}4^{0.2}2^{0.7}3^{0.3}4^{0.9}1^{2.1}2^{1.1}3^{0.5}.
+  \end{displaymath}
+\end{example}
 \subsection{Greene Invariants for Timed Words}
 \label{sec:greene-invar-timed}
 \begin{definition}
