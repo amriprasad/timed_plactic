@@ -320,6 +320,7 @@ Indeed, the function $t'\mapsto \mu(S\cap [0,t'))$ is a continuous function on $
   \end{enumerate}
 \end{definition}
 \begin{example}
+  \label{example:timed-tableau}
   A timed tableau of shape $(3.20,1.93,1.09,0.61,0.29,0.07)$ is given by:
   \begin{align*}
     t = & 1^{1.33}2^{0.54}3^{0.36}4^{0.97}\\
@@ -335,8 +336,6 @@ Indeed, the function $t'\mapsto \mu(S\cap [0,t'))$ is a continuous function on $
   \end{center}
   From the figure the three properties of Definition \ref{definition:timed-tableau} are immediately evident.
 \end{example}
-\subsection{Insertion for Timed Words}
-\label{sec:insertion-timed-words}
 \subsection{Timed Insertion}
 \label{sec:timed-insertion}
 Given a timed word $w$ and $0\leq a < b \leq l(w)$, according to Definition~\ref{definition:timed-subword}, $w_{[a, b)}$ is the timed word of length $b-a$ such that:
@@ -389,10 +388,32 @@ If $a=0$, then $w_{[a,b)}$ is called an initial segment of $w$.
   Note that it is quite possible that $v_l'=\emptyset$.
 \end{definition}
 \begin{example}
-  If $w$ is the timed tableau from Example~\ref{example:timed-tableau}, then
-  \begin{displaymath}
-    \ins(w,1^{0.7}2^{0.2})=3^{0.7}4^{0.2}2^{0.7}3^{0.3}4^{0.9}1^{2.1}2^{1.1}3^{0.5}.
-  \end{displaymath}
+  Take 
+  \begin{align*}
+    w = & 1^{1.4}2^{1.6}3^{0.7}\\
+    & 3^{0.8}4^{1.1},
+  \end{align*}
+  a timed tableau in $A_5$ of shape $(3.7,1.9)$.
+  Then
+  \begin{align*}
+    \ins(w,1^{0.7}2^{0.2})=& 1^{1.7}2^{3}3^{0.2}\\
+    & 2^{0.3}3^{1.2}4^{0.4}\\
+    & 3^{0.3}4^{0.7}
+  \end{align*}
+  of shape $(4.9,1.9,1.0)$.
+\end{example}
+\subsection{Insertion Tableau of a Timed Word}
+\label{sec:insertion-tableau}
+\begin{definition}
+  [Insertion Tableau of a Timed Word]
+  The insertion tableau $P(w)$ of a timed word $w$ is defined recursively by the rules:
+  \begin{enumerate}
+  \item $P(\emptyset) = \emptyset$,
+  \item $P(wc^t) = \ins(P(w),c^t)$.
+  \end{enumerate}
+\end{definition}
+\begin{example}
+  The tableau in Example~\ref{example:timed-tableau} is the insertion tableau of the timed word in Example~\ref{example:timed-word}.
 \end{example}
 \subsection{Greene Invariants for Timed Words}
 \label{sec:greene-invar-timed}
