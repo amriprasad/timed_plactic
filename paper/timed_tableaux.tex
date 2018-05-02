@@ -823,7 +823,7 @@ The shape of $\lambda$ is also the shape of $GT(w)$.
 Conversely, given a Gelfand-Tsetlin pattern $T$, it is easy to reconstruct the unique timed tableau $w$ such that $T=GT(w)$.
 
 The space of all Gelfand-Tsetlin patterns of size $n$, being defined by a finite collection of homogeneous inequalities in $\binom{n+1}2$ variables, forms a polydedral cone in $R^{\binom{n+1}2}$.
-In terms of the notation introduced in Section~\ref{sec:defin-using-timed}, we have the following fairly well-known lemma (see e.g., \cite[Prop.~2.26]{kir-trop}).
+In terms of the notation introduced in Section~\ref{sec:defin-using-timed}, we have the following fairly lemma, which is well-know for the RSK correspodnece on integer matrices (see e.g., \cite[Prop.~2.26]{kir-trop}).
 \begin{lemma}
   \label{lemma:pl}
   Given $A\in M_{m\times n}(\rp)$ with $\rsk(A)=(P,Q)$, let $(\lambda^{(k)}_i)=GT(P)$ and $(\mu^{(k)}_i)=GT(Q)$, Gelfand-Tsetlin patterns of size $n$ and $m$ respectively.
@@ -843,14 +843,14 @@ In terms of the notation introduced in Section~\ref{sec:defin-using-timed}, we h
   But the shape of $P(u_{A_j})$ is given by (\ref{eq:gt-1}), as explained in the proof of Lemma~\ref{lemma:same-shape}.
   The identity (\ref{eq:gt-2}) has a similar proof.
 \end{proof}
-Lemma~\ref{lemma:pl} clearly demonstrates the piecewise linear nature of the RSK correspondence.
+\begin{corollary}
+  The RSK correspondence defines a continuous piecewise linear bijection from the cone $M_{m\times n}(\rp)$ onto the cone of pairs of Gelfand-Tsetlin patterns 
+\end{corollary}
+Lemma~\ref{lemma:pl} clearly demonstrates the piecewise linear nature of the RSK correspondence:
 The algorithms of Sections~\ref{sec:defin-using-timed}--\ref{sec:light-and-shadows-rsk} allow for fast computations of this piecewise linear map.
-\begin{remark}
-  
-\end{remark}
+While Lemma~\ref{lemma:pl} is used to \emph{define} the RSK correspondence in \cite{kir-trop}, in this article, the RSK correspondence is extended to real matrices, and Lemma~\ref{lemma:pl} is proved for the extended algorithm.
 \subsection{Note on software}
 \label{sec:software}
-
 All the algorithms in this article are demonstrated using python code.
 This includes an implementation of classes of timed words, timed rows, and timed tableau (with methods for concatenation, insertion, construction of insertion tableau, and many other operations).
 It also includes an implementation of the RSK correspondence and its inverse.
