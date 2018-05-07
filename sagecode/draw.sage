@@ -1,5 +1,7 @@
 from sage.plot.colors import rainbow, rgbcolor
-from sage.plot.polygon import Polygon
+from sage.plot.polygon import polygon
+from sage.plot.graphics import Graphics
+from sage.plot.text import text
 
 def plot_word(w, y=0, m=None, colors=None, offset=None):
     G = Graphics()
@@ -32,8 +34,9 @@ def color_legend(m, offset=None):
         colorlegend += polygon([(i+x0, y0), (i+x0, 0.3+y0), (i+1+x0, 0.3+y0), (i+1+x0,y0)], color=colors[i]) + text(str(i+1), (i+0.5+x0, 0.15+y0), color="black")
     return colorlegend
 
-def plot_tableau(w, colors=None, offset=None):
-    m = w.max()
+def plot_tableau(w, colors=None, offset=None, m=None):
+    if m is None:
+        m = w.max()
     if offset is None:
         offset=(0,0)
     G = Graphics()

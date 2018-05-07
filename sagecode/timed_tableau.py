@@ -146,9 +146,18 @@ class TimedWord:
                     return TimedWord(output)
     
 class TimedTableau(TimedWord):
-    def __init__(self, w, rows=False):
+    def __init__(self, w, rows=False, gt=False):
         if rows:
             w = sum(reversed(w), [])
+        if gt:
+            n = len(w)
+            rows = [TimedRow([])]*n
+            for k in range(n):
+                for i in range(k):
+                    rows[i] = rows[i].concatenate(TimedRow([[k+1, w[n-k-1][i]-rows[i].length()]]))
+            w = TimedWord([])
+            for r in reversed(rows):
+                w = w.concatenate(r)
         TimedWord.__init__(self, w)
 
     def split_first_row(self):
@@ -180,6 +189,9 @@ class TimedTableau(TimedWord):
 
     def partition_chain(self):
         return [self.restrict(m+1).shape() for m in range(self.max())]
+
+    def plactic_product(self, other):
+        return self.concatenate(other).insertion_tableau()
         
 class TimedRow(TimedWord):
     def __init__(self, w):

@@ -1,5 +1,5 @@
 \documentclass[10pt]{amsproc}
-\usepackage{hyperref,color,ytableau,MnSymbol}
+\usepackage{hyperref,color,ytableau,MnSymbol,graphicx}
 \newtheorem{theorem}{Theorem}[subsection]
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
@@ -31,6 +31,8 @@
 \begin{document}
 \renewcommand{\thesubsection}{\arabic{subsection}}
 \maketitle
+\section{Insertion in Timed Tableaux}
+\label{sec:insertion}
 \subsection{Timed Tableaux}
 \label{sec:timed-tableaux}
 Let $A_n=\{1,\dotsc,n\}$.
@@ -315,6 +317,8 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
   \end{displaymath}
   The pair $(v,w)$ is computed from $w'$ and $\lambda$ by the algorithm described in the proof of Theorem~\ref{theorem:pieri}.
 \end{definition}
+\section{Greene's Theorem}
+\label{sec:greene}
 \subsection{Greene's Invariants for Timed Words}
 \label{sec:timed-greene-invar}
 \begin{definition}[Greene's Invariants for Timed Words]
@@ -442,6 +446,8 @@ Since this equivalence is stable under left and right multiplication in $A^\dagg
   By Lemma~\ref{lemma:reduction-to-tab}, every timed word is Knuth equivalent to its timed insertion tableau.
   Therefore, the Greene invariants of a timed word are given by the shape of its insertion tableau as stated in the theorem.
 \end{proof}
+\section{Knuth Equivalence Classes}
+\label{sec:knuth-classes}
 \subsection{Tableaux in Knuth Equivalence Classes}
 \label{sec:tabl-knuth-equiv}
 Given $w\in A_n^\dagger$, let $\bar w$ denote the word in $A_{n-1}^\dagger$ whose exponential string is obtained by removing all terms of the form $n^t$ with $t>0$ from the exponential string of $w$.
@@ -534,7 +540,7 @@ Given $A=(a_{ij})\in M_{m\times n}(\rp)$, define its \emph{timed column word} $u
   v_A & = 1^{a_{11}}2^{a_{21}}\dotsb m^{a_{m1}}\,1^{a_{12}}2^{a_{22}}\dotsb m^{a_{m2}}\,\dotsb \,1^{a_{1n}}2^{a_{2n}}\dotsb m^{a_{mn}}.
 \end{align*}
 The timed word $u_A$ is called the \emph{column word} of $A$; it is obtained by reading column numbers of $A$ along its rows, timed by its entries.
-The timed word $v_A)$ is called the \emph{row word} of $A$, and is obtained by reading the row numbers of $A$ along its columns, timed by its entries.
+The timed word $v_A$ is called the \emph{row word} of $A$, and is obtained by reading the row numbers of $A$ along its columns, timed by its entries.
 Define:
 \begin{equation}
   \label{eq:rsk}
@@ -546,20 +552,26 @@ This is a direct generalization of the definition of the RSK correspondence give
   \begin{displaymath}
     A = 
     \begin{pmatrix}
-      0.81607162 & 0.01111457 & 0.62352458 \\
-      0.04692143 & 0.37792488 & 0.70394455 \\
-      0.18409605 & 0.64200007 & 0.01981106
+      0.16 & 0.29 & 0.68 & 0.44\\ 
+      0.29 & 0.70 & 0.38 & 0.45\\ 
+      0.32 & 0.29 & 0.43 & 0.70
     \end{pmatrix}.
   \end{displaymath}
   Then $(P, Q) = \rsk(A)$ are given by:
   \begin{align*}
-    P & = 3^{0.18409605}2^{0.19521063}3^{0.87163576}1^{1.04708911}2^{0.83582891}3^{0.29154840},\\
-    Q & = 3^{0.18409605}2^{0.42484632}3^{0.64200007}1^{1.45071080}2^{0.70394456}3^{0.01981106}.
+    P & = 3^{0.32}4^{0.29}2^{0.60}3^{0.65}4^{0.55}1^{0.77}2^{0.67}3^{0.52}4^{0.75},\\
+    Q & = 3^{0.61}2^{1.38}3^{0.43}1^{1.57}2^{0.45}3^{0.70},
   \end{align*}
-  Observe that both $P$ and $Q$ have shape:
-  \begin{displaymath}
-    \lambda = (2.17446641, 1.06684639, 0.18409605).
-  \end{displaymath}
+  which have common shape $(2.71,1.81,0.61)$.
+  Visually, four different colours can be used to depict the letters of our alphabet:
+  \begin{center}
+    \includegraphics[width=0.7\textwidth]{color_legend.png},
+  \end{center}
+  then the tableaux $P$ and $Q$ can be represented by the images:
+  \begin{center}
+    \includegraphics[height=2cm]{pplot.png}\hspace{1cm}\includegraphics[height=2cm]{qplot.png}
+  \end{center}
+  From this visual representation, it is evident that $P$ and $Q$ are timed tableaux of the same shape.
 \end{example}
 \begin{theorem}
   \label{theorem:rsk}
@@ -844,11 +856,11 @@ In terms of the notation introduced in Section~\ref{sec:defin-using-timed}, we h
   The identity (\ref{eq:gt-2}) has a similar proof.
 \end{proof}
 \begin{corollary}
-  The RSK correspondence defines a continuous piecewise linear bijection from the cone $M_{m\times n}(\rp)$ onto the cone of pairs of Gelfand-Tsetlin patterns 
+  The RSK correspondence defines a continuous piecewise linear bijection from the cone $M_{m\times n}(\rp)$ onto the cone of pairs of Gelfand-Tsetlin patterns $((\lambda^{(k)}_i), (\mu^{(k)}_i))$ of sizes $n$ and $m$ respectively, with $\lambda^{(n)}=\mu^{(m)}$ (after padding the shorter of the two with zeros).
 \end{corollary}
 Lemma~\ref{lemma:pl} clearly demonstrates the piecewise linear nature of the RSK correspondence:
 The algorithms of Sections~\ref{sec:defin-using-timed}--\ref{sec:light-and-shadows-rsk} allow for fast computations of this piecewise linear map.
-While Lemma~\ref{lemma:pl} is used to \emph{define} the RSK correspondence in \cite{kir-trop}, in this article, the RSK correspondence is extended to real matrices, and Lemma~\ref{lemma:pl} is proved for the extended algorithm.
+While Eqs.~(\ref{eq:gt-1}) and (\ref{eq:gt-2}) are used to \emph{define} the RSK correspondence in \cite{kir-trop}, in this article, the RSK \emph{algorithm} is extended to real matrices, and Lemma~\ref{lemma:pl} is proved for the extended algorithm.
 \subsection{Note on software}
 \label{sec:software}
 All the algorithms in this article are demonstrated using python code.
