@@ -37,7 +37,31 @@
 The plactic monoid was introduced by Lascoux and Sch\"utzenberger \cite{plaxique} to give a simple and elegant proof of the Littlewood-Richardson rule, based on an outline given by Robinson \cite{robinson-algo}, and ideas further deeloped by Schensted\cite{schensted} and Knuth \cite{knuth}, involving bijective correspondences involving words and semistandard tableaux.
 
 It is now well-understood that these bijective correspondences are really restictions to lattice points of certain volume-preserving piecewise linear bijections between convex polyhedra \cite{kir-trop}.
-The importance of this viewpoint is borne out in the work of Knutson and Tao 
+The importance of this viewpoint is borne out in the work of Knutson and Tao, who proved the saturation of the monoid of triples $(\lambda, \mu, \nu)$ of integer partitions such that the trivial representation occurs in the tensor product $V_\lambda\otimes V_\mu\otimes V_\nu$ of representations of $GL_n(\mathbf C)$.
+This led to the resolution of \emph{Horn's conjecture} on the possible sets of eigenvalues of a sum of Hermitian matrices (see \cite{knutsontaojams,knutsontaonotices}).
+
+The goal of this article is to lay the algorithmic foundations for piecewise linear correspondences interpolating bijections involving tableaux.
+This is done by generalizing the plactic monoid from the frameword of the free monoid of words to the setting of \emph{timed words}.
+The latter were introduced by Alur and Dill \cite{alur-dill} in their approach to the formal verification of real-time systems using timed automata.
+While words represent a sequence of events, timed words represent a sequence of events where the time of occurence of each event is also recorded.
+We use a finite version of their definition of timed words.
+While each letter occurs discretely (a certain number of times) in a classical word, it appears for a positive duration (which is a real number) in a timed word 
+
+In Section~\ref{sec:timed-tableaux} we introduce the timed versions of semistandard Young tableaux (called \emph{timed tableaux}). 
+Schensted's insertion algorithm is generalized to timed tableaux in Section~\ref{sec:timed-insertion}.
+Greene invariants of timed words are introduces in Section~\ref{sec:timed-greene-invar}.
+Timed versions of Knuth relations are introduced in Section~\ref{sec:timed-knuth-equiv}. 
+These relations are conceptually very similar to the relations introduced by Knuth in \cite{knuth}. 
+However, it was a delicate task to arrive at relations that are at once simple enough so that one can show that they preserve Greene invariants (Lemma~\ref{lemma:Knuth-Greene}) and at the same time powerful enough to transform any timed word to its insertion tableau (Lemma~\ref{lemma:reduction-to-tab}).
+With this groundwork, the extension of Greene's theorem to timed words is routine (Theorem~\ref{theorem:timed-version-greene}).
+
+Standard properties of Knuth equivalence, such as the existence of a unique tableau in each Knuth class, and the characterization of Knuth equivalence in terms of Greene invariants are extended to timed words in Sections~\ref{sec:tabl-knuth-equiv} and \ref{sec:char-timed-knuth}.
+
+The RSK algorithm \cite{knuth} is extended from integer matries in Sections~\ref{sec:defin-using-timed} and \ref{sec:insert-record-algor}.
+Viennot's light-and-shadows version of the Robinson-Schensted correspondence, which was extended to integer matrices in \cite{rtcv}, is now extended to real matrices.
+The piecewise linear nature of these algorithms can be easily seen from the timed version of Greene's theorem.
+
+All the algorithms described here are straightforward to implement 
 \section{Insertion in Timed Tableaux}
 \label{sec:insertion}
 \subsection{Timed Tableaux}
