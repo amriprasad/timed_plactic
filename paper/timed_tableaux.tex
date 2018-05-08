@@ -31,37 +31,41 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-  
+  Timed words are words where letters of the alphabet come with time stamps.
+  We extend the definitions of semistandard tableaux, insertion, Knuth equivalence, and the plactic monoid to the setting of timed words.
+  Using this, Greene's theorem is formulated and proved for timed words, and algorithms for the RSK correspondence are extended to real matrices.
 \end{abstract}
 \section{Introduction}
-The plactic monoid was introduced by Lascoux and Sch\"utzenberger \cite{plaxique} to give a simple and elegant proof of the Littlewood-Richardson rule, based on an outline given by Robinson \cite{robinson-algo}, and ideas further deeloped by Schensted\cite{schensted} and Knuth \cite{knuth}, involving bijective correspondences involving words and semistandard tableaux.
+The plactic monoid was introduced by Lascoux and Sch\"utzenberger \cite{plaxique} to give a proof of the Littlewood-Richardson rule based on a strategy outlined by Robinson \cite{robinson-algo}, and ideas of Schensted \cite{schensted} and Knuth \cite{knuth}.
+This theory revolves around bijections involving words and tableaux.
 
-It is now well-understood that these bijective correspondences are really restictions to lattice points of certain volume-preserving piecewise linear bijections between convex polyhedra \cite{kir-trop}.
+It is now well-accepted that these bijections are restrictions to lattice points of certain volume-preserving piecewise linear bijections between convex polyhedra \cite{kir-trop}.
 The importance of this viewpoint is borne out in the work of Knutson and Tao, who proved the saturation of the monoid of triples $(\lambda, \mu, \nu)$ of integer partitions such that the trivial representation occurs in the tensor product $V_\lambda\otimes V_\mu\otimes V_\nu$ of representations of $GL_n(\mathbf C)$.
-This led to the resolution of \emph{Horn's conjecture} on the possible sets of eigenvalues of a sum of Hermitian matrices (see \cite{knutsontaojams,knutsontaonotices}).
+This led to the resolution of \emph{Horn's conjecture} on the possible sets of eigenvalues of a sum of Hermitian matrices \cite{knutsontaojams,knutsontaonotices}.
 
-The goal of this article is to lay the algorithmic foundations for piecewise linear correspondences interpolating bijections involving tableaux.
-This is done by generalizing the plactic monoid from the frameword of the free monoid of words to the setting of \emph{timed words}.
+Our goal is to lay the algorithmic foundations for piecewise linear correspondences interpolating bijections involving tableaux.
+This is done by generalizing the plactic monoid from the framework of the free monoid of words to the setting of \emph{timed words}.
 The latter were introduced by Alur and Dill \cite{alur-dill} in their approach to the formal verification of real-time systems using timed automata.
-While words represent a sequence of events, timed words represent a sequence of events where the time of occurence of each event is also recorded.
+While words represent a sequence of events, timed words represent a sequence of events where the time of occurrence of each event is also recorded.
 We use a finite version of their definition of timed words.
-While each letter occurs discretely (a certain number of times) in a classical word, it appears for a positive duration (which is a real number) in a timed word 
+While each letter occurs discretely (an integer number of times) in a classical word, it appears for a positive duration (which is a real number) in a timed word 
 
 In Section~\ref{sec:timed-tableaux} we introduce the timed versions of semistandard Young tableaux (called \emph{timed tableaux}). 
 Schensted's insertion algorithm is generalized to timed tableaux in Section~\ref{sec:timed-insertion}.
 Greene invariants of timed words are introduces in Section~\ref{sec:timed-greene-invar}.
 Timed versions of Knuth relations are introduced in Section~\ref{sec:timed-knuth-equiv}. 
 These relations are conceptually very similar to the relations introduced by Knuth in \cite{knuth}. 
-However, it was a delicate task to arrive at relations that are at once simple enough so that one can show that they preserve Greene invariants (Lemma~\ref{lemma:Knuth-Greene}) and at the same time powerful enough to transform any timed word to its insertion tableau (Lemma~\ref{lemma:reduction-to-tab}).
+However, it was a delicate task to arrive at relations that are at once simple enough so that one can show that they preserve Greene invariants (Lemma~\ref{lemma:Knuth-Greene}) but also powerful enough to transform any timed word to its insertion tableau (Lemma~\ref{lemma:reduction-to-tab}).
 With this groundwork, the extension of Greene's theorem to timed words is routine (Theorem~\ref{theorem:timed-version-greene}).
 
 Standard properties of Knuth equivalence, such as the existence of a unique tableau in each Knuth class, and the characterization of Knuth equivalence in terms of Greene invariants are extended to timed words in Sections~\ref{sec:tabl-knuth-equiv} and \ref{sec:char-timed-knuth}.
 
-The RSK algorithm \cite{knuth} is extended from integer matries in Sections~\ref{sec:defin-using-timed} and \ref{sec:insert-record-algor}.
+The RSK algorithm \cite{knuth} is extended from integer matrices in Sections~\ref{sec:defin-using-timed} and \ref{sec:insert-record-algor}.
 Viennot's light-and-shadows version of the Robinson-Schensted correspondence, which was extended to integer matrices in \cite{rtcv}, is now extended to real matrices.
 The piecewise linear nature of these algorithms can be easily seen from the timed version of Greene's theorem.
 
-All the algorithms described here are straightforward to implement 
+All the algorithms described here are straightforward to implement.
+An implementation in python is available at \url{http://www.imsc.res.in/~amri/timed_plactic/timed_tableau.py}. A jupyter worksheet with demos of many of the theorems and proofs in this paper is available at \url{http://www.imsc.res.in/~amri/timed_plactic/timed_tableau.ipynb}.
 \section{Insertion in Timed Tableaux}
 \label{sec:insertion}
 \subsection{Timed Tableaux}
@@ -111,14 +115,14 @@ The set of all timed rows in $A_n^\dagger$ is denoted $\tr_n$.
 The set of all timed rows of length $l$ is denoted $\tr_n(l)$.
 \end{definition}
 \begin{definition}[Row Decomposition]
-Every timed word $w$ has a unique decomposition into rows:
+Every timed word $w$ has a unique decomposition:
 \begin{displaymath}
   w = u_l u_{l-1}\dotsb u_1,
 \end{displaymath}
-such $u_i$ is a row for each $i=1,\dotsc,l$, and $u_iu_{i-1}$ is not a row for any $i=2,\dotsc,l$.
+such that $u_i$ is a timed row for each $i=1,\dotsc,l$, and $u_iu_{i-1}$ is not a row for any $i=2,\dotsc,l$.
 We shall refer to such a decomposition as the row decomposition of $w$.
 \end{definition}
-Given two rows $u$ and $v$, say that $u$ is dominated by $v$ (denoted $u\lhd v$) if
+Given two timed rows $u$ and $v$, say that $u$ is dominated by $v$ (denoted $u\lhd v$) if
 \begin{enumerate}
 \item $l(u)\geq l(v)$, and
 \item $u(t)<v(t)$ for all $0\leq t<l(v)$.
@@ -528,10 +532,12 @@ The word $\bar w$ is called the restriction of $w$ to $A_{n-1}$.
   By the induction hypothesis, $\bar v=\bar w$.
   Let $\lambda=(\lambda_1,\dotsc,\lambda_l)$ be the shape of this timed tableau.
   By Lemma~\ref{sec:knuth-equiv-green}, $v$ and $w$ have the same Greene invariants, and therefore the same shape $\mu=(\mu_1,\dotsc,\mu_{l+1})$.
-  It follows that both $v$ and $w$ are obtained from $bar v=\bar w$ by appending a segment of the form $n^{\mu_i-\lambda_i}$ to the $i$th row of $\bar v= \bar w$ for each $i$, hence $v=w$.
+  It follows that both $v$ and $w$ are obtained from $\bar v=\bar w$ by appending $n^{\mu_i-\lambda_i}$ to the $i$th row of $\bar v= \bar w$ for each $i$, hence $v=w$.
 \end{proof}
 \subsection{Characterization of Knuth Equivalence Classes}
 \label{sec:char-timed-knuth}
+Classical Knuth equivalence can be characterized in terms of Greene invariants (see \cite[Theorem~2.15]{plaxique}.
+The same characterization works for timed Knuth equivalence.
 \begin{theorem}
   Let $w$ and $w'$ be timed words in $A_n^\dagger$.
   Then $w$ and $w'$ are Knuth equivalent if and only if, for all timed words $u$ and $v$ in $A_n^\dagger$, $a_k(uwv)=a_k(uw'v)$ for all $k\geq 1$.
@@ -582,8 +588,8 @@ Given $A=(a_{ij})\in M_{m\times n}(\rp)$, define its \emph{timed column word} $u
   u_A & = 1^{a_{11}}2^{a_{12}}\dotsb n^{a_{1n}}\,1^{a_{21}}2^{a_{22}}\dotsb n^{a_{2n}}\,\dotsb \,1^{a_{m1}}2^{a_{m2}}\dotsb n^{a_{mn}}.\\
   v_A & = 1^{a_{11}}2^{a_{21}}\dotsb m^{a_{m1}}\,1^{a_{12}}2^{a_{22}}\dotsb m^{a_{m2}}\,\dotsb \,1^{a_{1n}}2^{a_{2n}}\dotsb m^{a_{mn}}.
 \end{align*}
-The timed word $u_A$ is called the \emph{column word} of $A$; it is obtained by reading column numbers of $A$ along its rows, timed by its entries.
-The timed word $v_A$ is called the \emph{row word} of $A$, and is obtained by reading the row numbers of $A$ along its columns, timed by its entries.
+The timed word $u_A$ is obtained by reading column numbers of $A$ along its rows, timed by its entries.
+The timed word $v_A$ is obtained by reading the row numbers of $A$ along its columns, timed by its entries.
 Define:
 \begin{equation}
   \label{eq:rsk}
@@ -868,8 +874,8 @@ Therefore the numbers $\lambda^{(k)}_i$ form a Gelfand-Tsetlin pattern, which we
 The shape of $\lambda$ is also the shape of $GT(w)$.
 Conversely, given a Gelfand-Tsetlin pattern $T$, it is easy to reconstruct the unique timed tableau $w$ such that $T=GT(w)$.
 
-The space of all Gelfand-Tsetlin patterns of size $n$, being defined by a finite collection of homogeneous inequalities in $\binom{n+1}2$ variables, forms a polydedral cone in $R^{\binom{n+1}2}$.
-In terms of the notation introduced in Section~\ref{sec:defin-using-timed}, we have the following fairly lemma, which is well-know for the RSK correspodnece on integer matrices (see e.g., \cite[Prop.~2.26]{kir-trop}).
+The space of all Gelfand-Tsetlin patterns of size $n$, being defined by a finite collection of homogeneous inequalities in $\binom{n+1}2$ variables, forms a polyhedral cone in $R^{\binom{n+1}2}$.
+In terms of the notation introduced in Section~\ref{sec:defin-using-timed}, we have the following fairly lemma, which is well-know for the RSK correspondence on integer matrices (see e.g., \cite[Prop.~2.26]{kir-trop}).
 \begin{lemma}
   \label{lemma:pl}
   Given $A\in M_{m\times n}(\rp)$ with $\rsk(A)=(P,Q)$, let $(\lambda^{(k)}_i)=GT(P)$ and $(\mu^{(k)}_i)=GT(Q)$, Gelfand-Tsetlin patterns of size $n$ and $m$ respectively.
@@ -897,16 +903,13 @@ The algorithms of Sections~\ref{sec:defin-using-timed}--\ref{sec:light-and-shado
 While Eqs.~(\ref{eq:gt-1}) and (\ref{eq:gt-2}) are used to \emph{define} the RSK correspondence in \cite{kir-trop}, in this article, the RSK \emph{algorithm} is extended to real matrices, and Lemma~\ref{lemma:pl} is proved for the extended algorithm.
 
 A more detailed analysis of the piecewise linear nature of the real RSK correspondence will be carried out in \cite{cgp}.
-\subsection{Note on software}
-\label{sec:software}
-All the algorithms in this article are demonstrated using python code.
-This includes an implementation of classes of timed words, timed rows, and timed tableau (with methods for concatenation, insertion, construction of insertion tableau, and many other operations).
-It also includes an implementation of the RSK correspondence and its inverse.
-The code is available at \url{http://www.imsc.res.in/~amri/timed_plactic/timed_tableau.py}.
+\subsection*{Acknowledgements}
+I thank R. Ramanujam for introducing me to the work of Alur and Dill on timed automata.
+I thank Xavier Viennot for teaching me about the wonderful world of the RSK correspondence, and encouraging me to work on this project.
+I thank Maria Cueto, Sachin Gautam, Sridhar P. Narayanan, Digjoy Paul, K.~N.~Raghavan, Ramanathan Thinniyam, and S.~Viswanath for many interesting discussions, which helped me develop the ideas in this article.
 
-The code is accompanying by a demo jupyter worksheet, where the use of all these algorithms is illustrated.
-The worksheet also includes verifications of all the theorems in this paper using randomized inputs.
-The worksheet is available at \url{http://www.imsc.res.in/~amri/timed_plactic/timed_tableau.ipynb}.
+Some of these results were announced at the 83rd annual conference of the Indian Mathematical Society, held at Sri Venkateshwara University, Tirupati where the author was invited to deliver the Srinivasa Ramanujan Memorial award lecture.
+An expository article on the classical version of Greene's theorem, and its extension to the timed case (based on the lecture) is to appear in \emph{The Mathematics Student} \cite{math-student}.
 \bibliographystyle{abbrv}
 \bibliography{refs}
 \end{document}
