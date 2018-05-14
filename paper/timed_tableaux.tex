@@ -46,7 +46,7 @@ It is now well-accepted that these bijections are restrictions to lattice points
 The importance of this viewpoint is borne out in the work of Knutson and Tao, who proved the saturation of the monoid of triples $(\lambda, \mu, \nu)$ of integer partitions such that the trivial representation occurs in the tensor product $V_\lambda\otimes V_\mu\otimes V_\nu$ of representations of $GL_n(\mathbf C)$.
 This led to the resolution of \emph{Horn's conjecture} on the possible sets of eigenvalues of a sum of Hermitian matrices \cite{knutsontaojams,knutsontaonotices}.
 
-Our goal is to lay the algorithmic foundations for piecewise linear correspondences interpolating bijections involving tableaux.
+Our goal is to lay the monoidal foundations for piecewise linear correspondences interpolating bijections involving tableaux.
 This is done by generalizing the plactic monoid from the framework of the free monoid of words to the setting of \emph{timed words}.
 The latter were introduced by Alur and Dill \cite{alur-dill} in their approach to the formal verification of real-time systems using timed automata.
 While words represent a sequence of events, timed words represent a sequence of events where the time of occurrence of each event is also recorded.
@@ -430,7 +430,7 @@ Since this equivalence is stable under left and right multiplication in $A^\dagg
   It suffices to show $u'vu''c^{t_1}\equiv vu'c^{t_1}u''$.
   But this can be done in two Knuth moves as follows (the segment to which the Knuth move is applied is underlined):
   \begin{displaymath}
-    u'\underline{v u'' c^t} \equiv_{\kappa_2} u'\underline{vc^tu''} = \underline{u'vc^t}u'' \equiv_{\kappa_1} \underline{vu'c^t}u'',
+    u'\underline{v u'' c^{t_1}} \equiv_{\kappa_2} u'\underline{vc^{t_1}u''} = \underline{u'vc^{t_1}}u'' \equiv_{\kappa_1} \underline{vu'c^{t_1}}u'',
   \end{displaymath}
   completing the proof of the lemma.
 \end{proof}
