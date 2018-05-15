@@ -39,27 +39,27 @@
 \end{abstract}
 \maketitle
 \section{Introduction}
-The plactic monoid was introduced by Lascoux and Sch\"utzenberger \cite{plaxique} to give a proof of the Littlewood-Richardson rule based on a strategy outlined by Robinson \cite{robinson-algo}, and ideas of Schensted \cite{schensted} and Knuth \cite{knuth}.
+Lascoux and Sch\"utzenberger \cite{plaxique} introduced the plactic monoid to give a proof of the Littlewood-Richardson rule based on a strategy outlined by Robinson \cite{robinson-algo}, and ideas of Schensted \cite{schensted} and Knuth \cite{knuth}.
 This theory revolves around bijections involving words and tableaux.
 
-It is now well-accepted that these bijections are restrictions to lattice points of certain volume-preserving piecewise linear bijections between convex polyhedra \cite{berkir,kir-trop,pak}.
+These bijections are restrictions to lattice points of certain volume-preserving piecewise linear bijections between convex polyhedra \cite{berkir,kir-trop,pak}.
 The importance of this viewpoint is borne out in the work of Knutson and Tao, who proved the saturation of the monoid of triples $(\lambda, \mu, \nu)$ of integer partitions such that the trivial representation occurs in the tensor product $V_\lambda\otimes V_\mu\otimes V_\nu$ of representations of $GL_n(\mathbf C)$.
 This led to the resolution of \emph{Horn's conjecture} on the possible sets of eigenvalues of a sum of Hermitian matrices \cite{knutsontaojams,knutsontaonotices}.
 
-Our goal is to lay the monoidal foundations for piecewise linear correspondences interpolating bijections involving tableaux.
+Here we develop the monoid-theoretic foundations for piecewise linear correspondences interpolating bijections involving tableaux.
 This is done by generalizing the plactic monoid from the framework of the free monoid of words to the setting of \emph{timed words}.
-The latter were introduced by Alur and Dill \cite{alur-dill} in their approach to the formal verification of real-time systems using timed automata.
+Timed words were introduced by Alur and Dill \cite{alur-dill} in their approach to the formal verification of real-time systems using timed automata.
 While words represent a sequence of events, timed words represent a sequence of events where the time of occurrence of each event is also recorded.
 We use a finite version of their definition of timed words.
 While each letter occurs discretely (an integer number of times) in a classical word, it appears for a positive duration (which is a real number) in a timed word 
 
 In Section~\ref{sec:timed-tableaux} we introduce the timed versions of semistandard Young tableaux (called \emph{timed tableaux}). 
 Schensted's insertion algorithm is generalized to timed tableaux in Section~\ref{sec:timed-insertion}.
-Greene invariants of timed words are introduces in Section~\ref{sec:timed-greene-invar}.
+Greene invariants of timed words are introduced in Section~\ref{sec:timed-greene-invar}.
 Timed versions of Knuth relations are introduced in Section~\ref{sec:timed-knuth-equiv}. 
-These relations are conceptually very similar to the relations introduced by Knuth in \cite{knuth}. 
+These relations are conceptually very similar to the relations introduced by Knuth in \cite{knuth}.
 However, it was a delicate task to arrive at relations that are at once simple enough so that one can show that they preserve Greene invariants (Lemma~\ref{lemma:Knuth-Greene}) but also powerful enough to transform any timed word to its insertion tableau (Lemma~\ref{lemma:reduction-to-tab}).
-With this groundwork, the extension of Greene's theorem to timed words is routine (Theorem~\ref{theorem:timed-version-greene}).
+With this groundwork, the extension of Greene's theorem to timed words becomes routine (Theorem~\ref{theorem:timed-version-greene}).
 
 Standard properties of Knuth equivalence, such as the existence of a unique tableau in each Knuth class, and the characterization of Knuth equivalence in terms of Greene invariants are extended to timed words in Sections~\ref{sec:tabl-knuth-equiv} and \ref{sec:char-timed-knuth}.
 
@@ -723,7 +723,7 @@ Then $u_A=r_{1,A}r_{2,A}\dotsb r_{m,A}$.
 \label{sec:light-and-shadows-rsk}
 Viennot described a visual version of the Robinson-Schensted-Correspondence for permutations, using the \emph{light and shadows} method \cite{viennot1977forme}.
 This algorithm was extended to the RSK correspondence on integer matrices by Fulton using the matrix-ball method \cite{fulton}.
-Another such extension, called the VRSK algorithm, was given by the author in \cite[Chapter~3]{rtcv}.
+Another such extension, called the VRSK algorithm, was given in \cite[Chapter~3]{rtcv}.
 In VRSK one can work directly with the matrices themselves, without having to draw them as configurations of points in the plane, which get unwieldy when matrices have large entries.
 Another unforeseen advantage of the VRSK algorithm is that a minor variant works for real matrices, giving the correspondence of (\ref{eq:rsk}).
 This new algorithm, which we call the \emph{light-and-shadows real RSK} is introduced in this section.
@@ -911,8 +911,8 @@ I thank R. Ramanujam for introducing me to the work of Alur and Dill on timed au
 I thank Xavier Viennot for teaching me about the wonderful world of the RSK correspondence, and encouraging me to work on this project.
 I thank Maria Cueto, Sachin Gautam, Sridhar P. Narayanan, Digjoy Paul, K.~N.~Raghavan, Ramanathan Thinniyam, and S.~Viswanath for many interesting discussions, which helped me develop the ideas in this article.
 
-Some of these results were announced at the 83rd annual conference of the Indian Mathematical Society, held at Sri Venkateshwara University, Tirupati where the author was invited to deliver the Srinivasa Ramanujan Memorial award lecture.
-An expository article on the classical version of Greene's theorem, and its extension to the timed case (based on the lecture) has been submitted to \emph{The Mathematics Student} \cite{math-student}.
+Some of these results were announced at the 83rd annual conference of the Indian Mathematical Society, held at Sri Venkateshwara University, Tirupati where I was invited to deliver the Srinivasa Ramanujan Memorial award lecture.
+An expository article on the classical version of Greene's theorem, and its extension to the timed case (based on the lecture) is to appear in \emph{The Mathematics Student} \cite{math-student}.
 \bibliographystyle{abbrv}
 \bibliography{refs}
 \end{document}
