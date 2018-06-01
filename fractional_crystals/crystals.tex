@@ -1,0 +1,46 @@
+\documentclass[12pt]{amsproc}
+
+\newcommand{\Yam}{\mathrm{Yam}}
+\newcommand{\fcop}{\mathrm{fcop}}
+\newcommand{\cop}{\mathrm{cop}}
+
+\newtheorem{theorem}{Theorem}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\title{Real Crystals}
+\author{Amritanshu Prasad}
+
+\begin{document}
+\maketitle
+We define operators $e_i^t, f_i^t, \sigma_i:A_n^\dagger\to A_n^\dagger\cup \{0\}$, for $i=1,\dotsc,n-1$, and $t\geq 0$.
+Let $x\in A_{n-1}^\dagger$, say $x=c_1^{t_1}\dotsb c_k^{t_k}$.
+Then define
+\begin{align*}
+  we^x & = w e_{c_1}^{t_1}\dotsb e_{c_k}^{t_k}\\
+  w f^x & = w f_{c_1}^{t_1}\dotsb f_{c_k}^{t_k}
+\end{align*}
+The operators $e^x$ and $f^x$, for $x\in A_{n-1}^\dagger$ are called \emph{fractional crystal operators}.
+\begin{definition}[Fractional Coplactic Class]
+  Say that two words $v$ and $w$ are in the same fractional coplactic class if there exists a timed word $x\in A_{n-1}^\dagger$ such that $v=we^x$ orr $v=wf^x$.
+\end{definition}
+\begin{definition}[Real Crystal]
+  A real crystal is a set, together with families of relations $e_i^t$ and $f_i^t$, for $i=1,\dotsc,n-1$, and $t>0$.
+\end{definition}
+Each fractional coplactic class is a real crystal in the obvious manner.
+An isomorphism of real crystals is a bijection which preserves all the relations $e_i^t$ and $f_i^t$.
+\begin{definition}
+  [Yamanouchi Timed Word]
+  A timed word $w\in A_n^\dagger$ is said to have \emph{dominant valuation} if its weight vector is weakly decreasing.
+  The timed word $w$ is said to be Yamanouchi if the every suffix has a dominant valuation.
+  The set of all Yamanouchi timed words of weight $\lambda$ is denoted $\Yam^\dagger(\lambda)$.
+\end{definition}
+\begin{theorem}
+  If $y$ and $y'$ are Yamanouchi timed words of weight $\lambda$, then their fractional coplactic classes are isomorphic as real crystals.
+\end{theorem}
+Let $y^0_\lambda$ denote the unique timed tableau of shape $\lambda$ and weight $\lambda$.
+Then $y^0_\lambda$ is also the only timed tableau of weight $\lambda$ that is also Yamanouchi.
+\begin{theorem}
+  The fractional coplactic class $\fcop(y^0_\lambda)$ consists of all timed tableaux of shape $\lambda$ in $A_n^\dagger$.
+\end{theorem}
+\end{document}
