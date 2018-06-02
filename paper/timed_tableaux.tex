@@ -30,7 +30,9 @@
 \address{Homi Bhabha National Institute, Mumbai}
 \subjclass[2010]{05A05,68R15,05E10}
 \keywords{timed words, Greene invariants, Knuth relations, plactic monoid}
-\thanks{Supported by a Swarna Jayanti Fellowship of the Department of Science \& Technology, Government of India.}
+\thanks{Supported by a Swarna Jayanti Fellowship of the Department of Science \& Technology, Government of India.
+  These results were announced at the 83rd annual conference of the Indian Mathematical Society, held at Sri Venkateshwara University, Tirupati where the author delivered the Srinivasa Ramanujan Memorial award lecture.
+An expository article on the classical version of Greene's theorem, and its extension to the timed case (based on the lecture) will appear in \emph{The Mathematics Student} \cite{math-student}.}
 \begin{document}
 \begin{abstract}
   Timed words are words where letters of the alphabet come with time stamps.
@@ -42,7 +44,7 @@
 Lascoux and Sch\"utzenberger \cite{plaxique} introduced the plactic monoid to give a proof of the Littlewood-Richardson rule based on a strategy outlined by Robinson \cite{robinson-algo}, and ideas of Schensted \cite{schensted} and Knuth \cite{knuth}.
 This theory revolves around bijections involving words and tableaux.
 
-These bijections are restrictions to lattice points of certain volume-preserving piecewise linear bijections between convex polyhedra \cite{berkir,kir-trop,pak}.
+These bijections are restrictions to lattice points of certain volume-preserving piecewise linear bijections between convex polyhedra \cite{berkir,kir-trop,DeLoera2004,pak}.
 The importance of this viewpoint is borne out in the work of Knutson and Tao, who proved the saturation of the monoid of triples $(\lambda, \mu, \nu)$ of integer partitions such that the trivial representation occurs in the tensor product $V_\lambda\otimes V_\mu\otimes V_\nu$ of representations of $GL_n(\mathbf C)$.
 This led to the resolution of \emph{Horn's conjecture} on the possible sets of eigenvalues of a sum of Hermitian matrices \cite{knutsontaojams,knutsontaonotices}.
 
@@ -68,7 +70,7 @@ Viennot's light-and-shadows version of the Robinson-Schensted correspondence, wh
 The piecewise linear nature of these algorithms can be easily seen from the timed version of Greene's theorem.
 
 All the algorithms described here are straightforward to implement.
-An implementation in python is available at \url{http://www.imsc.res.in/~amri/timed_plactic/timed_tableau.py}. A jupyter worksheet with demos of many of the theorems and proofs in this paper is available at \url{http://www.imsc.res.in/~amri/timed_plactic/timed_tableau.ipynb}.
+An implementation in python is available at \url{http://www.imsc.res.in/~amri/timed_plactic/timed_tableau.py}. A jupyter worksheet with demos of many of the theorems and proofs in this paper is available at \url{http://www.imsc.res.in/~amri/timed_plactic/timed_tableau.ipynb} and in html format at \url{http://www.imsc.res.in/~amri/timed_plactic/timed_tableau.html}.
 \section{Insertion in Timed Tableaux}
 \label{sec:insertion}
 \subsection{Timed Tableaux}
@@ -910,9 +912,6 @@ A more detailed analysis of the piecewise linear nature of the real RSK correspo
 I thank R. Ramanujam for introducing me to the work of Alur and Dill on timed automata.
 I thank Xavier Viennot for teaching me about the wonderful world of the RSK correspondence, and encouraging me to work on this project.
 I thank Maria Cueto, Sachin Gautam, Sridhar P. Narayanan, Digjoy Paul, K.~N.~Raghavan, Ramanathan Thinniyam, and S.~Viswanath for many interesting discussions, which helped me develop the ideas in this article.
-
-Some of these results were announced at the 83rd annual conference of the Indian Mathematical Society, held at Sri Venkateshwara University, Tirupati where I was invited to deliver the Srinivasa Ramanujan Memorial award lecture.
-An expository article on the classical version of Greene's theorem, and its extension to the timed case (based on the lecture) is to appear in \emph{The Mathematics Student} \cite{math-student}.
 \bibliographystyle{abbrv}
 \bibliography{refs}
 \end{document}
