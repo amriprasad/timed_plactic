@@ -12,12 +12,12 @@ class TimedWord:
         Construct instance from ``w``.
         """
         self._tol = tol
+        if not hasattr(w[0], "__iter__"):
+            w = [[a,1] for a in w] # ordinary words are timed words
         if hasattr(w, "_w"):
             self._w = w._w
         elif len(w) == 0:
             self._w = []
-        elif not hasattr(w[0], "__iter__"):
-            self._w = [[a,1] for a in w] # ordinary words are timed words
         else:
             v = [[w[0][0],w[0][1]]]
             for i in range(1, len(w)):
@@ -123,11 +123,14 @@ class TimedWord:
         else:
             return max([term[0] for term in self._w])
     
-    def weight(self):
-        output = [0]*self.max()
-        for term in self._w:
-            output[term[0]-1]+=term[1]
-        return output
+    def weight(self, i=None):
+        if i is None:
+            output = [0]*self.max()
+            for term in self._w:
+                output[term[0]-1]+=term[1]
+            return output
+        else:
+            return sum([term[1] for term in self._w if term[0] == i])
 
     def shape(self):
         return [TimedRow(r).length() for r in reversed(self.rows())]
@@ -176,45 +179,84 @@ class TimedWord:
                                 fw[j][2] = 1
                                 fw[k][2] = 1
                             break
-        return fw
+        return filter(lambda a: a[1]>self._tol, fw)
 
     def _unfrozen(self, i):
         fw = self._frozen_word(i)
         return TimedWord([[a[0],a[1]] for a in fw if a[2]==0])
 
 
+    def f_range(self, i):
+        """
+        How much ``f`` can be applied to ``self``.
+        """
+        return self._unfrozen(i).weight(i=i)
+
+    def e_range(self, i):
+        """
+        How much ``e`` can be applied to ``self``.
+        """
+        return self._unfrozen(i).weight(i=i+1)
+
+    def is_yamanouchi(self, i=None):
+        if i:
+            return self.e_range(i) < self._tol
+        else:
+            return all([self.is_yamanouchi(i=i) for i in range(1, self.max())])
+        
     def e(self, i, t=1):
         """
         Apply fractional crystal operator `e_i` to ``self`` for time ``t``. 
         """
-        if t < self._tol:
+        print self, i, t
+        if t <= self._tol:
             return self
-        fw = self._frozen_word(i)
-        if sum([a[1] for a in fw if a[0]==i+1 and a[2]==0]) < t:
-            return None
-        else:
-            idx = [(a[0], a[2]) for a in fw].index((i+1,0))
-            if t <= fw[idx][1]:
-                return TimedWord(fw[:idx] + [[i, t], [i+1, fw[idx][1]-t]] + fw[idx+1:])
+        elif t > self.e_range(i):
+            if t > self.e_range(i) + self._tol:
+                return None
             else:
-                return TimedWord(fw[:idx] + [[i, fw[idx][1]]] + fw[idx+1:]).e(i, t-fw[idx][1])
+                return self.e(i, t - self._tol)
+        fw = self._frozen_word(i)
+        idx = [(a[0], a[2]) for a in fw].index((i+1,0))
+        print
+        print t, idx, fw
+        if t <= fw[idx][1]:
+            return TimedWord(fw[:idx] + [[i, t], [i+1, fw[idx][1]-t]] + fw[idx+1:])
+        else:
+            print 'ja', t, fw[idx][1], t - fw[idx][1]
+            print fw[:idx], [[i, fw[idx][1]]], fw[idx+1:]
+            return TimedWord(fw[:idx] + [[i, fw[idx][1]]] + fw[idx+1:]).e(i, t=t-fw[idx][1])
 
     def f(self, i, t=1):
         """
         Apply fractional crystal operator `f_i` to ``self`` for time ``t``. 
         """
-        if t < self._tol:
+        if t <= self._tol:
             return self
-        fw = self._frozen_word(i)
-        if sum([a[1] for a in fw if a[0]==i and a[2]==0]) < t:
-            return None
-        else:
-            idx = len(fw) - [(a[0], a[2]) for a in fw[::-1]].index((i,0)) - 1
-            if t <= fw[idx][1]:
-                return TimedWord(fw[:idx] + [[i, fw[idx][1]-t], [i+1, t]] + fw[idx+1:])
+        elif t > self.f_range(i):
+            if t > self.f_range(i) + self._tol:
+                return None
             else:
-                return TimedWord(fw[:idx] + [[i+1, fw[idx][1]]] + fw[idx+1:]).f(i, t-fw[idx][1])
+                return self.f(i, t - self._tol)
+        fw = self._frozen_word(i)
+        idx = len(fw) - [(a[0], a[2]) for a in fw[::-1]].index((i,0)) - 1
+        if t <= fw[idx][1]:
+            return TimedWord(fw[:idx] + [[i, fw[idx][1]-t], [i+1, t]] + fw[idx+1:])
+        else:
+            return TimedWord(fw[:idx] + [[i+1, fw[idx][1]]] + fw[idx+1:]).f(i, t-fw[idx][1])
 
+    def yamanouchi_word(self):
+        """
+        Return unique Yamanuchi word in coplactic class of ``self``.
+        """
+        n = self.max()
+        y = TimedWord(self._w)
+        while not y.is_yamanouchi():
+            for i in range(1, n+1):
+                print i, y.e_range(i)
+                y = y.e(i, y.e_range(i))
+        return y
+            
     def sigma(self, i):
         """
         Apply fractional crystal operator `sigma_i` to ``self`` for time ``t``. 
@@ -388,3 +430,21 @@ def inverse_real_rsk(P,Q):
 
 def random_real_matrix(m, n):
     return rand(m,n)
+    # def f(self, i, t=1):
+    #     """
+    #     Apply fractional crystal operator `f_i` to ``self`` for time ``t``. 
+    #     """
+    #     if t <= self._tol:
+    #         return self
+    #     fw = self._frozen_word(i)
+    #     if sum([a[1] for a in fw if a[0]==i and a[2]==0]) < t - self._tol:
+    #         return None
+    #     elif:
+    #         sum([a[1] for a in fw if a[0]==i and a[2]==0]) < t:
+    #         return self.f(i, t-self.tol
+    #     else:
+    #         idx = len(fw) - [(a[0], a[2]) for a in fw[::-1]].index((i,0)) - 1
+    #         if t <= fw[idx][1]:
+    #             return TimedWord(fw[:idx] + [[i, fw[idx][1]-t], [i+1, t]] + fw[idx+1:])
+    #         else:
+    #             return TimedWord(fw[:idx] + [[i+1, fw[idx][1]]] + fw[idx+1:]).f(i, t-fw[idx][1])
