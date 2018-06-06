@@ -12,12 +12,12 @@ class TimedWord:
         Construct instance from ``w``.
         """
         self._tol = tol
-        if not hasattr(w[0], "__iter__"):
-            w = [[a,1] for a in w] # ordinary words are timed words
         if hasattr(w, "_w"):
             self._w = w._w
         elif len(w) == 0:
             self._w = []
+        elif not hasattr(w[0], "__iter__"):
+            w = [[a,1] for a in w] # ordinary words are timed words
         else:
             v = [[w[0][0],w[0][1]]]
             for i in range(1, len(w)):
@@ -168,6 +168,8 @@ class TimedWord:
             for k in range(len(fw)):
                 if  fw[k][2] == 0 and fw[k][0] == i+1:
                     for j in range(k+1,len(fw)):
+                        if fw[j][2] == 0 and fw[j][0] == i+1:
+                            k=j
                         if fw[j][2] == 0 and fw[j][0] == i:
                             if fw[k][1] < fw[j][1]:
                                 fw[k][2] = 1
@@ -208,7 +210,6 @@ class TimedWord:
         """
         Apply fractional crystal operator `e_i` to ``self`` for time ``t``. 
         """
-        print self, i, t
         if t <= self._tol:
             return self
         elif t > self.e_range(i):
@@ -218,13 +219,9 @@ class TimedWord:
                 return self.e(i, t - self._tol)
         fw = self._frozen_word(i)
         idx = [(a[0], a[2]) for a in fw].index((i+1,0))
-        print
-        print t, idx, fw
         if t <= fw[idx][1]:
             return TimedWord(fw[:idx] + [[i, t], [i+1, fw[idx][1]-t]] + fw[idx+1:])
         else:
-            print 'ja', t, fw[idx][1], t - fw[idx][1]
-            print fw[:idx], [[i, fw[idx][1]]], fw[idx+1:]
             return TimedWord(fw[:idx] + [[i, fw[idx][1]]] + fw[idx+1:]).e(i, t=t-fw[idx][1])
 
     def f(self, i, t=1):
@@ -253,7 +250,6 @@ class TimedWord:
         y = TimedWord(self._w)
         while not y.is_yamanouchi():
             for i in range(1, n+1):
-                print i, y.e_range(i)
                 y = y.e(i, y.e_range(i))
         return y
             
@@ -268,7 +264,10 @@ class TimedWord:
             return self.f(i,s-t)
         else:
             return self.e(i,t-s)
-        
+
+    def robinson_correspondence(self):
+        return self.insertion_tableau(), self.yamanouchi_word()
+    
 class TimedTableau(TimedWord):
     def __init__(self, w, rows=False, gt=False):
         if rows:
@@ -430,21 +429,3 @@ def inverse_real_rsk(P,Q):
 
 def random_real_matrix(m, n):
     return rand(m,n)
-    # def f(self, i, t=1):
-    #     """
-    #     Apply fractional crystal operator `f_i` to ``self`` for time ``t``. 
-    #     """
-    #     if t <= self._tol:
-    #         return self
-    #     fw = self._frozen_word(i)
-    #     if sum([a[1] for a in fw if a[0]==i and a[2]==0]) < t - self._tol:
-    #         return None
-    #     elif:
-    #         sum([a[1] for a in fw if a[0]==i and a[2]==0]) < t:
-    #         return self.f(i, t-self.tol
-    #     else:
-    #         idx = len(fw) - [(a[0], a[2]) for a in fw[::-1]].index((i,0)) - 1
-    #         if t <= fw[idx][1]:
-    #             return TimedWord(fw[:idx] + [[i, fw[idx][1]-t], [i+1, t]] + fw[idx+1:])
-    #         else:
-    #             return TimedWord(fw[:idx] + [[i+1, fw[idx][1]]] + fw[idx+1:]).f(i, t-fw[idx][1])
