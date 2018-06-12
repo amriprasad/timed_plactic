@@ -359,7 +359,7 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
   Let $w'\in \ttab_n(\mu)$ and let $\lambda$ be a real partition that interleaves $\mu$.
   Then we write
   \begin{displaymath}
-    \del_\lambda(w')=(v,w) \text{ if and only if } w\in \ttab_\lambda(n) \text{ and }\ins(w,v)=w'.
+    \del_\lambda(w')=(v,w) \text{ if and only if } w\in \ttab_n(\lambdan) \text{ and }\ins(w,v)=w'.
   \end{displaymath}
   The pair $(v,w)$ is computed from $w'$ and $\lambda$ by the algorithm described in the proof of Theorem~\ref{theorem:pieri}.
 \end{definition}
@@ -631,7 +631,7 @@ This is a direct generalization of the definition of the RSK correspondence give
   \label{theorem:rsk}
   The function $\rsk$ defines a bijection:
   \begin{displaymath}
-    \rsk: M_{m\times n}(\rp)\tilde\to \coprod_\lambda \Tab_n(\lambda)\times\Tab_m(\lambda),
+    \rsk: M_{m\times n}(\rp)\tilde\to \coprod_\lambda \ttab_n(\lambda)\times\ttab_m(\lambda),
   \end{displaymath}
   where $\lambda$ runs over all real partitions with at most $\min(m,n)$ parts.
 \end{theorem}
