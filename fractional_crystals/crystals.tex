@@ -5,6 +5,7 @@
 \newcommand{\cop}{\mathrm{cop}}
 
 \newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
 
@@ -43,4 +44,11 @@ Then $y^0_\lambda$ is also the only timed tableau of weight $\lambda$ that is al
 \begin{theorem}
   The fractional coplactic class $\fcop(y^0_\lambda)$ consists of all timed tableaux of shape $\lambda$ in $A_n^\dagger$.
 \end{theorem}
+\begin{lemma}
+  Let $w\in A_n^\dagger$, and $i\in 1,\dotsc, n-1$.
+  Then
+  \begin{displaymath}
+    P(w e_i^t) = P(w) e_i^t.
+  \end{displaymath}
+\end{lemma}
 \end{document}

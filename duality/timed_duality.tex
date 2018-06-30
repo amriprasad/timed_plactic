@@ -1,0 +1,142 @@
+\documentclass[12pt]{amsart}
+\title{Greene's Duality Theorem for Timed Words}
+\author{Amritanshu Prasad}
+
+\newcommand{\ins}{\mathrm{INS}}
+\newcommand{\rowins}{\mathrm{RINS}}
+\newcommand{\ttab}{\mathrm{Tab}}
+\newcommand{\ot}{\leftarrow}
+\newcommand{\infl}{\mathrm{INFL}}
+\newcommand{\shape}{\mathrm{shape}}
+\newcommand{\rsk}{\mathrm{RSK}}
+\newcommand{\GT}{\mathrm{GT}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\begin{document}
+\maketitle
+\begin{definition}[Vertical and Horizontal strips]
+  Let $\lambda = (\lambda_1,\dotsc,\lambda_l) \subset \mu=(mu_1,\dotsc,\mu_m)$ be real partitions.
+  Then, we say that $\lambda/\mu$ is a \emph{vertical strip} of size $r$ if $\lambda_i-\mu_i\leq 1$ for each $i=1,\dotsc, l$, and $\mu_i\leq 1$ for $i=l+1,\dotsc,m$, and $r=l(\lambda)-l(\mu)$.
+  We say that $\lambda/\mu$ is a \emph{horizontal strip} of size $r$ if $\lambda$ and $\mu$ can be padded with $0$'s in such a way that $l=m+1$, and $\lambda_i\geq \mu_i\geq \lambda_{i+1}$ for all $i=1,\dotsc,m$, and $l(\lambda)-l(\mu)=r$.
+\end{definition}
+\begin{definition}
+  A \emph{timed row} in $A_n$ is a timed word of the form
+  \begin{displaymath}
+    u = 1^{t_1} \dotsb n ^{t_n}, \text{ with } t_i\geq 0 \text{ for } i=1,\dotsc,n.
+  \end{displaymath}
+  The set of all timed rows of length $r$ is denoted $R^\dagger(r)$.
+  A \emph{timed column} in $A_n$ is a timed word of the form
+  \begin{displaymath}
+    u = n^{t_n} \dotsb 1^{t_1}, \text{ with } 0\leq t_i\leq 1 \text{ for } i=1,\dotsc, n.
+  \end{displaymath}
+  The set of all timed columns of length $r$ is denoted $C^\dagger(r)$.
+\end{definition}
+\begin{theorem}[Pieri Rule and its Dual]
+  For every real partition $\lambda$, the function
+  \begin{displaymath}
+    (t,u) \mapsto P(tu)
+  \end{displaymath}
+  defines a bijection
+  \begin{displaymath}
+    \ttab_n(\lambda) \times R_n^\dagger(r)\tilde\to\coprod_\mu \ttab_n(\mu),
+  \end{displaymath}
+  the union being over all real partitions $\mu$ such that $\mu/\lambda$ is a horizontal strip of size $r$.
+
+  Similarly, the function
+  \begin{displaymath}
+    (t,u) \mapsto P(tu)
+  \end{displaymath}
+  defines a bijection
+  \begin{displaymath}
+    \ttab_n(\lambda)\times C_n^\dagger(r)\tilde\to\coprod_\mu \ttab(\mu),
+  \end{displaymath}
+  the union being over all real partitions $\mu$ such that $\mu/\lambda$ is a vertical strip of size $r$.
+\end{theorem}
+\begin{proof}
+  Suppose that $u=1^{s_1}\dotsb n^{s_n}$ is a timed row.
+  Suppose $i,j\in A_n$ are such that $i>j$, and $s,t\in [0,1]$.
+  Let
+  \begin{align*}
+    (v_1, u_1) & = \rowins(u, i^s),\\
+    (v_2, u_2) & = \rowins(u_1, j^t).
+  \end{align*}
+  Then $v_1$ is a prefix of $(i+1)^{s_{i+1}} \dotsb n^{s_n}$ of length $\min(s, s_{i+1}+\dotsb+s_n)$.
+  Since $j<i$, 
+\end{proof}
+\begin{definition}
+  [Dual Timed Tableau]
+  A dual timed tableau of shape $\lambda=(\lambda_1,\dotsc,\lambda_l)$ is a sequence $(u_1,\dotsc,u_l)$ of timed rows such that
+  \begin{enumerate}
+  \item $l(u_i)=\lambda_i$ for $i=1,\dotsc,l$,
+  \item $u_i(t+1)>u_i(t)$ for all $t\in [0, l(u_i)-1)$ for all $i=1,\dotsc,l$,
+  \item $u_i(t)\leq u_{i+1}(t)$ for all $i=0,\dotsc,l-1$, and $t\in [0,\lambda_{i+1})$.
+  \end{enumerate}
+  The weight of a dual timed tableau is the sum of the weight vectors of its rows.
+  The set of dual timed tableau of shape $\lambda$ and weight $\mu$ is denoted by $\ttab^*(\lambda,\mu)$.
+\end{definition}
+Given a dual timed tableau $t=(u_1,\dotsc,u_l)$ of shape $\lambda$, let $\lambda^{(j)}_i$ be the length of the restriction of $u_i$ to the alphabet $\{1,\dotsc,j\}$ for $j=1,\dotsc,n$.
+Then setting $\lambda^{(j)} = (\lambda^{(j)}_1,\dotsc,\lambda^{(j)}_l)$, its dual Gelfand-Tsetlin pattern is defined to be the chain of real partitions:
+\begin{equation}
+  \label{eq:partition-chain}
+  \GT^*(t) := (\emptyset = \lambda^{(0)} \subset \dotsb \subset \lambda^{(n)} = \lambda),
+\end{equation}
+such that
+\begin{gather}
+  \label{eq:dual-gt-conditions-1}
+  |\lambda^{(j)}| - |\lambda^{(j-1)}| = \mu_j \text{ for } j=1,\dotsc,n,\\
+  \label{eq:dual-gt-conditions-2}
+  \lambda^{(j-1)}_i \leq \lambda^{(j)}_i \leq \lambda^{(j-1)}_i + 1 \text{ for } i=1,dotsc,l \text{ and } j=1,dotsc, n.
+\end{gather}
+\begin{definition}
+  [Dual Gelfand-Tsetlin Patterns]
+  A dual Gelfand-Tsetlin pattern of shape $\lambda$ and weight $\mu$ is a sequence of real partitions of the form
+  (\ref{eq:partition-chain}) satisfying the conditions (\ref{eq:dual-gt-conditions-1}) and (\ref{eq:dual-gt-conditions-2}).
+\end{definition}
+\begin{lemma}
+  The map $\GT^*$ is a bijection from the set of dual timed tableau of shape $\lambda$ and weight $\mu$ onto the set of dual Gelfand-Tsetlin patterns of weight $\mu$.
+\end{lemma}
+\begin{theorem}
+  There exists a dual timed tableau of shape $\lambda$ and weight $\mu$ if and only if
+  \begin{equation}
+    \label{eq:dual-dom}
+    \mu_1+\dotsb + \mu_j \leq \min(\lambda_1,j) + \dotsb + \min(\lambda_l,j),
+  \end{equation}
+  for all $j=1,\dotsc,n$.
+\end{theorem}
+\begin{proof}
+  Suppose $t=(u_1,\dotsc,u_l)$ is a dual timed tableau.
+  Then each letter has weight at most one in the rows $u_i$, $w_1(u_i)+\dotsb + w_j(u_i)\leq \min(l(u_i), j)$ for each $i$.
+  Adding over all $i$ gives (\ref{eq:dual-dom}).
+
+  For the converse, suppose the 
+\end{proof}
+The following algorithm takes as input an $m\times n$ matrix $A=(a_{ij})$ such that $0\leq a_{ij}\leq 1$ for all $i,j$.
+\begin{center}
+  \textbf{Dual RSK Algorithm}
+  \begin{itemize}
+  \item $P\ot \emptyset$, $Q\ot\emptyset$
+  \item For $j=1,\dotsc, n$ repeat the following steps:
+    \begin{itemize}
+    \item $Q\ot \ins(Q, n^{a_{nj}}\dotsb 2^{a_{n2}}1^{a_{n1}})$
+    \item $P\ot \infl(P, \shape(Q), j)$
+    \end{itemize}
+  \item Return $P, Q$.
+  \end{itemize}
+\end{center}
+If the dual RSK algorithm return $(P, Q)$ on input $A$, we write:
+\begin{displaymath}
+  \rsk^*(A) = (P, Q).
+\end{displaymath}
+\begin{theorem}
+  Let $\mu=(\mu_1,\dotsc,\mu_m)$ and $\nu=(\nu_1,\dotsc,\nu_n)$ be real partitions such that $|\mu|=|\nu|$.
+  Let $N_{\mu\nu}$ denote the set of all matrices $A=(a_{ij})_{m\times n}$ with $0\leq a_{ij}\leq 1$.
+  Then the dual RSK algorithm defines a bijection:
+  \begin{displaymath}
+    \rsk^*: N_{\mu\nu}\tilde\to \coprod_\lambda \ttab^*(\lambda,\nu)\times \ttab(\lambda,\mu). 
+  \end{displaymath}
+\end{theorem}
+\end{document}

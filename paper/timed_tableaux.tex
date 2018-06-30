@@ -45,7 +45,7 @@ Lascoux and Sch\"utzenberger \cite{plaxique} introduced the plactic monoid to gi
 This theory revolves around bijections involving words and tableaux.
 
 These bijections are restrictions to lattice points of certain volume-preserving piecewise linear bijections between convex polyhedra \cite{berkir,kir-trop,DeLoera2004,pak}.
-The importance of this viewpoint is borne out in the work of Knutson and Tao, who proved the saturation of the monoid of triples $(\lambda, \mu, \nu)$ of integer partitions such that the trivial representation occurs in the tensor product $V_\lambda\otimes V_\mu\otimes V_\nu$ of representations of $GL_n(\mathbf C)$.
+The importance of this viewpoint is borne out in the work of Knutson and Tao, who proved the saturation of the monoid of triples $(\lambda, \mu, \nu)$ of integer partitions such that the representation $V_\lambda$ occurs in the tensor product $V_\mu\otimes V_\nu$ of representations of $GL_n(\mathbf C)$.
 This led to the resolution of \emph{Horn's conjecture} on the possible sets of eigenvalues of a sum of Hermitian matrices \cite{knutsontaojams,knutsontaonotices}.
 
 Here we develop the monoid-theoretic foundations for piecewise linear correspondences interpolating bijections involving tableaux.
@@ -153,11 +153,11 @@ Given a timed word $w$ and $0\leq a < b \leq l(w)$, according to Definition~\ref
 \begin{definition}[Timed row insertion]
   \label{definition:timed-row-insertion}
   Given a timed row $u$, the insertion $\rowins(u, c^{t_c})$ of $c^{t_c}$ into $u$ is defined as follows:
-  if $w(t)\leq c$ for all $0\leq t < l(u)$, then
+  if $u(t)\leq c$ for all $0\leq t < l(u)$, then
   \begin{displaymath}
-    \rowins(w, c^{t_c}) = (\emptyset, wc^{t_c}).
+    \rowins(u, c^{t_c}) = (\emptyset, uc^{t_c}).
   \end{displaymath}
-  Otherwise, there exists $0\leq t < l(u)$ such that $w(t)>c$.
+  Otherwise, there exists $0\leq t < l(u)$ such that $u(t)>c$.
   Let
   \begin{displaymath}
     t_0 = \min\{0\leq t< l(u) \mid u(t)> c\}.
@@ -359,7 +359,7 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
   Let $w'\in \ttab_n(\mu)$ and let $\lambda$ be a real partition that interleaves $\mu$.
   Then we write
   \begin{displaymath}
-    \del_\lambda(w')=(v,w) \text{ if and only if } w\in \ttab_n(\lambdan) \text{ and }\ins(w,v)=w'.
+    \del_\lambda(w')=(v,w) \text{ if and only if } w\in \ttab_n(\lambda) \text{ and }\ins(w,v)=w'.
   \end{displaymath}
   The pair $(v,w)$ is computed from $w'$ and $\lambda$ by the algorithm described in the proof of Theorem~\ref{theorem:pieri}.
 \end{definition}
@@ -787,12 +787,12 @@ The piecewise linear nature of the RSK correspondence becomes clear from this al
         \item If $v=1^{s_1}\dotsb n^{s_n}$, set $s_{ij}\ot s_j$ for $j=1,\dotsc,n$.
         \end{itemize}
       \item Set $A\ot S$.
-      \item $P\ot pP$, $Q\ot qQ$.
+      \item $P\ot pP$, $Q\ot \infl_{\shape(P)}(Q,i)$.
       \end{itemize}
       }
     \item return $(P, Q)$
   \end{itemize}
-  The main loop of this algorithm starts with a matrix $A$, and replaces with the matrix $S=s_{ij}$ computed using timed row insertion.
+  The main loop of this algorithm starts with a matrix $A$, and replaces it with the matrix $S=s_{ij}$ computed using timed row insertion.
   It also computes the first row of the tableau $P$ and $Q$ as $p, q$.
   We claim that the function $A\mapsto (S, p, q)$ of the main loop of the row-wise RSK algorithm is the same as the function $A\mapsto (S, p, q)$ of the main loop of the light-and-shadows real RSK.
   We call $S$ the \emph{shadow matrix} of $A$.
@@ -816,7 +816,7 @@ The piecewise linear nature of the RSK correspondence becomes clear from this al
   \end{pmatrix}
   $.
   To begin with, assume that this row has only one non-zero entry, $a_{mj_0}$.
-  Let $L_1,L_2,\dotsc$, and $m_1,m_2,\dotsc$ be the corresponding sequences of leading 
+  Let $L_1,L_2,\dotsc$, and $m_1,m_2,\dotsc$ be the corresponding sequences of leading points, and their corresponding smallest entries respectively.
   If $j_0\geq j_i$ for all $i$, then $L_k=L'_k$ for all $k=1,\dotsc,h$.
   In addition, $A$ has a singleton sequence of leading points $\{(m,j_0)\}$.
   As a result, the output of the main loop is $p=p'u_{A''}$, and $q=q'm^{a_{mj_0}}$, and the shadow matrix of $A$ is the same as the shadow matrix of $A'$.
