@@ -16,11 +16,13 @@ class TimedWord:
         elif len(w) == 0:
             self._w = []
         else:
-            v = [[w[0][0],w[0][1]]]
-            for i in range(1, len(w)):
+            v = []
+            for i in range(len(w)):
                 if w[i][1] == 0:
                     pass
-                if w[i][0] == v[-1][0]:
+                elif len(v)==0:
+                    v.append([w[i][0], w[i][1]])
+                elif w[i][0] == v[-1][0]:
                     v[-1][1] += w[i][1]
                 else:
                     v.append([w[i][0], w[i][1]])

@@ -484,9 +484,6 @@ def knuth_dual_rsk(A):
         for i in range(m):
             Q = Q.insert_row(TimedRow([[m-i, A[m-i-1,j]]]))
         P = P.inflate(Q.shape(), j+1)
-        print P
-        print Q
-        print
     return P, Q
 
 class DualTimedTableau():
