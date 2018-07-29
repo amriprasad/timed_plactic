@@ -100,6 +100,7 @@ such that
   The map $\GT^*$ is a bijection from the set of dual timed tableau of shape $\lambda$ and weight $\mu$ onto the set of dual Gelfand-Tsetlin patterns of weight $\mu$.
 \end{lemma}
 \begin{theorem}
+  \label{theorem:feasibility-dual-timed-tab}
   There exists a dual timed tableau of shape $\lambda$ and weight $\mu$ if and only if
   \begin{equation}
     \label{eq:dual-dom}
@@ -132,6 +133,7 @@ If the dual RSK algorithm return $(P, Q)$ on input $A$, we write:
   \rsk^*(A) = (P, Q).
 \end{displaymath}
 \begin{theorem}
+  \label{theorem:dual-rsk}
   Let $\mu=(\mu_1,\dotsc,\mu_m)$ and $\nu=(\nu_1,\dotsc,\nu_n)$ be real partitions such that $|\mu|=|\nu|$.
   Let $N_{\mu\nu}$ denote the set of all matrices $A=(a_{ij})_{m\times n}$ with $0\leq a_{ij}\leq 1$.
   Then the dual RSK algorithm defines a bijection:
@@ -139,4 +141,42 @@ If the dual RSK algorithm return $(P, Q)$ on input $A$, we write:
     \rsk^*: N_{\mu\nu}\tilde\to \coprod_\lambda \ttab^*(\lambda,\nu)\times \ttab(\lambda,\mu). 
   \end{displaymath}
 \end{theorem}
+Recall also the following theorem:
+\begin{theorem}
+  \label{theorem:feasibility-timed-tab}
+  Let $\lambda=(\lambda_1,\dotsc,\lambda_l)$ and $\mu=(\mu_1,\dotsc,\mu_m)$ be real partitions, with $|\lambda|=|\mu|$.
+  There exists a timed tableau of shape $\lambda$ and content $\mu$ if and only if $l\leq m$, $\mu_1+\dotsc+\mu_j\leq \lambda_1+\dotsb + \lambda_j$ for $j=1,\dotsc,l$.
+\end{theorem}
+\begin{proof}
+  Suppose that $\lambda_i<\mu_m\leq \lambda_{i-1}$.
+  Then fill $m$ into the last $\lambda_i-\lambda_{i+1}$ of rows $i, i+1,\dotsc, l$.
+  Totally this uses up $\lambda_i$ amount of $m$.
+  Also fill $m$ into the last $\mu_m-\lambda_i$ of the $(i-1)$st row.
+  Thus the feasibility problem is reduced to $(\mu_1,\dotsc,\mu_{m-1})$, and $(\lambda_1,\dotsc,\lambda_{i-2}, \lambda_{i-1}-\mu_m +\lambda_i, \lambda_{i+1},\dotsc,\lambda_l,0)$.
+  Note that $\lambda_{i-1} > \lambda_{i-1} - (\mu_m - \lambda_i)$, so the $(i-1)$st row of lambda is reduced in length,
+  but $(\lamnda_{i-1}-\mu_m)+\lambda_i\geq \lambda_i\geq \lambda_{i+1}$, so the new vector is still a partition.
+  For $j=1,\dotsc,i-2$, the feasibility condition $\mu_1+\dotsb + \mu_j \leq \lambda_1+\dotsb +\lambda_j$ remains unchanged.
+  For $j=i-1$, we have $\mu_1+\dotsb+\mu_{i-1} \leq \lambda_1+\lambda_{i-1}-\mu_m+\lambda_i$,
+\end{proof}
+Combining Theorems~\ref{theorem:feasibility-dual-timed-tab}, \ref{theorem:dual-rsk}, and \ref{theorem:feasibility-timed-tab}, we get:
+\begin{theorem}
+  [Real Gale-Ryser Theorem]
+  Let $\mu$ and $\nu$ be real partitions with the same sum.
+  Then $N_{\mu\nu}$ is non-empty if and only if there exists a real partition $(\lambda=(\lambda_1,\dotsc,\lambda_l)$ such that both the conditions
+  \begin{align*}
+    \mu_1+\dotsb + \mu_j & \leq \min(\lambda_1,j)+\dotsb + \min(\lambda_l,j) & \text{ for } j = 1,\dotsc,m,\\
+    \nu_1+\dotsb + \nu_j & \leq \lambda_1+\dotsb+\lambda_j & \text{ for } j=1,\dotsb,l.
+  \end{align*}
+\end{theorem}
+\begin{lemma}
+  Suppose $\lambda$ and $\mu$ are real partitions with $|\lambda|=|\mu|$.
+  Then
+  \begin{displaymath}
+    \mu_1+\dotsb + \mu_j \leq \min(\lambda_1,j)+\dotsb+\min(\lambda_l,j) \text{ for } j=1,\dotsb+m
+  \end{displaymath}
+  if and only if
+  \begin{displaymath}
+    \lambda_1+\dotsb + \lambda_j \leq \min(\mu_1,j)+\dotsb + \min(\mu_m,j) \text{ for } j=1,\dotsb+l.
+  \end{displaymath}
+\end{lemma}
 \end{document}
