@@ -17,7 +17,7 @@ class TimedWord:
         elif len(w) == 0:
             self._w = []
         elif not hasattr(w[0], "__iter__"):
-            w = [[a,1] for a in w] # ordinary words are timed words
+            self._w = [[a,1] for a in w] # ordinary words are timed words
         else:
             v = []
             for i in range(len(w)):
@@ -283,10 +283,14 @@ class TimedWord:
         for term in self._w:
             b, row = row.insert_term(*term)
             bumped = bumped.concatenate(b)
+        print bumped
+        print row
+        print
+        print
         if bumped.length()<1e-10:
-            return [TimedWord(row)]
+            return DualTimedTableau([StrictTimedRow(row, verify=False)])
         else:
-            return bumped.dual_insertion_tableau()+[row]
+            return DualTimedTableau(list(bumped.dual_insertion_tableau())+[row],verify=False)
     
 class TimedTableau(TimedWord):
     def __init__(self, w, rows=False, gt=False):
@@ -411,20 +415,24 @@ class TimedRow(TimedWord):
         return TimedRow(TimedWord.schuetzenberger_involution(self, max_let=max_let))
 
 class StrictTimedRow(TimedWord):
-    def __init__(self, w):
+    def __init__(self, w,verify=False):
         TimedWord.__init__(self, w)
+        if verify:
+            nterms = len(self._w)
+            assert all([self._w[i][0]<self._w[i+1][0] for i in range(nterms-1)]) and all([term[1]<=1 for term in self._w])
 
     def weakly_dominates(self, other):
         """
         Return True if self dominates other.
         """
-        if self.length() >= other.length():
+        if self.length() < other.length():
             return False
         else:
+            print "looking at time stamps"
             s1 = self.time_stamps()
             s2 = other.time_stamps()
             comb = sorted(s1+s2)
-            return all([self.value(t) >= other.value(t) for t in comb if t < self.length()])
+            return all([self.value(t) >= other.value(t) for t in comb if t < other.length()])
     def insert_term(self,c,t):
         tillnow=0
         for term in self._w:
@@ -510,13 +518,21 @@ def knuth_dual_rsk(A):
     return P, Q
 
 class DualTimedTableau():
-    def __init__(self, L):
+    def __init__(self, L, verify=False):
         if hasattr(L, "_rows"):
             self._rows = L._rows
         else:
-            self._rows = [TimedRow(row) for row in L]
+            self._rows = [StrictTimedRow(row) for row in L]
+        if verify:
+            nrows = len(self._rows)
+            assert all([self._rows[i].weakly_dominates(self._rows[i+1]) for i in range(nrows-1)])
     def __repr__(self):
         return str(self._rows)
+    def __iter__(self):
+        for row in self._rows:
+            yield row
+    def max(self):
+        return max([row.max() for row in self._rows])
     def pp(self):
         for r in self._rows:
             print r
