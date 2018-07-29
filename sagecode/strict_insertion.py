@@ -1,7 +1,7 @@
 from copy import copy
 from random import random, randint
 from numpy import zeros
-from numpy.random import rand
+from numpy.random import rand, exponential
 
 class TimedWord:
     """
@@ -276,6 +276,17 @@ class TimedWord:
 
     def robinson_correspondence(self):
         return self.insertion_tableau(), self.yamanouchi_word()
+
+    def dual_insertion_tableau(self):
+        bumped = TimedWord([])
+        row = StrictTimedRow([])
+        for term in self._w:
+            b, row = row.insert_term(*term)
+            bumped = bumped.concatenate(b)
+        if bumped.length()<1e-10:
+            return [TimedWord(row)]
+        else:
+            return bumped.dual_insertion_tableau()+[row]
     
 class TimedTableau(TimedWord):
     def __init__(self, w, rows=False, gt=False):
@@ -414,8 +425,17 @@ class StrictTimedRow(TimedWord):
             s2 = other.time_stamps()
             comb = sorted(s1+s2)
             return all([self.value(t) >= other.value(t) for t in comb if t < self.length()])
-        
-    
+    def insert_term(self,c,t):
+        tillnow=0
+        for term in self._w:
+            if term[0]>=c:
+                inserted = self.segment((0,tillnow)).concatenate(TimedWord([[c, min(t,1)]])).concatenate(self.segment((tillnow+min(t,1), self.length())))
+                bumped = TimedWord([[c,max(0,t-1)]]).concatenate(self.segment((tillnow,tillnow+min(t,1))))
+                return bumped, StrictTimedRow(inserted)
+            else:
+                tillnow+=term[1]
+        else:
+            return TimedWord([[c,max(0,t-1)]]), StrictTimedRow(self.concatenate(TimedWord([[c,min(t,1)]])))
 
 def inverse_rowins(vv, uu, r, max_let=None):
     if max_let is None:
@@ -440,11 +460,14 @@ def delete(w, la):
         output = output.concatenate(r)
     return x, output
 
-def random_word(max_let, terms, max_time=1):
-    return TimedWord([[randint(1, max_let), max_time*random()] for i in range(terms)])
+def random_word(max_let, terms, scale=1):
+    return TimedWord([[randint(1, max_let), exponential(scale=scale)] for i in range(terms)])
 
-def random_row(max_let, max_time=1):
-    return TimedRow([[i+1, max_time*random()] for i in range(max_let)])
+def random_row(max_let, scale=1):
+    return TimedRow([[i+1, exponential(scale=scale)] for i in range(max_let)])
+
+def random_strict_row(max_let):
+    return StrictTimedRow([[i+1, random()] for i in range(max_let)])
 
 def random_term(max_let):
     return [randint(1, max_let), random()]
@@ -518,6 +541,3 @@ def conjugate(real_partn):
         output.append(mini-sumtillnow)
         sumtillnow = mini
     return output
-        
-
-    

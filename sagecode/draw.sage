@@ -43,3 +43,14 @@ def plot_tableau(w, colors=None, offset=None, m=None):
     for i,r in enumerate(w.rows()):
         G += plot_word(r,y=0.3*i,m=m, colors=colors, offset=offset)
     return G
+
+def plot_dual_tableau(w, colors=None, offset=None, m=None):
+    if m is None:
+        m = max([r.max() for r in w])
+    if offset is None:
+        offset=(0,0)
+    G = Graphics()
+    for i,r in enumerate(w):
+        G += plot_word(r,y=0.3*i,m=m, colors=colors, offset=offset)
+    return G
+    
