@@ -1,9 +1,12 @@
+from timed_tableau import TimedTableau, TimedWord
+
 def canonical_tableau(la, mu, tol=1e-10):
     """
     Return the canonical timed tableau of shape ``la`` and content ``mu``.
     """
     la = [part for part in la if part > tol]
     mu = [part for part in mu if part > tol]
+    print la, mu
     l = len(la)
     m = len(mu)
     if l==1:
@@ -28,6 +31,7 @@ def canonical_tableau(la, mu, tol=1e-10):
                 output=output.concatenate(TimedWord([[m, removed_from_row[l-i-1]]]))
         if len(rows)<l:
             output=TimedWord([[m, removed_from_row[0]]]).concatenate(output)
+        print output
         return output
         
         # lmu = []
