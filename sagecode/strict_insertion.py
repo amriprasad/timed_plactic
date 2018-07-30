@@ -283,10 +283,6 @@ class TimedWord:
         for term in self._w:
             b, row = row.insert_term(*term)
             bumped = bumped.concatenate(b)
-        print bumped
-        print row
-        print
-        print
         if bumped.length()<1e-10:
             return DualTimedTableau([StrictTimedRow(row, verify=False)])
         else:
@@ -425,20 +421,19 @@ class StrictTimedRow(TimedWord):
         """
         Return True if self dominates other.
         """
-        if self.length() < other.length():
+        if self.length() > other.length():
             return False
         else:
-            print "looking at time stamps"
             s1 = self.time_stamps()
             s2 = other.time_stamps()
             comb = sorted(s1+s2)
-            return all([self.value(t) >= other.value(t) for t in comb if t < other.length()])
+            return all([self.value(t) >= other.value(t) for t in comb if t < self.length()])
     def insert_term(self,c,t):
         tillnow=0
         for term in self._w:
             if term[0]>=c:
                 inserted = self.segment((0,tillnow)).concatenate(TimedWord([[c, min(t,1)]])).concatenate(self.segment((tillnow+min(t,1), self.length())))
-                bumped = TimedWord([[c,max(0,t-1)]]).concatenate(self.segment((tillnow,tillnow+min(t,1))))
+                bumped = self.segment((tillnow,tillnow+min(t,1))).concatenate(TimedWord([[c,max(0,t-1)]]))
                 return bumped, StrictTimedRow(inserted)
             else:
                 tillnow+=term[1]
@@ -529,7 +524,7 @@ class DualTimedTableau():
     def __repr__(self):
         return str(self._rows)
     def __iter__(self):
-        for row in self._rows:
+        for row in self._rows[::-1]:
             yield row
     def max(self):
         return max([row.max() for row in self._rows])
@@ -537,7 +532,7 @@ class DualTimedTableau():
         for r in self._rows:
             print r
     def shape(self):
-        return [row.length() for row in self._rows]
+        return [row.length() for row in self._rows[::-1]]
     def inflate(self, la, i):
         l = len(la)
         m = len(self._rows)
