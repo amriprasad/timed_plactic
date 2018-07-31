@@ -1,0 +1,19 @@
+\documentclass[12pt]{amsproc}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\title{Real Crystals}
+\author{Amritanshu Prasad}
+
+We define operators $e_i^t, f_i^t, \sigma_i:A_n^\dagger\to A_n^\dagger\cup \{0\}$, for $i=1,\dotsc,n-1$, and $t\geq 0$.
+Let $x\in A_{n-1}^\dagger$, say $x=c_1^{t_1}\dotsb c_k^{t_k}$.
+Then define
+\begin{displaymath}
+  we^x = w e_{c_1}^{t_1}\dotsb e_{c_k}^{t_k}.
+\end{displaymath}
+
+
+\begin{document}
+
+\end{document}
