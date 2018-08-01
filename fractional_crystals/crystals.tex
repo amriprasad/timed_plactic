@@ -34,11 +34,11 @@ An isomorphism of real crystals is a bijection which preserves all the relations
   [Depth and rise]
   The $i$-depth of a timed word $w$ is defined as:
   \begin{displaymath}
-    \delta(w,i)=\sup\{t\geq 0\mid we_i^t\neq 0\},
+    \delta_i(w)=\sup\{t\geq 0\mid we_i^t\neq 0\},
   \end{displaymath}
   and the $i$-rise of a timed word $w$ is defined as:
   \begin{displaymath}
-    \epsilon(w,i) = \sup\{t\geq 0\mid wf_i^t\neq 0\}.
+    \epsilon_i(w) = \sup\{t\geq 0\mid wf_i^t\neq 0\}.
   \end{displaymath}
 \end{definition}
 \begin{definition}
@@ -50,6 +50,19 @@ An isomorphism of real crystals is a bijection which preserves all the relations
 \begin{theorem}
   A word $w$ is Yamanouchi if and only if its $i$-depth is zero for all $i$.
 \end{theorem}
+\begin{definition}
+  [Difference operators]
+  Define difference operators:
+  \begin{align*}
+    \Delta_i^t\delta_j(w) & = \delta_j(e_i^tw)-\delta_j(w)\\
+    \nabla_i^t\delta_j(w) & = \delta_j(w)-\delta_j(f_i^t)),
+  \end{align*}
+  and their infinitesimal versions:
+  \begin{align*}
+    \frac{\partial\delta_j}{\partial e_i} &= \lim_{t\to 0^+}\frac{\Delta_i^t\delta_j}t\\
+    \frac{\partial\delta_j}{\partial f_i} &= -\lim_{t\to 0^+}\frac{\nabla_i^t\delta_j}t.
+  \end{align*}
+\end{definition}
 \begin{theorem}
   If $y$ and $y'$ are Yamanouchi timed words of weight $\lambda$, then their fractional coplactic classes are isomorphic as real crystals.
 \end{theorem}

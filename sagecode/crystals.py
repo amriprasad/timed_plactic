@@ -17,14 +17,17 @@ class TimedWord:
         elif len(w) == 0:
             self._w = []
         elif not hasattr(w[0], "__iter__"):
-            w = [[a,1] for a in w] # ordinary words are timed words
+            self._w = [[a,1] for a in w] # ordinary words are timed words
         else:
-            v = [[w[0][0],w[0][1]]]
-            for i in range(1, len(w)):
+            v = []
+            for i in range(len(w)):
                 if abs(w[i][1]) < tol:
                     pass
-                elif w[i][0] == v[-1][0]:
-                    v[-1][1] += w[i][1]
+                elif v:
+                    if w[i][0] == v[-1][0]:
+                        v[-1][1] += w[i][1]
+                    else:
+                        v.append([w[i][0], w[i][1]])
                 else:
                     v.append([w[i][0], w[i][1]])
             self._w = v
@@ -267,6 +270,14 @@ class TimedWord:
 
     def robinson_correspondence(self):
         return self.insertion_tableau(), self.yamanouchi_word()
+
+    def e_partial(self,i,j,tol=1e-10):
+        """
+        limit as t->0+ of ``(w.e(i,t).e_range(j)-w.e_range(j))/t``.
+        """
+        u = copy(w)
+        u.e(i,2*tol)
+        return (u.e_range(j)-w.e_range(j))/(2*tol)
     
 class TimedTableau(TimedWord):
     def __init__(self, w, rows=False, gt=False):
