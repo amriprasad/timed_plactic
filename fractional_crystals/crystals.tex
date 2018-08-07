@@ -22,6 +22,10 @@ Then define
   w f^x & = w f_{c_1}^{t_1}\dotsb f_{c_k}^{t_k}
 \end{align*}
 The operators $e^x$ and $f^x$, for $x\in A_{n-1}^\dagger$ are called \emph{fractional crystal operators}.
+We will use a notational device:
+\begin{displaymath}
+  we_i^{-t} = wf_i^t \text{ for } t>0.
+\end{displaymath}
 \begin{definition}[Fractional Coplactic Class]
   Say that two words $v$ and $w$ are in the same fractional coplactic class if there exists a timed word $x\in A_{n-1}^\dagger$ such that $v=we^x$ or $v=wf^x$.
 \end{definition}
@@ -36,9 +40,17 @@ An isomorphism of real crystals is a bijection which preserves all the relations
   \begin{displaymath}
     \delta_i(w)=\sup\{t\geq 0\mid we_i^t\neq 0\},
   \end{displaymath}
+  Define the depth vector of $w$ to be:
+  \begin{displaymath}
+    \delta(w) = (\delta_1(w),\delta_2(w),\dotsc,\delta_{n-1}(w))
+  \end{displaymath}
   and the $i$-rise of a timed word $w$ is defined as:
   \begin{displaymath}
     \epsilon_i(w) = \sup\{t\geq 0\mid wf_i^t\neq 0\}.
+  \end{displaymath}
+  Define the rise vector to $w$ to be:
+  \begin{displaymath}
+    \epsilon(w) = (\epsilon_1(w),\epsilon_2(w),\dotsc,\epsilon_{n-1}(w)).
   \end{displaymath}
 \end{definition}
 \begin{definition}
@@ -48,19 +60,19 @@ An isomorphism of real crystals is a bijection which preserves all the relations
   The set of all Yamanouchi timed words of weight $\lambda$ is denoted $\Yam^\dagger(\lambda)$.
 \end{definition}
 \begin{theorem}
-  A word $w$ is Yamanouchi if and only if its $i$-depth is zero for all $i$.
+  A word $w$ is Yamanouchi if and only if $\delta(w)=0$.
 \end{theorem}
 \begin{definition}
   [Difference operators]
-  Define difference operators:
+  Recall Stembridge's difference operators:
   \begin{align*}
-    \Delta_i^t\delta_j(w) & = \delta_j(e_i^tw)-\delta_j(w)\\
-    \nabla_i^t\delta_j(w) & = \delta_j(w)-\delta_j(f_i^t)),
+    \Delta_i\delta_j(w) & = \delta_j(we_i)-\delta_j(w) & \text{if } \delta_i(w)\geq 1,\\
+    \nabla_i\delta_j(w) & = \delta_j(w)-\delta_j(wf_i) & \text{if } \epsilon_i(w)\geq 1.
   \end{align*}
-  and their infinitesimal versions:
+  and define their infinitesimal versions for timed words:
   \begin{align*}
-    \frac{\partial\delta_j}{\partial e_i} &= \lim_{t\to 0^+}\frac{\Delta_i^t\delta_j}t\\
-    \frac{\partial\delta_j}{\partial f_i} &= -\lim_{t\to 0^+}\frac{\nabla_i^t\delta_j}t.
+    \frac{\partial\delta_j^+}{\partial e_i} &= \lim_{t\to 0^+}\frac{\delta(we_i^t)-\delta(w)}t & \text{if } \delta_i(w)>0,\\
+    \frac{\partial\delta_j^-}{\partial e_i} &= \lim_{t\to 0^-}\frac{\delta(we_i^t)-\delta(w)}t & \text{if } \epsilon_i(w)>0.
   \end{align*}
 \end{definition}
 \begin{theorem}

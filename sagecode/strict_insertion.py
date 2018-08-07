@@ -142,7 +142,7 @@ class TimedWord:
         """
         Return only terms with letters at most ``m`` and at least ``min``.
         """
-        return TimedWord([c for c in self._w if c[0]<= m and c[0]>=n])
+        return TimedWord([c for c in self._w if c[0]<= m and c[0]>=min])
 
     def reverse(self):
         """
@@ -276,7 +276,18 @@ class TimedWord:
 
     def robinson_correspondence(self):
         return self.insertion_tableau(), self.yamanouchi_word()
-
+    
+    def dual_shadow_word(self):
+        """
+        Return dual insertion word and shadow word of ``self``.
+        """
+        insertion_word=StrictTimedRow([])
+        shadow_word=StrictTimedRow([])
+        for term in self._w:
+            b,insertion_word=insertion_word.insert_term(term[0],term[1])
+            shadow_word = shadow_word.concatenate(b)
+        return shadow_word, insertion_word
+    
     def dual_insertion_tableau(self):
         bumped = TimedWord([])
         row = StrictTimedRow([])
@@ -286,7 +297,7 @@ class TimedWord:
         if bumped.length()<1e-10:
             return DualTimedTableau([StrictTimedRow(row, verify=False)])
         else:
-            return DualTimedTableau(list(bumped.dual_insertion_tableau())+[row],verify=False)
+            return DualTimedTableau(bumped.dual_insertion_tableau()._rows+[row],verify=False)
     
 class TimedTableau(TimedWord):
     def __init__(self, w, rows=False, gt=False):
@@ -354,13 +365,13 @@ class TimedRow(TimedWord):
         """
         Return True if self dominates other.
         """
-        if self.length() > other.length():
+        if self.length() > other.length()+1e-10:
             return False
         else:
             s1 = self.time_stamps()
             s2 = other.time_stamps()
             comb = sorted(s1+s2)
-            return all([self.value(t) > other.value(t) for t in comb if t < self.length()])
+            return all([self.value(t) > other.value(t) for t in comb if t < self.length()-1e-10])
 
     def insert_term(self, term):
         c = term[0]
@@ -431,7 +442,11 @@ class StrictTimedRow(TimedWord):
     def insert_term(self,c,t):
         tillnow=0
         for term in self._w:
-            if term[0]>=c:
+            if term[0]==c:
+                inserted = self.segment((0,tillnow+term[1])).concatenate(TimedWord([[c, min(t,1-term[1])]])).concatenate(self.segment((tillnow+term[1]+min(t,1-term[1]), self.length())))
+                bumped = self.segment((tillnow+term[1],tillnow+term[1]+min(t,1-term[1]))).concatenate(TimedWord([[c,t-min(t,1-term[1])]]))
+                return bumped, StrictTimedRow(inserted)
+            elif term[0]>c:
                 inserted = self.segment((0,tillnow)).concatenate(TimedWord([[c, min(t,1)]])).concatenate(self.segment((tillnow+min(t,1), self.length())))
                 bumped = self.segment((tillnow,tillnow+min(t,1))).concatenate(TimedWord([[c,max(0,t-1)]]))
                 return bumped, StrictTimedRow(inserted)

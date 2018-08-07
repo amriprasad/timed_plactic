@@ -203,6 +203,16 @@ class TimedWord:
         """
         return self._unfrozen(i).weight(i=i+1)
 
+    def depth_vector(self, max=None):
+        if max is None:
+            max = self.max()
+        return [self.e_range(i+1) for i in range(max)]
+
+    def rise_vector(self, max=None):
+        if max is None:
+            max=self.max()
+        return [self.f_range(i+1) for i in range(max)]
+            
     def is_yamanouchi(self, i=None):
         if i:
             return self.e_range(i) < self._tol
@@ -213,7 +223,9 @@ class TimedWord:
         """
         Apply fractional crystal operator `e_i` to ``self`` for time ``t``. 
         """
-        if t <= self._tol:
+        if t<0:
+            return self.f(i,t=-t)
+        elif t <= self._tol:
             return self
         elif t > self.e_range(i):
             if t > self.e_range(i) + self._tol:
@@ -271,13 +283,14 @@ class TimedWord:
     def robinson_correspondence(self):
         return self.insertion_tableau(), self.yamanouchi_word()
 
-    def e_partial(self,i,j,tol=1e-10):
+    def e_partial(self,i,j,h=0.0001):
         """
         limit as t->0+ of ``(w.e(i,t).e_range(j)-w.e_range(j))/t``.
         """
-        u = copy(w)
-        u.e(i,2*tol)
-        return (u.e_range(j)-w.e_range(j))/(2*tol)
+        if w.e_range(i)<h:
+            return None
+        else:
+            return (w.e(i,t=h).e_range(j)-w.e_range(j))/h
     
 class TimedTableau(TimedWord):
     def __init__(self, w, rows=False, gt=False):
