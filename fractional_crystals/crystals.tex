@@ -3,6 +3,10 @@
 \newcommand{\Yam}{\mathrm{Yam}}
 \newcommand{\fcop}{\mathrm{fcop}}
 \newcommand{\cop}{\mathrm{cop}}
+\newcommand{\Rob}{\mathrm{Rob}}
+\newcommand{\range}{\mathrm{range}}
+\newcommand{\ot}{\leftarrow}
+\newcommand{\Tab}{\mathrm{Tab}}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -14,7 +18,29 @@
 
 \begin{document}
 \maketitle
+
+\section{Fractional Crystal Operators}
+\label{sec:frac-ops}
 We define operators $e_i^t, f_i^t, \sigma_i:A_n^\dagger\to A_n^\dagger\cup \{0\}$, for $i=1,\dotsc,n-1$, and $t\geq 0$.
+In order to define the operators for a given $i$ on a timed word $w$, we will freeze a certain subwords of $w$.
+To begin with freeze every term of $w$ which does not involve the letters $i$ and $j=i+1$ of $A_n$.
+The unfrozen part of $w$ is a subword of the form:
+\begin{displaymath}
+  j^{s_1}i^{r_1}j^{s_2}i^{r_2}\dotsb j^{s_l}i^{r_l},
+\end{displaymath}
+for some $l$ and some positive real numbers $s_i, r_i$, except for the possibility that $s_1$ and $r_l$ are zero.
+From the above subword, freeze segments $j^{\min(s_k,r_k)}i^{\min(s_k,r_k)}$ for each $k$.
+Since one of the terms $2^{s_k}$ and $1^{r_k}$ will be entirely frozen for each $k$, the unfrozen part of $w$ will now have strictly fewer terms than before.
+Thus this process will eventually terminate, with the unfrozen part being:
+\begin{displaymath}
+  i^rj^s \text{ for some }r,s\geq 0.
+\end{displaymath}
+We call $s$ the $e_i$-range of $w$, denoted $\range(e_i,w)$ and $r$ the $f_i$-range of $w$, denoted $\range(f_i,w)$.
+For each $t\leq s$, define $we_i^t$ to be the timed word obtained by replacing the unfrozen subword of $w$ by $i^{r+t}j^{s-t}$, and leaving the frozen part unchanged.
+For $t>s$, define $we_i^t=0$.
+Similarly, for $t\leq r$, define $wf_i^t$ to be the timed word obtained by replacing the unfrozen part of $w$ by $i^{r-t}j^{s+t}$, and leaving the frozen part unchanged.
+Finally define $w\sigma_i$ to be the timed word obtained by replacing the unfrozien subword of $w$ by $i^sj^r$, and leaving the frozen part unchanged.
+
 Let $x\in A_{n-1}^\dagger$, say $x=c_1^{t_1}\dotsb c_k^{t_k}$.
 Then define
 \begin{align*}
@@ -22,18 +48,73 @@ Then define
   w f^x & = w f_{c_1}^{t_1}\dotsb f_{c_k}^{t_k}
 \end{align*}
 The operators $e^x$ and $f^x$, for $x\in A_{n-1}^\dagger$ are called \emph{fractional crystal operators}.
-We will use a notational device:
-\begin{displaymath}
-  we_i^{-t} = wf_i^t \text{ for } t>0.
-\end{displaymath}
+\begin{lemma}
+  \label{lemma:crystal-knuth}
+  Suppose $w$ and $w'$ are timed words that are in the same timed Knuth equivalence class, i.e., $w\equiv w'$.
+  Then for any timed word $x\in A_{n-1}^\dagger$, if $we^x\neq 0$, then $w'e^x\neq 0$, and $we^x\equiv w'e^x$.
+\end{lemma}
+\begin{lemma}
+  \label{lemma:tableau-crystal}
+  If $w$ is [the reading word of] a timed tableau, then $we^x$ and $wf^x$, when not $0$, are also [reading words of] timed taleaux.
+  In other words, fractional crystal operators act on timed tableaux.
+\end{lemma}
+\begin{definition}
+  [Yamanouchi Timed Word]
+  A timed word $w\in A_n^\dagger$ is said to have \emph{dominant valuation} if its weight vector is weakly decreasing.
+  The timed word $w$ is said to be Yamanouchi if the every suffix has a dominant valuation.
+  The set of all Yamanouchi timed words of weight $\lambda$ is denoted $\Yam^\dagger(\lambda)$.
+\end{definition}
+\begin{lemma}
+  A timed word $w\in A_n^\dagger$ has the property that $\range(e_i,w)=0$ for $i=1,\dotsc,n-1$ if and only if $w$ is a timed Yamanouchi word.
+\end{lemma}
+\begin{lemma}
+  For every $w\in A_n^\dagger$ there exists $x\in A_{n-1}^\dagger$ such that $we^x$ is a timed Yamanouchi word.
+  Moreover, if $we^x$ and $we^{x'}$ are both Yamanouchi words, then they are equal.
+\end{lemma}
+\begin{proof}
+  Both $P(w)e^x$ and $P(w)e^{x'}$ are timed tableaux of the same shape $\lambda$, by Lemma~\ref{lemma:tableau-crystal}.
+  By Lemma~\ref{lemma:crystal-knuth}, $P(w)e^x\equiv we^x$ and $P(w)e^{x'}\equiv we^{x'}$.
+  Since timed Knuth equivalence preserves Yamanouchiness, both $P(w)e^x$ and $P(w)e^{x'}$ are also Yamanouchi words.
+  But the only timed tableaux of shape $\lambda$ that is also a Yamanouchi word is the superstandard tableau of shape $\lambda$.
+  So $P(w)e^x=P(w)e^{x'}$.
+  Therefore $we^x$ and $we^{x'}$ are Yamanouchi timed words of the same weight.
+\end{proof}
 \begin{definition}[Fractional Coplactic Class]
   Say that two words $v$ and $w$ are in the same fractional coplactic class if there exists a timed word $x\in A_{n-1}^\dagger$ such that $v=we^x$ or $v=wf^x$.
 \end{definition}
 \begin{definition}[Real Crystal]
-  A real crystal is a set, together with families of relations $e_i^t$ and $f_i^t$, for $i=1,\dotsc,n-1$, and $t>0$.
+  A real crystal of a timed word $w$ is the coplactic class of $w$, together with families of relations $e_i^t$ and $f_i^t$, for $i=1,\dotsc,n-1$, and $t>0$ defined by $we_i^t w'$ if $we_i^t = w'$ and $wf_i^tw'$ if $wf_i^t=w'$.
 \end{definition}
 Each fractional coplactic class is a real crystal in the obvious manner.
 An isomorphism of real crystals is a bijection which preserves all the relations $e_i^t$ and $f_i^t$.
+
+\section{The Robinson Correspondence}
+\label{sec:rob}
+The following algorithm takes as input $w\in A_n^\dagger$, and returns a Yamanouchi timed word $Y(w)$ in the fractional coplactic class of $w$.
+\begin{center}
+  \textbf{Robinson's Algorithm}
+\end{center}
+\begin{itemize}
+\item for $i$ in $1,\dotsc,n-1$:
+  \begin{itemize}
+  \item for $j$ in $i, i-1,\dotsc,1$:
+    \begin{itemize}
+    \item $w\ot w e_j^{\range(e_j,w)}$
+    \end{itemize}
+  \end{itemize}
+  Return $w$
+\end{itemize}
+\begin{theorem}
+  [Robinson's correspondence]
+  The map:
+  \begin{displaymath}
+    R:w\mapsto (P(w),Y(w)) 
+  \end{displaymath}
+  defines a bijection
+  \begin{displaymath}
+    \Rob: A_n^\dagger \tilde\to \coprod_\lambda \Tab^\dagger_n(\lambda)\times \Yam(\lambda).
+  \end{displaymath}
+\end{theorem}
 \begin{definition}
   [Depth and rise]
   The $i$-depth of a timed word $w$ is defined as:
@@ -52,12 +133,6 @@ An isomorphism of real crystals is a bijection which preserves all the relations
   \begin{displaymath}
     \epsilon(w) = (\epsilon_1(w),\epsilon_2(w),\dotsc,\epsilon_{n-1}(w)).
   \end{displaymath}
-\end{definition}
-\begin{definition}
-  [Yamanouchi Timed Word]
-  A timed word $w\in A_n^\dagger$ is said to have \emph{dominant valuation} if its weight vector is weakly decreasing.
-  The timed word $w$ is said to be Yamanouchi if the every suffix has a dominant valuation.
-  The set of all Yamanouchi timed words of weight $\lambda$ is denoted $\Yam^\dagger(\lambda)$.
 \end{definition}
 \begin{theorem}
   A word $w$ is Yamanouchi if and only if $\delta(w)=0$.
@@ -96,3 +171,7 @@ Then $y^0_\lambda$ is also the only timed tableau of weight $\lambda$ that is al
 
 
 \end{document}
+We will use a notational device:
+\begin{displaymath}
+  we_i^{-t} = wf_i^t \text{ for } t>0.
+\end{displaymath}
