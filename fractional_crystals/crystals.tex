@@ -77,8 +77,10 @@ The operators $e^x$ and $f^x$, for $x\in A_{n-1}^\dagger$ are called \emph{fract
   Since timed Knuth equivalence preserves Yamanouchiness, both $P(w)e^x$ and $P(w)e^{x'}$ are also Yamanouchi words.
   But the only timed tableaux of shape $\lambda$ that is also a Yamanouchi word is the superstandard tableau of shape $\lambda$.
   So $P(w)e^x=P(w)e^{x'}$.
-  Therefore $we^x$ and $we^{x'}$ are Yamanouchi timed words of the same weight.
+  Therefore $we^x$ and $we^{x'}$ are Yamanouchi timed words of the same weight.???
 \end{proof}
+\section{Fractional Coplactic Classes}
+\label{sec:fract-copl-class}
 \begin{definition}[Fractional Coplactic Class]
   Say that two words $v$ and $w$ are in the same fractional coplactic class if there exists a timed word $x\in A_{n-1}^\dagger$ such that $v=we^x$ or $v=wf^x$.
 \end{definition}
@@ -112,9 +114,16 @@ The following algorithm takes as input $w\in A_n^\dagger$, and returns a Yamanou
   \end{displaymath}
   defines a bijection
   \begin{displaymath}
-    \Rob: A_n^\dagger \tilde\to \coprod_\lambda \Tab^\dagger_n(\lambda)\times \Yam(\lambda).
+    \Rob: A_n^\dagger \tilde\to \coprod_\lambda \Tab^\dagger_n(\lambda)\times \Yam^\dagger(\lambda).
   \end{displaymath}
 \end{theorem}
+\begin{proof}
+  The inverse is obtained as follows:
+  Given $(u,y)\in \Tab_n^\dagger(\lambda)\times \Yam^\dagger(\lambda)$, apply Robinson's algorithm to $u$ until the superstandard tableau $t_\lambda^0$ of shape $\lambda$ is obtained.
+  This gives a word $x\in A_{n-1}^\dagger$ such that $ue^x=t_\lambda^0$.
+  Let $x^*$ be the opposite word to $x$.
+  Recover $w=yf^{x^*}$.
+\end{proof}
 \begin{definition}
   [Depth and rise]
   The $i$-depth of a timed word $w$ is defined as:
