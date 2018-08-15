@@ -2,6 +2,7 @@ from copy import copy
 from random import random, randint
 from numpy import zeros
 from numpy.random import rand
+from sage.combinat.tableau import SemistandardTableaux, SemistandardTableau
 
 class TimedWord:
     """
@@ -16,9 +17,9 @@ class TimedWord:
             self._w = w._w
         elif len(w) == 0:
             self._w = []
-        elif not hasattr(w[0], "__iter__"):
-            self._w = [[a,1] for a in w] # ordinary words are timed words
         else:
+            if not hasattr(w[0], "__iter__"):
+                w = [[a,1] for a in w] # ordinary words are timed words
             v = []
             for i in range(len(w)):
                 if abs(w[i][1]) < tol:
@@ -44,7 +45,18 @@ class TimedWord:
             yield term
 
     def to_list(self):
-        return self._w
+        return sum([[term[0]]*term[1] for term in self], [])
+
+    def to_tableaux(self):
+        return SemistandardTableau([row.to_list() for row in self.rows()[::-1]])
+
+    def scale(self, a):
+        return TimedWord([(term[0],term[1]*a) for term in self])
+
+    def is_integral(self, tol=None):
+        if tol is None:
+            tol = 1e-10
+        return all([abs(term[1]-round(term[1]))<tol for term in self])
 
     def rows(self):
         w = self._w
@@ -131,7 +143,7 @@ class TimedWord:
             output = [0]*self.max()
             for term in self._w:
                 output[term[0]-1]+=term[1]
-            return output
+            return vector(output)
         else:
             return sum([term[1] for term in self._w if term[0] == i])
 
@@ -453,3 +465,38 @@ def inverse_real_rsk(P,Q):
 
 def random_real_matrix(m, n):
     return rand(m,n)
+
+def littlewood_richardson_pairs(mu, nu, la=None, n=None):
+    """
+    Return all pairs `x` and `y` of tableau words of
+    shape ``mu`` and ``nu`` such that such that `xy`
+    is Yamanouchi of shape ``la``.
+    """
+    if n is None:
+        if la is None:
+            n = max([len(mu), len(nu)])
+        else:
+            n = max([len(la), len(mu), len(nu)])
+    for X in SemistandardTableaux(mu, max_entry=n):
+        for Y in SemistandardTableaux(nu, max_entry=n):
+            x = TimedWord(X.to_word())
+            y = TimedWord(Y.to_word())
+            z = x.concatenate(y)
+            if z.is_yamanouchi():
+                if la is None:
+                    yield x, y
+                elif z.weight() == vector(la):
+                    yield x, y
+
+def littlewood_richardson_coefficient(la, mu, nu):
+    return len(list(littlewood_richardson_pairs(mu, nu, la=la)))
+
+def find_non_integral_words(mu, nu, n=None):
+    nun = [i*n for i in nu]
+    mun = [i*n for i in mu]
+    if n is None:
+        n = len(mu)+len(nu)
+    for x, y in littlewood_richardson_pairs(mun, nun,n=n):
+        z = x.concatenate(y).scale(1/n)
+        if all([w.is_integer() for w in z.weight()]) and not(z.is_integral):
+            yield x, y
