@@ -1,8 +1,8 @@
 from copy import copy
 from random import random, randint
 from numpy import zeros
-from numpy.random import rand
-
+from numpy.random import rand, exponential
+from sage.combinat.tableau import SemistandardTableau
 class TimedWord:
     """
     The class of timed words.
@@ -294,8 +294,8 @@ class TimedWord:
     
 class TimedTableau(TimedWord):
     def __init__(self, w, rows=False, gt=False):
-        if rows:
-            w = sum(reversed(w), [])
+        if rows or isinstance(w, SemistandardTableau):
+            w = sum(reversed(w),tuple())
         if gt:
             n = len(w)
             rows = [TimedRow([])]*n
@@ -427,8 +427,8 @@ def delete(w, la):
         output = output.concatenate(r)
     return x, output
 
-def random_word(max_let, terms, max_time=1):
-    return TimedWord([[randint(1, max_let), max_time*random()] for i in range(terms)])
+def random_word(max_let, terms, scale=1):
+    return TimedWord([[randint(1, max_let), exponential(scale=scale)] for i in range(terms)])
 
 def random_row(max_let, max_time=1):
     return TimedRow([[i+1, max_time*random()] for i in range(max_let)])
