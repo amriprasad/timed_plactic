@@ -10,6 +10,7 @@
 \newcommand{\shape}{\mathrm{shape}}
 \newcommand{\rsk}{\mathrm{RSK}}
 \newcommand{\GT}{\mathrm{GT}}
+\newcommand{\wt}{\mathrm{wt}}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -18,6 +19,7 @@
 
 \begin{document}
 \maketitle
+\section{Pieri Rule and Dual RSK}
 \begin{definition}[Vertical and Horizontal strips]
   Let $\lambda = (\lambda_1,\dotsc,\lambda_l) \subset \mu=(mu_1,\dotsc,\mu_m)$ be real partitions.
   Then, we say that $\lambda/\mu$ is a \emph{vertical strip} of size $r$ if $\lambda_i-\mu_i\leq 1$ for each $i=1,\dotsc, l$, and $\mu_i\leq 1$ for $i=l+1,\dotsc,m$, and $r=l(\lambda)-l(\mu)$.
@@ -154,7 +156,7 @@ Recall also the following theorem:
   Also fill $m$ into the last $\mu_m-\lambda_i$ of the $(i-1)$st row.
   Thus the feasibility problem is reduced to $(\mu_1,\dotsc,\mu_{m-1})$, and $(\lambda_1,\dotsc,\lambda_{i-2}, \lambda_{i-1}-\mu_m +\lambda_i, \lambda_{i+1},\dotsc,\lambda_l,0)$.
   Note that $\lambda_{i-1} > \lambda_{i-1} - (\mu_m - \lambda_i)$, so the $(i-1)$st row of lambda is reduced in length,
-  but $(\lamnda_{i-1}-\mu_m)+\lambda_i\geq \lambda_i\geq \lambda_{i+1}$, so the new vector is still a partition.
+  but $(\lambda_{i-1}-\mu_m)+\lambda_i\geq \lambda_i\geq \lambda_{i+1}$, so the new vector is still a partition.
   For $j=1,\dotsc,i-2$, the feasibility condition $\mu_1+\dotsb + \mu_j \leq \lambda_1+\dotsb +\lambda_j$ remains unchanged.
   For $j=i-1$, we have $\mu_1+\dotsb+\mu_{i-1} \leq \lambda_1+\lambda_{i-1}-\mu_m+\lambda_i$,
 \end{proof}
@@ -178,5 +180,34 @@ Combining Theorems~\ref{theorem:feasibility-dual-timed-tab}, \ref{theorem:dual-r
   \begin{displaymath}
     \lambda_1+\dotsb + \lambda_j \leq \min(\mu_1,j)+\dotsb + \min(\mu_m,j) \text{ for } j=1,\dotsb+l.
   \end{displaymath}
+\end{lemma}
+
+\section{Strict Insertion}
+\label{sec:strict-insertion}
+
+Let $w$ be a timed word.
+Let $b_1(w)$ denote the length of the longest strict row-subword of $w$.
+We wish to determine $b_1(w)$, making one pass over $w$.
+At time $t$, we would have read $w_{[0,t)}$, and we keep track of two timed words: $u^t$ and $v^t$, where $u^t$ is characterized by:
+\begin{enumerate}
+\item $l(u^t) = b_w(w_{[0,t)})$,
+\item $u^t(s)$ is the least last letter of a strictly increasing subword of $w$ of length $s$ for $0\leq s<b_w(w_{[0,t)})$,
+\end{enumerate}
+for all $0\leq t<l(w)$, and $v^t$ is characterized by:
+\begin{enumerate}
+\item $v^s=v^t_{[0,s)}$ for all $s\leq t$,
+\item $\wt(u^t) + \wt(v^t) = \wt(w^t)$,
+\end{enumerate}
+for all $0\leq t<l(w)$.
+The word $u$ is called the \emph{first strict row word} of $w$, and $v$ is called the \emph{strict shadow word} of $w$.
+We write: $u=p^*(w)$ and $v=S^*(w)$.
+\begin{lemma}
+  Suppose $p^*(w)=u$, $S^*(w)=v$.
+  Then $u'=p^*(wc^t)$ and $v'=S^*(wc^t)$ are obtained as follows:
+  \begin{itemize}
+  \item Let $t_0$ be the largest positive real number such that $u(t_0)<c$.
+  \item Let $u'=u_{[0,t_0)}c^{\min(t, 1)} u_{[t_0+\min(t,1),l(u))}$.
+  \item Let $v'=vu_{[t_0,t_0+\min(t,1))}c^{t-\min(t,1)}$.
+  \end{itemize}
 \end{lemma}
 \end{document}

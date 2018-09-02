@@ -2,7 +2,7 @@ from copy import copy
 from random import random, randint
 from numpy import zeros
 from numpy.random import rand, exponential
-from sage.combinat.tableau import SemistandardTableau
+from sage.combinat.tableau import SemistandardTableaux, SemistandardTableau
 class TimedWord:
     """
     The class of timed words.
@@ -16,9 +16,9 @@ class TimedWord:
             self._w = w._w
         elif len(w) == 0:
             self._w = []
-        elif not hasattr(w[0], "__iter__"):
-            self._w = [[a,1] for a in w] # ordinary words are timed words
         else:
+            if not hasattr(w[0], "__iter__"):
+                w = [[a,1] for a in w] # ordinary words are timed words
             v = []
             for i in range(len(w)):
                 if abs(w[i][1]) < tol:
@@ -44,7 +44,16 @@ class TimedWord:
             yield term
 
     def to_list(self):
-        return self._w
+        return sum([[term[0]]*term[1] for term in self], [])
+
+    def to_tableaux(self):
+        return SemistandardTableau([row.to_list() for row in self.rows()[::-1]])
+
+    def scale(self, a):
+        return TimedWord([(term[0],term[1]*a) for term in self])
+
+    def is_integral(self, tol=None):
+        return all([term[1].is_integral() for term in self])
 
     def rows(self):
         w = self._w
@@ -294,8 +303,13 @@ class TimedWord:
     
 class TimedTableau(TimedWord):
     def __init__(self, w, rows=False, gt=False):
+<<<<<<< HEAD
         if rows or isinstance(w, SemistandardTableau):
             w = sum(reversed(w),tuple())
+=======
+        if rows:
+            w = sum(reversed(w), tuple())
+>>>>>>> c367a800a81420a5344e64b63f9b02a7ee3b0db5
         if gt:
             n = len(w)
             rows = [TimedRow([])]*n
@@ -453,3 +467,52 @@ def inverse_real_rsk(P,Q):
 
 def random_real_matrix(m, n):
     return rand(m,n)
+
+def littlewood_richardson_pairs(mu, nu, la=None, n=None):
+    """
+    Return all pairs `x` and `y` of tableau words of
+    shape ``mu`` and ``nu`` such that such that `xy`
+    is Yamanouchi of shape ``la``.
+    """
+    if n is None:
+        if la:
+            n = len(la)
+        else:
+            n = len(nu)+len(mu)
+    X = SemistandardTableaux(mu).first()
+    for Y in SemistandardTableaux(nu, max_entry=n):
+        x = TimedWord(X.to_word())
+        y = TimedWord(Y.to_word())
+        z = y.concatenate(x)
+        if z.is_yamanouchi():
+            if la is None:
+                yield x, y
+            elif z.weight() == la:
+                yield x, y
+
+def littlewood_richardson_coefficient(la, mu, nu):
+    return len(list(littlewood_richardson_pairs(mu, nu, la=la)))
+
+def find_non_integral_words(mu, nu, n=2):
+    """
+    Find all lr pairs `(x,y)` for `n*mu` and `n*nu`
+    such that `xy` scaled down by ``n`` is not a
+    true word but its weight is integral.
+    """
+    nun = [i*n for i in nu]
+    mun = [i*n for i in mu]
+    for x, y in littlewood_richardson_pairs(mun, nun):
+        z = x.concatenate(y).scale(1/n)
+        if all([w.is_integer() for w in z.weight()]) and not(z.is_integral()):
+            yield x, y
+
+def have_non_integral_words(mu, nu, n=2):
+    return len(list(find_non_integral_words(mu, nu,n=n)))>0
+            
+def lr_word_table(mu, nu, n=2):
+    nun = [i*n for i in nu]
+    mun = [i*n for i in mu]
+    for x, y in littlewood_richardson_pairs(mun,nun):
+        z = x.concatenate(y).scale(1/n)
+        if all([w.is_integer() for w in z.weight()]):
+            print x, y,  z.is_integral()
