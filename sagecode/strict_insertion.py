@@ -14,11 +14,10 @@ class TimedWord:
         self._tol = tol
         if hasattr(w, "_w"):
             self._w = w._w
-        elif len(w) == 0:
-            self._w = []
-        elif not hasattr(w[0], "__iter__"):
-            self._w = [[a,1] for a in w] # ordinary words are timed words
         else:
+            if w:
+                if not hasattr(w[0], "__iter__"):
+                    w = [[a,1] for a in w] # ordinary words are timed words
             v = []
             for i in range(len(w)):
                 if abs(w[i][1]) < tol:
@@ -442,19 +441,15 @@ class StrictTimedRow(TimedWord):
     def insert_term(self,c,t):
         tillnow=0
         for term in self._w:
-            if term[0]==c:
-                inserted = self.segment((0,tillnow+term[1])).concatenate(TimedWord([[c, min(t,1-term[1])]])).concatenate(self.segment((tillnow+term[1]+min(t,1-term[1]), self.length())))
-                bumped = self.segment((tillnow+term[1],tillnow+term[1]+min(t,1-term[1]))).concatenate(TimedWord([[c,t-min(t,1-term[1])]]))
-                return bumped, StrictTimedRow(inserted)
-            elif term[0]>c:
-                inserted = self.segment((0,tillnow)).concatenate(TimedWord([[c, min(t,1)]])).concatenate(self.segment((tillnow+min(t,1), self.length())))
-                bumped = self.segment((tillnow,tillnow+min(t,1))).concatenate(TimedWord([[c,max(0,t-1)]]))
-                return bumped, StrictTimedRow(inserted)
-            else:
+            if term[0]<c:
                 tillnow+=term[1]
+            else:
+                u=self.segment([0,tillnow]).concatenate(TimedWord([[c,min(t,1)]])).concatenate(self.segment([tillnow+min(t,1),self.length()]))
+                v=self.segment([tillnow,tillnow+min(t,1)]).concatenate(TimedWord([[c,t-min(t,1)]]))
+                return v, StrictTimedRow(u)
         else:
-            return TimedWord([[c,max(0,t-1)]]), StrictTimedRow(self.concatenate(TimedWord([[c,min(t,1)]])))
-
+            return TimedWord([[c,t-min(t,1)]]), StrictTimedRow(self.concatenate(TimedWord([[c,min(t,1)]])))
+            
 def inverse_rowins(vv, uu, r, max_let=None):
     if max_let is None:
         n = max(vv.max(), uu.max())
@@ -541,6 +536,11 @@ class DualTimedTableau():
     def __iter__(self):
         for row in self._rows[::-1]:
             yield row
+    def __eq__(self, other):
+        if len(self._rows)==len(other._rows):
+            return all([row==other._rows[i] for i, row in enumerate(self._rows)])
+        else:
+            return False
     def max(self):
         return max([row.max() for row in self._rows])
     def pp(self):

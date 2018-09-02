@@ -54,9 +54,7 @@ class TimedWord:
         return TimedWord([(term[0],term[1]*a) for term in self])
 
     def is_integral(self, tol=None):
-        if tol is None:
-            tol = 1e-10
-        return all([abs(term[1]-round(term[1]))<tol for term in self])
+        return all([term[1].is_integral() for term in self])
 
     def rows(self):
         w = self._w
@@ -143,7 +141,7 @@ class TimedWord:
             output = [0]*self.max()
             for term in self._w:
                 output[term[0]-1]+=term[1]
-            return vector(output)
+            return output
         else:
             return sum([term[1] for term in self._w if term[0] == i])
 
@@ -307,7 +305,7 @@ class TimedWord:
 class TimedTableau(TimedWord):
     def __init__(self, w, rows=False, gt=False):
         if rows:
-            w = sum(reversed(w), [])
+            w = sum(reversed(w), tuple())
         if gt:
             n = len(w)
             rows = [TimedRow([])]*n
@@ -473,30 +471,44 @@ def littlewood_richardson_pairs(mu, nu, la=None, n=None):
     is Yamanouchi of shape ``la``.
     """
     if n is None:
-        if la is None:
-            n = max([len(mu), len(nu)])
+        if la:
+            n = len(la)
         else:
-            n = max([len(la), len(mu), len(nu)])
-    for X in SemistandardTableaux(mu, max_entry=n):
-        for Y in SemistandardTableaux(nu, max_entry=n):
-            x = TimedWord(X.to_word())
-            y = TimedWord(Y.to_word())
-            z = x.concatenate(y)
-            if z.is_yamanouchi():
-                if la is None:
-                    yield x, y
-                elif z.weight() == vector(la):
-                    yield x, y
+            n = len(nu)+len(mu)
+    X = SemistandardTableaux(mu).first()
+    for Y in SemistandardTableaux(nu, max_entry=n):
+        x = TimedWord(X.to_word())
+        y = TimedWord(Y.to_word())
+        z = y.concatenate(x)
+        if z.is_yamanouchi():
+            if la is None:
+                yield x, y
+            elif z.weight() == la:
+                yield x, y
 
 def littlewood_richardson_coefficient(la, mu, nu):
     return len(list(littlewood_richardson_pairs(mu, nu, la=la)))
 
-def find_non_integral_words(mu, nu, n=None):
+def find_non_integral_words(mu, nu, n=2):
+    """
+    Find all lr pairs `(x,y)` for `n*mu` and `n*nu`
+    such that `xy` scaled down by ``n`` is not a
+    true word but its weight is integral.
+    """
     nun = [i*n for i in nu]
     mun = [i*n for i in mu]
-    if n is None:
-        n = len(mu)+len(nu)
-    for x, y in littlewood_richardson_pairs(mun, nun,n=n):
+    for x, y in littlewood_richardson_pairs(mun, nun):
         z = x.concatenate(y).scale(1/n)
-        if all([w.is_integer() for w in z.weight()]) and not(z.is_integral):
+        if all([w.is_integer() for w in z.weight()]) and not(z.is_integral()):
             yield x, y
+
+def have_non_integral_words(mu, nu, n=2):
+    return len(list(find_non_integral_words(mu, nu,n=n)))>0
+            
+def lr_word_table(mu, nu, n=2):
+    nun = [i*n for i in nu]
+    mun = [i*n for i in mu]
+    for x, y in littlewood_richardson_pairs(mun,nun):
+        z = x.concatenate(y).scale(1/n)
+        if all([w.is_integer() for w in z.weight()]):
+            print x, y,  z.is_integral()
