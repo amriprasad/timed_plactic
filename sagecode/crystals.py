@@ -303,13 +303,8 @@ class TimedWord:
     
 class TimedTableau(TimedWord):
     def __init__(self, w, rows=False, gt=False):
-<<<<<<< HEAD
-        if rows or isinstance(w, SemistandardTableau):
-            w = sum(reversed(w),tuple())
-=======
         if rows:
             w = sum(reversed(w), tuple())
->>>>>>> c367a800a81420a5344e64b63f9b02a7ee3b0db5
         if gt:
             n = len(w)
             rows = [TimedRow([])]*n
