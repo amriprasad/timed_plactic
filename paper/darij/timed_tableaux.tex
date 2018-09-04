@@ -108,7 +108,7 @@ The submonoid of $A_n^\dagger$ consisting of timed words where the exponents $t_
 \begin{definition}
   [Timed Subword]
   \label{definition:timed-subword}
-  Given a timed word $w:[0,r)\to A_n$, and $S\subset [0,r)$ a finite disjoint union of intervals of the form $[a, b)\subset [0,r)$, the timed subword of $w$ with respect to $S$ is the timed word $w_S$ defined by:
+  Given a timed word $w:[0,r)\to A_n$, and $S\subset [0,r)$ a finite disjoint union of intervals of the form $[a, b)\subset [0,r)$, the \emph{timed subword $w_S$ of $w$ with respect to $S$} is defined by:
   \begin{displaymath}
     w_S(t) = w(\inf\{u\in [0,r)\mid \mathrm{meas}([0,u)\cap S) \geq t\}) \text{ for } 0\leq t < \mathrm{meas}(S).
   \end{displaymath}
@@ -141,7 +141,7 @@ Given two timed rows $u$ and $v$, say that $u$ is \emph{dominated} by $v$ (denot
   Two real partitions are regarded as equal if one may be obtained from the other by the removal of trailing zeroes.
 \end{definition}
 \begin{definition}[Timed Tableau]\label{definition:timed-tableau}
-  A timed tableau in $A_n$ is a timed word $w$ in $A_n$ with row decomposition $w=u_l u_{l-1}\dotsb u_1$ such that $u_1\lhd \dotsb \lhd u_l$.
+  A \emph{timed tableau} in $A_n$ is a timed word $w$ in $A_n$ with row decomposition $w=u_l u_{l-1}\dotsb u_1$ such that $u_1\lhd \dotsb \lhd u_l$.
   The \emph{shape} of $w$ is the real partition $(l(u_1),l(u_2),\dotsc,l(u_l))$, and the weight of $w$ is the \emph{weight} of $w$ as a timed word (see Definition~\ref{definition:timed-word}).
   The set of all timed tableaux in $A_n$ is denoted $\ttab_n$.
   The set of all timed tableaux of shape $\lambda$ is denoted $\ttab_n(\lambda)$.
@@ -160,7 +160,7 @@ Given a timed word $w$ and $0\leq a < b \leq l(w)$, according to Definition~\ref
 \end{displaymath}
 \begin{definition}[Timed row insertion]
   \label{definition:timed-row-insertion}
-  Given a timed row $u$, a letter $c\in A_n$, and a real number $t\geq 0$, the insertion $\rowins(u, c^{t_c})$ of $c^{t_c}$ into $u$ is defined as follows:
+  Given a timed row $u$, a letter $c\in A_n$, and a real number $t_c\geq 0$, the insertion $\rowins(u, c^{t_c})$ of $c^{t_c}$ into $u$ is defined as follows:
   if $u(t)\leq c$ for all $0\leq t < l(u)$, then
   \begin{displaymath}
     \rowins(u, c^{t_c}) = (\emptyset, uc^{t_c}),
@@ -179,7 +179,7 @@ Given a timed word $w$ and $0\leq a < b \leq l(w)$, according to Definition~\ref
       (u_{[t_0, l(u))}, u_{[0, t_0)} c^{t_c}) & \text{if } l(u) - t_0 \leq t_c.
     \end{cases}
   \end{displaymath}
-  When $t_c=1$ and $u$ lies in the image of $A^*$ in $A^\dagger$, this coincides with the first step of the algorithm INSERT from Knuth \cite{knuth} where $c$ is inserted into a row:
+  When $t_c=1$ and $u$ lies in the image of $A_n^*$ in $A_n^\dagger$, this coincides with the first step of the algorithm INSERT from Knuth \cite{knuth} where $c$ is inserted into a row:
   if $\rowins(u,c^1)=(v',u')$, then $u'$ is the new row obtained after insertion, $v'$ is the letter bumped out by $c$.
 
   If $v$ is a row of the form $c_1^{t_1}\dotsb c_k^{t_k}$, define $\rowins(u,v)$ by induction on $k$ as follows:
@@ -189,19 +189,28 @@ Given a timed word $w$ and $0\leq a < b \leq l(w)$, according to Definition~\ref
     \rowins(u,v) = (v'v'', u'').
   \end{displaymath}
 \end{definition}
-Using induction on $k$, 
+\begin{remark}
+  The insertion of the timed row $v=c_1^{t_1}\dotsb c_k^{t_k}$ into $u$ is achieved by successively inserting $c_i^{t_i}$ as $i$ runs from $1$ to $k$.
+  The segments are ejected are taken from $u$ from left to right, with no overlaps.
+  It follows that, if $(v',u')=\rowins(u,v)$, then $v'$ is again a timed row.
+\end{remark}
+\begin{remark}
+  Definition~\ref{definition:timed-row-insertion} is in terms of exponential strings, which are not uniquely associated to timed words.
+  Therefore, in order that row insertion be well-defined for timed words, it is necessary to check that the result of row insertion of $c^{t_1+t_2}$ is the same as the result of row insertion of $c^{t_1}$ followed by row inertion of $c^{t_2}$.
+\end{remark}
 \begin{example}
   \label{example:timed-row-ins}
   $\rowins(1^{1.4}2^{1.6}3^{0.7},1^{0.7}2^{0.2})=(2^{0.7}3^{0.2},1^{2.1}2^{1.1}3^{0.5})$.
 \end{example}
 \begin{definition}
   [Timed Tableau Insertion]
+  \label{definition:timed-tableau-insertion}
   Let $w$ be a timed tableau with row decomposition $u_l\dotsc u_1$, and let $v$ be a timed row.
   Then $\ins(w, v)$, the insertion of $v$ into $w$ is defined as follows:
   first $v$ is inserted into $u_1$.
   If $\rowins(u_1,v)=(v_1',u_1')$, then $v_1'$ is inserted into $u_2$; if $\rowins(u_2,v_1')=(v_2',u_2')$, then $v_2'$ is inserted in $u_3$, and so on.
   This process continues, generating $v_1',\dotsc,v_l'$ and $u_1',\dotsc,u_l'$.
-  $\ins(t,v)$ is defined to be $v_l'u_l'\dotsb u_1'$.
+  $\ins(w,v)$ is defined to be $v_l'u_l'\dotsb u_1'$.
   It is quite possible that $v_l'=\emptyset$.
 \end{definition}
 \begin{example}
@@ -214,8 +223,9 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
 \begin{definition}
   Given real partitions $\lambda=(\lambda_1,\dotsc,\lambda_l)$ and $\mu=(\mu_1,\dotsc,\mu_{l-1})$, we say that $\mu$ \emph{interleaves} $\lambda$ if the inequalities
   \begin{displaymath}
-    \lambda_1 \geq \mu_1 \geq \lambda_2 \geq \mu_2 \geq \dotsb \geq \lambda_{l-1}\geq \mu_{l-1}\geq \mu_l. 
+    \lambda_1 \geq \mu_1 \geq \lambda_2 \geq \mu_2 \geq \dotsb \geq \lambda_{l-1}\geq \mu_{l-1}\geq \lambda_l 
   \end{displaymath}
+  hold.
   In other words, the successive parts of $\mu$ lie in-between the successive parts of $\lambda$.
 \end{definition}
 \begin{theorem}
@@ -228,43 +238,54 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
   and $\shape(w)$ interleaves $\shape(\ins(w,v))$.
 \end{theorem}
 \begin{proof}
-  We first prove that $\ins(w,v)$ is a timed tableau.
-  For this purpose, by inserting in stages, one may assume that $v=c^t$ for some $c\in A_n$ and some $t>0$.
-  Let $w$ have row decomposition $u_lu_{l-1}\dotsb u_1$.
-  If $u_1(t)\leq c$ for all $0\leq t<l(u_1)$, then $u_1'=u_1c^t$, and $u_2'=u_2$, and so $u_1'\lhd u_2'$.
-  Otherwise, when $c^t$ is inserted into $u_1$, $v_1'$ is a segment of $u_1$ corresponding to an interval $[t_0,t_0+\delta)$ such that $u_1(t_0)>c$.
-  This segment in $u_1$ is replaced by a segment $c^\delta$ to obtain $u_1'$.
-  Let $v_1'=c_1^{t_1}\dotsb c_k^{t_k}$ (so $c<c_1< \dotsb <c_k$) be the exponential notation for $v_1'$.
+  The main step in this proof is the following lemma:
+  \begin{lemma}
+    \label{lemma:tableauness-of-insertion}
+    Suppose $x$ and $y$ are timed rows in $A_n$ such that $x\lhd y$.
+    For any timed row $v$ in $A_n$, suppose $(v',x')=\rowins(x,v)$, and $(v'',y')=\rowins(y,v')$.
+    \begin{enumerate}
+    \item \label{item:dom} $x'\leq y'$
+    \item \label{item:wt} $\wt(v'')+\wt(x')+\wt(y')=\wt(x)+\wt(y)+\wt(v)$
+    \item \label{item:int} $l(y')\leq l(x)$.
+    \end{enumerate}
+  \end{lemma}
+  \begin{proof}[Proof of the lemma]
+    By inserting in stages, assume that $v=c^t$ for some $c\in A_n$ and some $t>0$.
 
-  Proceed by induction on $k$.
-  If $k=1$, $v_1'=c_1^{t_1}$.
-  Now $u_2(t_0)>u_1(t_0)=c_1$, so $c_1^{t_1}$ will displace a segment of $u_2$ that begins to the left of $t_0$ with $c_1^{t_1}$, and so $u_1'\lhd u_2'$.
+    If $x$ never exceeeds $c$, then $x'=xc^t$, and $y'=y$, and so $x'\lhd y'$.
+    Otherwise, when $c^t$ is inserted into $x$, $v'$ is a segment of $x$ corresponding to an interval $[t_0,t_0+\delta)$ such that $x(t_0)>c$.
+    This segment in $x$ is replaced by a segment $c^\delta$ to obtain $x'$.
+    Let $c_1^{t_1}\dotsb c_k^{t_k}$, with $c<c_1< \dotsb <c_k$, be the exponential string of $v'$.
 
-  For $k>1$, perform the insertion of $c^t$ into $w$ in two steps, first inserting $c^{t_1}$, and then inserting $c^{t-t_1}$.
-  If $(v_1'',u_1'')=\rowins(u_1,c^{t_1})$, then $v_1''=c_1^{t_1}$.
-  Let $(v_2'',u_2'')=\rowins(u_2,v_1'')$.
-  By the $k=1$ case, $u_1''\lhd u_2''$.
-  
-  Now $(c_2^{t_2}\dotsb c_k^{t_k},u_1')=\rowins(u_1'',c^{t-t_1})$, and $u_2'$ is obtained by inserting $c_2^{t_2}\dotsb c_k^{t_k}$ into $u_2''$.
-  Therefore, by induction hypothesis, $u_1'\lhd u_2'$.
-  Repeating this argument with the remaining rows shows that $u_1'\lhd u_2' \lhd \dotsb \lhd u_l'$, as required.
+    Proceed by induction on $k$.
+    If $k=1$, $v'=c_1^{t_1}$.
+    Now $y(t_0)>x(t_0)=c_1$, so $c_1^{t_1}$ will displace a segment of $y$, one that begins to the left of $t_0$, with $c_1^{t_1}$, and so $x'\lhd y'$.
 
-  To see that $\shape(w)$ interleaves $\shape(\ins(w,v))$, observe that $v_1'$ is a concatenation of segments of $u_1$.
-  Write $v_1'=xy$, where $x$ consists of segments that come from $u_{1[0,l(u_2))}$ and $y$ consists of segments that come from $u_{1[l(u_2),l(u_1))}$.
-  Then, from the arguments of the first part of this proof, the segments in $x$ will all replace segments of $u_2$, so if $(\tilde v,\tilde u_2)=\rowins(u_2,x)$, then $l(\tilde u_2)=l(u_2)$.
-  Since $y$ is inserted into $\tilde u_2$ to obtain $u_2'$,
-  Now $(v_2',u_2')=\rowins(\tilde u_2,y)$, whence 
-  \begin{align*}
-    l(u_2') &\leq l(\tilde u_2)+l(y)\\
-    &\leq l(u_2)+[l(u_1)-l(u_2)]\\
-    & = l(u_1).
-  \end{align*}
-  The same argument shows that $l(u_i')\leq l(u_{i-1})$ for $i>2$ as well, so that $\shape(w)$ interleaves $\shape(\ins(w,v))$.
+    For $k>1$, perform the insertion of $c^t$ into $x$ in two steps, first inserting $c^{t_1}$, and then inserting $c^{t-t_1}$.
+    If $(v_1',x_1')=\rowins(x,c^{t_1})$, then $v_1'=c_1^{t_1}$.
+    Let $(v_1'',y_1')=\rowins(y,v_1')$.
+    By the $k=1$ case, $x_1'\lhd y_1'$.
+    
+    Now $(c_2^{t_2}\dotsb c_k^{t_k},y')=\rowins(y_1',c^{t-t_1})$, so $y'$ is obtained by inserting $c_2^{t_2}\dotsb c_k^{t_k}$ into $y_1'$.
+    Therefore, by induction hypothesis, $x'\lhd y'$, proving (\ref{item:dom}).
 
-  The assertion about weights is obvious.
+    The assertion (\ref{item:wt}) about weights is straightforward.
+    For (\ref{item:int}), observe that $v'$ is a concatenation of segments from $x$.
+    Write $v'=wz$, where $w$ consists of segments that come from $u_{[0,l(y))}$ and $z$ consists of segments that come from $u_{[l(y),l(x))}$.
+    Then, from the arguments in the proof of the first part of the lemma, the segments in $w$ will all replace segments of $y$, so if $(v'',y'')=\rowins(y,w)$, then $l(y'')=l(y)$.
+    Now $(v',y')=\rowins(y'',z)$, whence $l(y')\leq l(y'')+l(z)\leq l(y)+[l(x)-l(y)] = l(x)$.
+  \end{proof}
+  We now prove that $\ins(w,v)$ is a timed tableau.
+  Supppose $w$ has row decomposition $u_lu_{l-1}\dotsb u_1$.
+  Using the notation of Definition~\ref{definition:timed-tableau-insertion}, and writing $v_0$ for $v$, we have $(v_i',u'_i)=\rowins(u_i,v'_{i-1})$ and $(v_{i+1}',u_{i+1}')=\rowins(u_{i+1},v'_i)$.
+  The first assertion of Lemma~\ref{lemma:tableauness-of-insertion}, with $v=v'_i$, $x=u_i$, and $y=u_{i+1}$, shows that $u'_i\lhd u'_{i+1}$ for $i=1,\dotsc,l-1$.
+  Taking $x=u_l$ and $y=\emptyset$ gives $u'_l\lhd v'_l$. Therefore $\ins(w,v)$ is a timed tableau.
+  The third assertion of Lemma~\ref{lemma:tableauness-of-insertion}, with the same settings, gives $l(u_{i+1}')\leq l(u_i)$, showing that $\shape(w)$ interleaves $\shape(\ins(w,v)$.
+  The assertion about weights follows easily from the second assertion of Lemma~\ref{theorem:tableauness-of-insertion}.
 \end{proof}
 \begin{definition}
   [Insertion Tableau of a Timed Word]
+  \label{definition:insertion_tableaux}
   Let $w$ be a timed word with row decomposition $u_1\dotsb u_l$.
   The insertion tableau of $w$ is defined as:
   \begin{displaymath}
@@ -311,7 +332,7 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
 \end{lemma}
 \begin{proof}
   It suffices to consider the case where $v=c^t$.
-  The hypothesis $l(v')=l(v)$ implies that $t_0=\inf\{t\mid u(t)>c\}$ satisfies $0\leq t_0<l(u)-c$, and
+  The hypothesis $l(v')=l(v)$ implies that $t_0=\inf\{t\mid u(t)>c\}$ satisfies $0\leq t_0\leq l(u)-c$, and
   \begin{displaymath}
     u'=u_{[0,t_0)}c^tu_{[t_0+t,l(u))}, \text{ and } v'=u_{[t_0,t_0+t)}.
   \end{displaymath}
@@ -321,7 +342,7 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
   \begin{displaymath}
     {u'}^\sharp=u_{[t_0+t,l(u))}^\sharp (n-c+1)^t u_{[0,t_0)}^\sharp \text{ and } {v'}^\sharp=(n-d+1)^t.
   \end{displaymath}
-  Since all the values of $u_{[t_0+t,l(u))}$ are greater than or equal to the last value of $d$, all the values of $u_{[t_0+t,l(u))}^\sharp$ are less than or equal to $n-d+1$.
+  Since all the values of $u_{[t_0+t,l(u))}$ are greater than or equal to $d$, all the values of $u_{[t_0+t,l(u))}^\sharp$ are less than or equal to $n-d+1$.
   Moreover, $n-c+1>n-d+1$.
   It follows immediately from Definition~\ref{definition:timed-row-insertion} that $\rowins({u'}^\sharp,{v'}^\sharp)=(v^\sharp,u^\sharp)$.
 \end{proof}
@@ -373,13 +394,13 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
 \end{definition}
 \section{Greene's Theorem}
 \label{sec:greene}
-\subsection{Greene's Invariants for Timed Words}
+\subsection{Greene Invariants for Timed Words}
 \label{sec:timed-greene-invar}
-\begin{definition}[Greene's Invariants for Timed Words]
+\begin{definition}[Greene Invariants for Timed Words]
   \label{definition:timed-Greene-invars}
-  Given $w\in A_n^\dagger$, its $k$th Greene's invariant $a_k(w)$ is defined as the maximum possible sum of lengths of a set of $k$ pairwise disjoint subwords of $w$ (see Definition~\ref{definition:timed-subword}) that are all timed rows:
+  Given $w\in A_n^\dagger$, its \emph{$k$th Greene invariant} $a_k(w)$ is defined as the maximum possible sum of lengths of a set of $k$ pairwise disjoint subwords of $w$ (see Definition~\ref{definition:timed-subword}) that are all timed rows:
   \begin{multline*}
-    a_k(w) = \max\{l(u_1)+\dotsb+l(u_k)\mid u_1,\dotsc,u_k \text{ are pairwise disjoint subwords,}\\ \text{and each $u_i$ is a timed row }\}
+    a_k(w) = \sup\{l(u_1)+\dotsb+l(u_k)\mid u_1,\dotsc,u_k \text{ are pairwise disjoint subwords,}\\ \text{and each $u_i$ is a timed row}\}
   \end{multline*}
 \end{definition}
 \begin{lemma}
@@ -391,7 +412,8 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
 \end{lemma}
 \begin{proof}
   This proof is very similar to the proof of the corresponding result for ordinary tableaux \cite{Greene-schen,Lascoux}.
-  Indeed, $u_1,\dotsc,u_k$ are pairwise disjoint subwords that are rows, so
+  Suppose $w$ has row decomposition $u_lu_{l-1}\dotsb u_1$.
+  Then $u_1,\dotsc,u_k$ are pairwise disjoint subwords that are rows, so
   \begin{displaymath}
     a_k(w) \geq \lambda_1+\dotsb + \lambda_l.
   \end{displaymath}
@@ -416,11 +438,11 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
 \begin{definition}
   [Timed Plactic Monoid]
   \label{definition:timed-plactic-monoid}
-  The timed plactic monoid $\pl(A_n)$ is the quotient $A^\dagger/\equiv$, where $\equiv$ is the congruence generated by the timed Knuth relations (\ref{eq:tk1}) and (\ref{eq:tk2}).
+  The \emph{timed plactic monoid} $\pl(A_n)$ is the quotient $A_n^\dagger/\equiv$, where $\equiv$ is the congruence generated by the timed Knuth relations (\ref{eq:tk1}) and (\ref{eq:tk2}).
 \end{definition}
-In other words, two elements of $A^\dagger$ are said to differ by a Knuth move if they are of the form $uv_1w$ and $uv_2w$, where $v_1$ and $v_2$ are terms on opposite sides of one of the timed Knuth relations (\ref{eq:tk1}) and (\ref{eq:tk2}).
+In other words, two elements of $A_n^\dagger$ are said to differ by a Knuth move if they are of the form $uv_1w$ and $uv_2w$, where $v_1$ and $v_2$ are terms on opposite sides of one of the timed Knuth relations (\ref{eq:tk1}) and (\ref{eq:tk2}).
 Knuth equivalence $\equiv$ is the equivalence relation generated by Knuth moves.
-Since this equivalence is stable under left and right multiplication in $A^\dagger$, the concatenation product on $A^\dagger$ descends to a product on the set $\pl(A)$ of Knuth equivalence classes, giving it the structure of a monoid.
+Since this equivalence is stable under left and right multiplication in $A_n^\dagger$, the concatenation product on $A_n^\dagger$ descends to a product on the set $\pl(A_n)$ of Knuth equivalence classes, giving it the structure of a monoid.
 \begin{lemma}
   \label{lemma:sharp-moves}
   Then $v$ and $w$ differ by a Knuth move (\ref{eq:tk1}) if and only if $v^\sharp$ and $w^\sharp$ (see Definition~\ref{definition:schuetzenberger-involution}) differ by a Knuth move (\ref{eq:tk2}).
@@ -433,18 +455,28 @@ Since this equivalence is stable under left and right multiplication in $A^\dagg
   Every timed word is Knuth equivalent to its timed insertion tableau.
 \end{lemma}
 \begin{proof}
-  It suffices to show that, for every timed row $u$, and every term $c^t$, if $(v,u')=\rowins(u,c^t)$, then $uc^t\equiv vu'$.
+  First we show that, for timed rows $u$ and $v$, if $(v',u')=\rowins(v,u)$, then $v'u'\equiv uv$.
+  By insertion in stages, we assume that $v=c^t$.
   If $u(t)\leq c$ for all $0\leq t<l(u)$, there is nothing to show.
-  Otherwise, a segment $v$ of $u$, beginning at $t_0$, and of length $t_1=\min(l(u)-t_0,t)$ is displaced by the segment $c^{t_1}$ of $c^t$.
-  Write $u=u'vu''$.
-  It suffices to show $u'vu''c^{t_1}\equiv vu'c^{t_1}u''$.
+  Otherwise, a segment $y$ of $u$, beginning at $t_0$, and of length $t_1=\min(l(u)-t_0,t)$ is displaced by the segment $c^{t_1}$ of $c^t$.
+  Write $u=x'yx''$.
+  It suffices to show $x'yx''c^{t_1}\equiv yx'c^{t_1}x''$.
   But this can be done in two Knuth moves as follows (the segment to which the Knuth move is applied is underlined):
   \begin{displaymath}
-    u'\underline{v u'' c^{t_1}} \equiv_{\kappa_2} u'\underline{vc^{t_1}u''} = \underline{u'vc^{t_1}}u'' \equiv_{\kappa_1} \underline{vu'c^{t_1}}u'',
+    x'\underline{y x'' c^{t_1}} \equiv_{\kappa_2} x'\underline{yc^{t_1}x''} = \underline{x'yc^{t_1}}x'' \equiv_{\kappa_1} \underline{yx'c^{t_1}}x''.
   \end{displaymath}
-  completing the proof of the lemma.
+  From Definition~\ref{definition:insertion_tableaux}, it suffices to show that $\ins(w,v)\equiv wv$ for every timed tableau $w$ and every timed row $v$.
+  Suppose $w$ has row decomposition $u_lu_{l-1}\dotsb u_1$ then, with the notations of Definition~\ref{definition:timed-tableau-insertion},
+  \begin{align*}
+    wv &= u_l\dotsb u_2u_1 v\\
+       &\equiv u_l \dotsb u_2v_1'u_1'\\
+       &\equiv u_l \dotsb v_2'u_2'u_1'\\
+       & \vdots\\
+       &\equiv v_l'u_l'\dotsb u_2'u_1' = \ins((w,v),
+  \end{align*}
+  by repeated application of the assertion at the beginning of this proof.
 \end{proof}
-\subsection{Knuth Equivalence and Greene's Invariants}
+\subsection{Knuth Equivalence and Greene Invariants}
 \label{sec:knuth-equiv-green}
 \begin{lemma}
   \label{lemma:Knuth-Greene}
@@ -453,21 +485,35 @@ Since this equivalence is stable under left and right multiplication in $A^\dagg
 \begin{proof}
   It suffices to prove that if two words differ by a Knuth move they have the same Greene invariants.
   For the Knuth move (\ref{eq:tk1}), suppose that $xyz$ is a timed row with $l(z)=l(y)$, and the last letter of $y$ is strictly less than the first letter of $z$.
-  For any timed words $w$ and $u$, we wish to show that Greene's invariants coincide for $wxzyu$ and $wzxyu$.
+  For any timed words $w$ and $u$, we wish to show that Greene invariants coincide for $wxzyu$ and $wzxyu$.
   Now suppose that $v_1,\dotsc,v_k$ are pairwise disjoint row subwords of $wxzyu$ whose lengths add up to $a_k(wxzyu)$.
   We may write $v_i=w_ix_iz_iy_iu_i$ for each $i$, where $w_i,x_i,z_i,y_i$ and $u_i$ are row subwords of $w,x,z,y$ and $u$ respectively.
 
   Since the last letter of $y$ is strictly smaller than the first letter of $z$, it cannot be that $y_i\neq \emptyset$ and $z_i\neq \emptyset$ simultaneously for the same $i$.
   Renumber $v_1,\dotsc,v_k$ in such a way that $v_i=w_ix_iz_iu_i$ for $i=1,\dotsc,r$ and $v_i=w_ix_iy_iu_i$ for $i=r+1,\dotsc,k$.
-  If $x_i=\emptyset$ for $i=1,\dotsc,r$, then all the $v_i$'s remain row subwords of $wzxyu$, and so $a_k(wzxyu)\geq a_k(wxzyu)$.
+  If $x_i=\emptyset$ for all $i=1,\dotsc,r$, or $z_i=\emptyset$ for all $i=1,\dotsc,r$, then all the $v_i$'s remain row subwords of $wzxyu$, and so $a_k(wzxyu)\geq a_k(wxzyu)$.
+  Assume that $z_1\neq \emptyset$. Then $yu_1$ is a row.
   If $y_i=\emptyset$ for $i=r+1,\dotsc,k$, then set
   \begin{align*}
     v_1'&=w_1x_1yu_1,\\
     v_i'&=w_ix_iu_i \text{ for } i=2,\dotsc,k.
   \end{align*}
-  Then $v'_i$ are pairwise disjoint row subwords of $wzxyu$, and $l(v'_1)+\dotsb + l(v'_k)\geq l(v_1)+\dotsb l(v_k)$, since $l(y)=l(z)\geq l(z_1)+\dotsb + l(z_r)$.
+  Then $v'_i$ are pairwise disjoint row subwords of $wzxyu$, and $l(v'_1)+\dotsb + l(v'_k)\geq l(v_1)+\dotsb+l(v_k)$, since $l(y)=l(z)\geq l(z_1)+\dotsb + l(z_r)$.
   It follows that $a_k(wzxyu)\geq a_k(wxzyu)$.
 
+  There remains the case where at least one $x_i\neq \emptyset$ for $i=1,\dotsc,r$, at least one $y_i\neq \emptyset$ for $i=r+1,\dotsc,k$, and at least one $z_i\neq \emptyset$ for $i=1,\dotsc,r$.
+  Let $a$ be the index for which $x_i$ has the smallest first letter among all $i=1,\dotsc,k$.
+  Let $b_1$ (resp., $b_2$) be the index for which $y_i$ has the largest last letter (resp., smallest first letter) among all $i=r+1,\dotsc,k$.
+  Let $c$ be the index for which $z_i$ has the largest last letter among all $i=1,\dots,r$.
+
+  Form the timed row $x_0$ (respectively, $y_0$ and $z_0$) by concatenating all the segments of all the $x_i$ (respectively, $y_i$ and $z_i$) in the order in which they occur in $x$ (respectively, $y$ and $z$).
+  Take:
+  \begin{align*}
+    v'_a &= w_ax_0y_0u_b,\\
+    v'_b &= w_bu_a \text{(only if }\\
+    v'_c &= w_cz_0u_c.
+  \end{align*}
+  
   If at least one $x_i\neq \emptyset$ and one $y_i\neq\emptyset$, assume that $x_1$ has the least first letter among $x_1,\dotsc,x_r$, and that $y_k$ has the largest last letter among $y_{r+1},\dotsc,y_k$.
   Let $x_0$ be the row subword of $x$ obtained by concatenating the segments of $x_1,\dotsc,x_r$ in the order in which they appear in $x$ (so $x_0$ is a row of length $l(x_1)+\dotsb + l(x_r)$).
   Let $y_0$ be the row subword of $y$ obtained by concatenating the segments of $y_{r+1},\dotsc, y_k$ in the order in which they appear in $y$ (so $y_0$ is a row of length $l(y_{r+1})+\dotsb + l(y_k)$).
@@ -678,7 +724,7 @@ This is a direct generalization of the definition of the RSK correspondence give
     P_{mn} = \{(i,j)\mid 1\leq i\leq m,1\leq j \leq n\}
   \end{displaymath}
   by $(i,j)\leq (i',j')$ if and only if $i\leq i'$ and $j\leq j'$.
-  Then it follows that the $k$th timed Greene's invariant of $u_A$ (Definition~\ref{definition:timed-Greene-invars}) is given by:
+  Then it follows that the $k$th timed Greene invariant of $u_A$ (Definition~\ref{definition:timed-Greene-invars}) is given by:
   \begin{displaymath}
     a_k(u_A) = \max_C \sum_{(i,j)\in C} a_{ij},
   \end{displaymath}
