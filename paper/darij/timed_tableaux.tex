@@ -196,7 +196,7 @@ Given a timed word $w$ and $0\leq a < b \leq l(w)$, according to Definition~\ref
 \end{remark}
 \begin{remark}
   Definition~\ref{definition:timed-row-insertion} is in terms of exponential strings, which are not uniquely associated to timed words.
-  Therefore, in order that row insertion be well-defined for timed words, it is necessary to check that the result of row insertion of $c^{t_1+t_2}$ is the same as the result of row insertion of $c^{t_1}$ followed by row inertion of $c^{t_2}$.
+  Therefore, in order that row insertion be well-defined for timed words, it is necessary to check that the result of row insertion of $c^{t_1+t_2}$ is the same as the result of row insertion of $c^{t_1}$ followed by row insertion of $c^{t_2}$.
 \end{remark}
 \begin{example}
   \label{example:timed-row-ins}
@@ -252,7 +252,7 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
   \begin{proof}[Proof of the lemma]
     By inserting in stages, assume that $v=c^t$ for some $c\in A_n$ and some $t>0$.
 
-    If $x$ never exceeeds $c$, then $x'=xc^t$, and $y'=y$, and so $x'\lhd y'$.
+    If $x$ never exceeds $c$, then $x'=xc^t$, and $y'=y$, and so $x'\lhd y'$.
     Otherwise, when $c^t$ is inserted into $x$, $v'$ is a segment of $x$ corresponding to an interval $[t_0,t_0+\delta)$ such that $x(t_0)>c$.
     This segment in $x$ is replaced by a segment $c^\delta$ to obtain $x'$.
     Let $c_1^{t_1}\dotsb c_k^{t_k}$, with $c<c_1< \dotsb <c_k$, be the exponential string of $v'$.
@@ -276,7 +276,7 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
     Now $(v',y')=\rowins(y'',z)$, whence $l(y')\leq l(y'')+l(z)\leq l(y)+[l(x)-l(y)] = l(x)$.
   \end{proof}
   We now prove that $\ins(w,v)$ is a timed tableau.
-  Supppose $w$ has row decomposition $u_lu_{l-1}\dotsb u_1$.
+  Suppose $w$ has row decomposition $u_lu_{l-1}\dotsb u_1$.
   Using the notation of Definition~\ref{definition:timed-tableau-insertion}, and writing $v_0$ for $v$, we have $(v_i',u'_i)=\rowins(u_i,v'_{i-1})$ and $(v_{i+1}',u_{i+1}')=\rowins(u_{i+1},v'_i)$.
   The first assertion of Lemma~\ref{lemma:tableauness-of-insertion}, with $v=v'_i$, $x=u_i$, and $y=u_{i+1}$, shows that $u'_i\lhd u'_{i+1}$ for $i=1,\dotsc,l-1$.
   Taking $x=u_l$ and $y=\emptyset$ gives $u'_l\lhd v'_l$. Therefore $\ins(w,v)$ is a timed tableau.
@@ -486,50 +486,49 @@ Since this equivalence is stable under left and right multiplication in $A_n^\da
   It suffices to prove that if two words differ by a Knuth move they have the same Greene invariants.
   For the Knuth move (\ref{eq:tk1}), suppose that $xyz$ is a timed row with $l(z)=l(y)$, and the last letter of $y$ is strictly less than the first letter of $z$.
   For any timed words $w$ and $u$, we wish to show that Greene invariants coincide for $wxzyu$ and $wzxyu$.
-  Now suppose that $v_1,\dotsc,v_k$ are pairwise disjoint row subwords of $wxzyu$ whose lengths add up to $a_k(wxzyu)$.
-  We may write $v_i=w_ix_iz_iy_iu_i$ for each $i$, where $w_i,x_i,z_i,y_i$ and $u_i$ are row subwords of $w,x,z,y$ and $u$ respectively.
+  Since every timed row subword of $wzxyu$ is also a timed row subword of $wxzyu$, $a_k(wzxyu)\leq a_k(wxzyu)$ for all $k$.
+  
+  To prove the reverse inequality, for any set of pairwise disjoint row subwords $v_1,\dotsc,v_k$ of $wxzyu$, it suffices to construct pairwise disjoint row subwords $v_1',\dotsc,v_k'$ of $wzxyu$ such that $\sum_{i=1}^k l(v'_k)\geq \sum_{i=1}^k l(v_k)$.
+  Write $v_i=w_ix_iz_iy_iu_i$ for each $i$, where $w_i,x_i,z_i,y_i$ and $u_i$ are (possibly empty) row subwords of $w,x,z,y$ and $u$ respectively.
 
   Since the last letter of $y$ is strictly smaller than the first letter of $z$, it cannot be that $y_i\neq \emptyset$ and $z_i\neq \emptyset$ simultaneously for the same $i$.
-  Renumber $v_1,\dotsc,v_k$ in such a way that $v_i=w_ix_iz_iu_i$ for $i=1,\dotsc,r$ and $v_i=w_ix_iy_iu_i$ for $i=r+1,\dotsc,k$.
-  If $x_i=\emptyset$ for all $i=1,\dotsc,r$, or $z_i=\emptyset$ for all $i=1,\dotsc,r$, then all the $v_i$'s remain row subwords of $wzxyu$, and so $a_k(wzxyu)\geq a_k(wxzyu)$.
-  Assume that $z_1\neq \emptyset$. Then $yu_1$ is a row.
-  If $y_i=\emptyset$ for $i=r+1,\dotsc,k$, then set
-  \begin{align*}
-    v_1'&=w_1x_1yu_1,\\
-    v_i'&=w_ix_iu_i \text{ for } i=2,\dotsc,k.
-  \end{align*}
-  Then $v'_i$ are pairwise disjoint row subwords of $wzxyu$, and $l(v'_1)+\dotsb + l(v'_k)\geq l(v_1)+\dotsb+l(v_k)$, since $l(y)=l(z)\geq l(z_1)+\dotsb + l(z_r)$.
-  It follows that $a_k(wzxyu)\geq a_k(wxzyu)$.
+  If, for all $i$, $x_i=\emptyset$, or $z_i=\emptyset$, then each $v_i$ remains a row subword of $wzxyu$, so we may take $v'_i=v_i$ for all $i$.
 
-  There remains the case where at least one $x_i\neq \emptyset$ for $i=1,\dotsc,r$, at least one $y_i\neq \emptyset$ for $i=r+1,\dotsc,k$, and at least one $z_i\neq \emptyset$ for $i=1,\dotsc,r$.
-  Let $a$ be the index for which $x_i$ has the smallest first letter among all $i=1,\dotsc,k$.
-  Let $b_1$ (resp., $b_2$) be the index for which $y_i$ has the largest last letter (resp., smallest first letter) among all $i=r+1,\dotsc,k$.
-  Let $c$ be the index for which $z_i$ has the largest last letter among all $i=1,\dots,r$.
+  Otherwise, there exists $i$ such that $v_i=w_ix_iz_iu_i$, with $x_i\neq \emptyset$, and $z_i\neq \emptyset$.
+  Without loss of generality, assume that this is the case for $i=1,\dotsc,r$, and not for $i=r+1,\dotsc,k$ for some $1\leq r\leq k$.
+  If $y_i=\emptyset$ for all $i$, then set
+  \begin{displaymath}
+    v'_i =
+    \begin{cases}
+      w_1x_1yu_1&\text{for }i=1,\\
+      w_ix_iu_i&\text{for }1<i\leq r,\\
+      v_i&\text{for }r<i\leq k.
+    \end{cases}
+  \end{displaymath}
+  Since $l(y)=l(z)\geq \sum_{i=1}^r l(z_i)$, $\sum_{i=1}^k l(v'_i)\geq \sum_{i=1}^k l(v_i)$.
+  By construction the words $v'_1,\dotsc,v'_k$ are pairwise disjoint timed row subwords of $w$.
 
-  Form the timed row $x_0$ (respectively, $y_0$ and $z_0$) by concatenating all the segments of all the $x_i$ (respectively, $y_i$ and $z_i$) in the order in which they occur in $x$ (respectively, $y$ and $z$).
-  Take:
-  \begin{align*}
-    v'_a &= w_ax_0y_0u_b,\\
-    v'_b &= w_bu_a \text{(only if }\\
-    v'_c &= w_cz_0u_c.
-  \end{align*}
-  
-  If at least one $x_i\neq \emptyset$ and one $y_i\neq\emptyset$, assume that $x_1$ has the least first letter among $x_1,\dotsc,x_r$, and that $y_k$ has the largest last letter among $y_{r+1},\dotsc,y_k$.
-  Let $x_0$ be the row subword of $x$ obtained by concatenating the segments of $x_1,\dotsc,x_r$ in the order in which they appear in $x$ (so $x_0$ is a row of length $l(x_1)+\dotsb + l(x_r)$).
-  Let $y_0$ be the row subword of $y$ obtained by concatenating the segments of $y_{r+1},\dotsc, y_k$ in the order in which they appear in $y$ (so $y_0$ is a row of length $l(y_{r+1})+\dotsb + l(y_k)$).
-  Define
-  \begin{align*}
-    v'_1 &= w_1x_0y_0u_k\\
-    v'_i &= w_iz_iu_i \text{ for }i=2,\dotsc,r,\\
-    v'_i &= w_ix_iu_i \text{ for } i=r+1,\dotsc,k,\\
-    v'_k &= w_kz_1u_1.
-  \end{align*}
-  Then $v'_1,\dotsc,v'_k$ are pairwise disjoint row subwords of $wzxyu$ with total length $l(v_1)+\dotsb+l(v_k)$, so $a_k(wzxyu)\geq a_k(wxzyu)$.
-  The reverse inequality $a_k(wzxyu)\geq a_k(wxzyu)$ is obvious, since every row subword of $wzxyu$ is also a row subword of $wxzyu$.
-  It follows that $a_k(wzxyu)=a_l(wxzyu)$ for all $k$.
+  Finally, suppose there exists at least one index $i$ such that $y_i\neq \emptyset$, say $y_{r+1}\neq \emptyset$.
+  Also, assume that $\max z_1$ (the largest letter of $z_1$) is at least as large as $\max z_i$ for $i=2,\dotsc,r$.
+  Let $z_0$ be the timed row obtained by concatenating all the segments of $z_i$ for $1\leq i\leq r$ in the order in which they occur in $z$.
+  It follows that $\max z_0 = \max z_1$, and $l(z_0)=l(z_1)+\dotsb+l(z_r)$.
+  Let $x_0$ be the timed row obtained by concatenating all the segments of $x_1$ and $x_{r+1}$ in the order in which they occur in $x$.
+  If $\min x_1\leq \min x_{r+1}$, define
+  \begin{displaymath}
+    v'_i = 
+    \begin{cases}
+      w_1x_0y_{r+1}u_{r+1} & \text{for }i=1,\\
+      w_ix_iu_i & \text{for }1<i\leq r,\\
+      w_{r+1}z_0u_1 &\text{for }i=r+1,\\
+      v_i&\text{for }r+1<i\leq k.
+    \end{cases}
+  \end{displaymath}
+  If $\min x_1>\min x_{r+1}$, then interchange $w_1$ and $w_{r+1}$ in the above definition.
+  In both cases the words $v'_1,\dotsc, v'_k$ are pairwise disjoint row subwords of $wzxyu$ whose lengths add up to $l$.
 
-  For the Knuth move (\ref{eq:tk2}) a similar argument can be given, however, a more elegant method is to use Lemma~\ref{lemma:sharp-moves}, noting that $a_k(w)=a_k(w^\sharp)$ for all $k\geq 1$ and all $w\in A_n^\dagger$.
-\end{proof}
+  For the Knuth relation (\ref{eq:tk2}), a similar argument can be given.
+  However, a more elegant method is to use Lemma~\ref{lemma:sharp-moves}, noting that $a_k(w)=a_k(w^\sharp)$ for all $k\geq 1$ and all $w\in A_n^\dagger$, thereby reducing it to (\ref{eq:tk1}).
+\end{proof}\pagebreak
 \subsection{The timed version of Greene' theorem}
 \label{sec:timed-version-greene}
 \begin{theorem}
@@ -546,6 +545,10 @@ Since this equivalence is stable under left and right multiplication in $A_n^\da
   By Lemma~\ref{lemma:reduction-to-tab}, every timed word is Knuth equivalent to its timed insertion tableau.
   Therefore, the Greene invariants of a timed word are given by the shape of its insertion tableau as stated in the theorem.
 \end{proof}
+\begin{remark}
+  The proof of Lemma~\ref{lemma:tableau-shape-greene} shows that the supremum in the definition of Greene invariants (Definition~\ref{definition:timed-Greene-invars}) is attained for timed tableau.
+  From the proof of Lemma~\ref{lemma:Knuth-Greene}, it follows that this supremum is attained for every timed word in the Knuth equivalence class of a timed tableau, and therefore for every $w\in A_n^\dagger$.
+\end{remark}
 \section{Knuth Equivalence Classes}
 \label{sec:knuth-classes}
 \subsection{Tableaux in Knuth Equivalence Classes}
@@ -617,7 +620,7 @@ The same characterization works for timed Knuth equivalence.
   \end{displaymath}
   thereby proving the result.
 
-  In the general case, suppose $w=u_lu_{l-1}\dotsb u_1$ and $w'=u'_lu'_{l=1}\dotsb u'_1$ are row decompositions.
+  In the general case, suppose $w=u_lu_{l-1}\dotsb u_1$ and $w'=u'_lu'_{l-1}\dotsb u'_1$ are row decompositions.
   Let $i$ be the least integer such that $u_i\neq u'_i$.
   By the proof for rows, there exists $c\in A_n$, and $T>0$ such that when $(v,x)=\rowins(u_i,c^T)$ and $(v',x')=\rowins(u'_i,c^T)$, then $l(x)\neq l(x')$.
   Also, note that $c$ is at least $i$, the least possible value of the $i$th row of a tableau.
@@ -909,7 +912,7 @@ The piecewise linear nature of the RSK correspondence becomes clear from this al
 \label{sec:piecewise-linear-rsk}
 \begin{definition}
   [Gelfand-Tsetlin Pattern]
-  A Gelfand-Tsetlin pattern of size $n$ is a triangle $T=(\lambda^{(k)}_i\mid 1\leq k \leq n, 1\leq i \leq k)$ of nonegative real numbers:
+  A Gelfand-Tsetlin pattern of size $n$ is a triangle $T=(\lambda^{(k)}_i\mid 1\leq k \leq n, 1\leq i \leq k)$ of non-negative real numbers:
   \begin{displaymath}
     \begin{matrix}
       \lambda^{(n)}_1 & & \lambda^{(n)}_2 && \dotsb && \dotsb && \lambda^{(n)}_n\\
@@ -966,6 +969,7 @@ A more detailed analysis of the piecewise linear nature of the real RSK correspo
 I thank R. Ramanujam for introducing me to the work of Alur and Dill on timed automata.
 I thank Xavier Viennot for teaching me about the wonderful world of the RSK correspondence, and encouraging me to work on this project.
 I thank Maria Cueto, Sachin Gautam, Sridhar P. Narayanan, Digjoy Paul, K.~N.~Raghavan, Ramanathan Thinniyam, and S.~Viswanath for many interesting discussions, which helped me develop the ideas in this article.
+I thank Darij Grinberg for carefully reading, and sending me corrections to an earlier version of this article.
 \bibliographystyle{abbrv}
 \bibliography{refs}
 \end{document}
