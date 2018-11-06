@@ -103,7 +103,7 @@ The exponential string, as defined above, is not unique; if two successive lette
 The above definition is a finite variant of Definition~3.1 of Alur and Dill~\cite{alur-dill}, where $r=\infty$, and there is an infinite increasing sequence of transition points.
 
 Given timed words $w_1$ and $w_2$, their \emph{concatenation} is defined in the most obvious manner---their exponential strings are concatenated (and if necessary, successive equal values merged).
-The monoid formed by all timed words in an alphabet $A_n$, with product defined by concatenation, will be denoted by $A_n^\dagger$.
+The monoid formed by all timed words in an alphabet $A_n$, with product defined by concatenation, is denoted by $A_n^\dagger$.
 The submonoid of $A_n^\dagger$ consisting of timed words where the exponents $t_1,t_2,\dotsc,t_k$ in exponential string (\ref{eq:exp_not}) are integers is the free monoid $A_n^*$ of words in the alphabet $A_n$ (see e.g., \cite[Chapter~1]{comb-words}).
 \begin{definition}
   [Timed Subword]
@@ -142,7 +142,7 @@ Given two timed rows $u$ and $v$, say that $u$ is \emph{dominated} by $v$ (denot
 \end{definition}
 \begin{definition}[Timed Tableau]\label{definition:timed-tableau}
   A \emph{timed tableau} in $A_n$ is a timed word $w$ in $A_n$ with row decomposition $w=u_l u_{l-1}\dotsb u_1$ such that $u_1\lhd \dotsb \lhd u_l$.
-  The \emph{shape} of $w$ is the real partition $(l(u_1),l(u_2),\dotsc,l(u_l))$, and the weight of $w$ is the \emph{weight} of $w$ as a timed word (see Definition~\ref{definition:timed-word}).
+  The \emph{shape} of $w$ is the real partition $(l(u_1),l(u_2),\dotsc,l(u_l))$, and the \emph{weight} of $w$ is the weight of $w$ as a timed word (see Definition~\ref{definition:timed-word}).
   The set of all timed tableaux in $A_n$ is denoted $\ttab_n$.
   The set of all timed tableaux of shape $\lambda$ is denoted $\ttab_n(\lambda)$.
   The set of all timed tableaux of shape $\lambda$ and weight $\mu$ is denoted $\ttab_n(\lambda,\mu)$.
@@ -196,7 +196,8 @@ Given a timed word $w$ and $0\leq a < b \leq l(w)$, according to Definition~\ref
 \end{remark}
 \begin{remark}
   Definition~\ref{definition:timed-row-insertion} is in terms of exponential strings, which are not uniquely associated to timed words.
-  Therefore, in order that row insertion be well-defined for timed words, it is necessary to check that the result of row insertion of $c^{t_1+t_2}$ is the same as the result of row insertion of $c^{t_1}$ followed by row inertion of $c^{t_2}$.
+  Therefore, in order that row insertion be well-defined for timed words, it is necessary to check that the result of row insertion of $c^{t_1+t_2}$ is the same as the result of row insertion of $c^{t_1}$ followed by row insertion of $c^{t_2}$.
+  This is straightforward.
 \end{remark}
 \begin{example}
   \label{example:timed-row-ins}
@@ -206,7 +207,7 @@ Given a timed word $w$ and $0\leq a < b \leq l(w)$, according to Definition~\ref
   [Timed Tableau Insertion]
   \label{definition:timed-tableau-insertion}
   Let $w$ be a timed tableau with row decomposition $u_l\dotsc u_1$, and let $v$ be a timed row.
-  Then $\ins(w, v)$, the insertion of $v$ into $w$ is defined as follows:
+  Then $\ins(w, v)$, the insertion of $v$ into $w$, is defined as follows:
   first $v$ is inserted into $u_1$.
   If $\rowins(u_1,v)=(v_1',u_1')$, then $v_1'$ is inserted into $u_2$; if $\rowins(u_2,v_1')=(v_2',u_2')$, then $v_2'$ is inserted in $u_3$, and so on.
   This process continues, generating $v_1',\dotsc,v_l'$ and $u_1',\dotsc,u_l'$.
@@ -244,7 +245,7 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
     Suppose $x$ and $y$ are timed rows in $A_n$ such that $x\lhd y$.
     For any timed row $v$ in $A_n$, suppose $(v',x')=\rowins(x,v)$, and $(v'',y')=\rowins(y,v')$.
     \begin{enumerate}
-    \item \label{item:dom} $x'\leq y'$
+    \item \label{item:dom} $x'\lhd y'$
     \item \label{item:wt} $\wt(v'')+\wt(x')+\wt(y')=\wt(x)+\wt(y)+\wt(v)$
     \item \label{item:int} $l(y')\leq l(x)$.
     \end{enumerate}
@@ -252,7 +253,7 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
   \begin{proof}[Proof of the lemma]
     By inserting in stages, assume that $v=c^t$ for some $c\in A_n$ and some $t>0$.
 
-    If $x$ never exceeeds $c$, then $x'=xc^t$, and $y'=y$, and so $x'\lhd y'$.
+    If $x$ never exceeds $c$, then $x'=xc^t$, and $y'=y$, and so $x'\lhd y'$.
     Otherwise, when $c^t$ is inserted into $x$, $v'$ is a segment of $x$ corresponding to an interval $[t_0,t_0+\delta)$ such that $x(t_0)>c$.
     This segment in $x$ is replaced by a segment $c^\delta$ to obtain $x'$.
     Let $c_1^{t_1}\dotsb c_k^{t_k}$, with $c<c_1< \dotsb <c_k$, be the exponential string of $v'$.
@@ -276,12 +277,12 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
     Now $(v',y')=\rowins(y'',z)$, whence $l(y')\leq l(y'')+l(z)\leq l(y)+[l(x)-l(y)] = l(x)$.
   \end{proof}
   We now prove that $\ins(w,v)$ is a timed tableau.
-  Supppose $w$ has row decomposition $u_lu_{l-1}\dotsb u_1$.
+  Suppose $w$ has row decomposition $u_lu_{l-1}\dotsb u_1$.
   Using the notation of Definition~\ref{definition:timed-tableau-insertion}, and writing $v_0$ for $v$, we have $(v_i',u'_i)=\rowins(u_i,v'_{i-1})$ and $(v_{i+1}',u_{i+1}')=\rowins(u_{i+1},v'_i)$.
   The first assertion of Lemma~\ref{lemma:tableauness-of-insertion}, with $v=v'_i$, $x=u_i$, and $y=u_{i+1}$, shows that $u'_i\lhd u'_{i+1}$ for $i=1,\dotsc,l-1$.
   Taking $x=u_l$ and $y=\emptyset$ gives $u'_l\lhd v'_l$. Therefore $\ins(w,v)$ is a timed tableau.
   The third assertion of Lemma~\ref{lemma:tableauness-of-insertion}, with the same settings, gives $l(u_{i+1}')\leq l(u_i)$, showing that $\shape(w)$ interleaves $\shape(\ins(w,v)$.
-  The assertion about weights follows easily from the second assertion of Lemma~\ref{theorem:tableauness-of-insertion}.
+  The assertion about weights in the theorem follows easily from the second assertion of Lemma~\ref{lemma:tableauness-of-insertion}.
 \end{proof}
 \begin{definition}
   [Insertion Tableau of a Timed Word]
@@ -369,7 +370,7 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
 \begin{proof}
   Let $\lambda=(\lambda_1,\dotsc,\lambda_l)$.
   Let $w\in \ttab_n(\lambda)$ have row decomposition $u_l\dotsb u_1$, and $x\in \tr_n(r)$.
-  Suppose that $w'=\ins(w,x)$ has row decomposition $u'_{l+1}\dotsb u_1$ (with the possibility that $u_{l+1}=\emptyset$).
+  Suppose that $w'=\ins(w,x)$ has row decomposition $u'_{l+1}\dotsb u'_1$ (with the possibility that $u'_{l+1}=\emptyset$).
   We already know that $\shape(w)$ interleaves $\shape(w)$ (Theorem~\ref{theorem:tableauness-of-insertion}).
   Given timed rows $u'$ and $v'$ such that $u'\lhd v'$, and non-negative real numbers $r$ and $s$ such that $r\leq l(u')$, let $\rowins^{-1}_r(v',u')$ denote the unique pair of rows $(u,v)$ such that $l(u)=r$, $l(v)=s$, and $(v',u')=\rowins(u,v)$ (see Corollary~\ref{corollary:row-insertion-bijection}).
   Then the rows of $w$ can be recovered from $w'$ as follows:
@@ -415,7 +416,7 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
   Suppose $w$ has row decomposition $u_lu_{l-1}\dotsb u_1$.
   Then $u_1,\dotsc,u_k$ are pairwise disjoint subwords that are rows, so
   \begin{displaymath}
-    a_k(w) \geq \lambda_1+\dotsb + \lambda_l.
+    a_k(w) \geq \lambda_1+\dotsb + \lambda_k.
   \end{displaymath}
   Conversely, any row subword of $w$ cannot have overlapping segments from two different rows $u_i$ and $u_j$ of $w$, because if $i>j$, then $u_i(t)>u_j(t)$, but in the row decomposition of $w$, $u_i$ occurs before $u_j$.
   Therefore, $k$ disjoint subwords can have length at most the sum of lengths of the largest $k$ rows of $w$, which is $\lambda_1+\dotsc+\lambda_k$.
@@ -438,14 +439,14 @@ When the timed tableau $w$ lies in the image of $A_n^*$, then $\ins(w,c^1)$ is t
 \begin{definition}
   [Timed Plactic Monoid]
   \label{definition:timed-plactic-monoid}
-  The \emph{timed plactic monoid} $\pl(A_n)$ is the quotient $A_n^\dagger/\equiv$, where $\equiv$ is the congruence generated by the timed Knuth relations (\ref{eq:tk1}) and (\ref{eq:tk2}).
+  The \emph{timed plactic monoid} $\pl^\dagger(A_n)$ is the quotient $A_n^\dagger/\equiv$, where $\equiv$ is the congruence generated by the timed Knuth relations (\ref{eq:tk1}) and (\ref{eq:tk2}).
 \end{definition}
-In other words, two elements of $A_n^\dagger$ are said to differ by a Knuth move if they are of the form $uv_1w$ and $uv_2w$, where $v_1$ and $v_2$ are terms on opposite sides of one of the timed Knuth relations (\ref{eq:tk1}) and (\ref{eq:tk2}).
-Knuth equivalence $\equiv$ is the equivalence relation generated by Knuth moves.
-Since this equivalence is stable under left and right multiplication in $A_n^\dagger$, the concatenation product on $A_n^\dagger$ descends to a product on the set $\pl(A_n)$ of Knuth equivalence classes, giving it the structure of a monoid.
+In other words, two elements of $A_n^\dagger$ are said to \emph{differ by a Knuth relation} if they are of the form $uv_1w$ and $uv_2w$, where $v_1$ and $v_2$ are terms on opposite sides of one of the timed Knuth relations (\ref{eq:tk1}) and (\ref{eq:tk2}).
+Knuth equivalence $\equiv$ is the equivalence relation generated by Knuth relations.
+Since this equivalence is stable under left and right multiplication in $A_n^\dagger$, the concatenation product on $A_n^\dagger$ descends to a product on the set $\pl^\dagger(A_n)$ of Knuth equivalence classes, giving it the structure of a monoid.
 \begin{lemma}
   \label{lemma:sharp-moves}
-  Then $v$ and $w$ differ by a Knuth move (\ref{eq:tk1}) if and only if $v^\sharp$ and $w^\sharp$ (see Definition~\ref{definition:schuetzenberger-involution}) differ by a Knuth move (\ref{eq:tk2}).
+  Two timed words $v$ and $w$ differ by a Knuth relation (\ref{eq:tk1}) if and only if $v^\sharp$ and $w^\sharp$ (see Definition~\ref{definition:schuetzenberger-involution}) differ by a Knuth relation (\ref{eq:tk2}).
 \end{lemma}
 \begin{proof}
   When the involution $w\mapsto w^\sharp$ is applied to the Knuth relation (\ref{eq:tk1}), the Knuth relation (\ref{eq:tk2}) is obtained.
@@ -461,7 +462,7 @@ Since this equivalence is stable under left and right multiplication in $A_n^\da
   Otherwise, a segment $y$ of $u$, beginning at $t_0$, and of length $t_1=\min(l(u)-t_0,t)$ is displaced by the segment $c^{t_1}$ of $c^t$.
   Write $u=x'yx''$.
   It suffices to show $x'yx''c^{t_1}\equiv yx'c^{t_1}x''$.
-  But this can be done in two Knuth moves as follows (the segment to which the Knuth move is applied is underlined):
+  But this can be done in two steps as follows (the segment to which the Knuth relation is applied is underlined):
   \begin{displaymath}
     x'\underline{y x'' c^{t_1}} \equiv_{\kappa_2} x'\underline{yc^{t_1}x''} = \underline{x'yc^{t_1}}x'' \equiv_{\kappa_1} \underline{yx'c^{t_1}}x''.
   \end{displaymath}
@@ -483,53 +484,52 @@ Since this equivalence is stable under left and right multiplication in $A_n^\da
   If two timed words are Knuth equivalent, then they have the same Greene invariants.
 \end{lemma}
 \begin{proof}
-  It suffices to prove that if two words differ by a Knuth move they have the same Greene invariants.
-  For the Knuth move (\ref{eq:tk1}), suppose that $xyz$ is a timed row with $l(z)=l(y)$, and the last letter of $y$ is strictly less than the first letter of $z$.
+  It suffices to prove that if two words differ by a Knuth relation they have the same Greene invariants.
+  For the Knuth relation (\ref{eq:tk1}), suppose that $xyz$ is a timed row with $l(z)=l(y)$, and the last letter of $y$ is strictly less than the first letter of $z$.
   For any timed words $w$ and $u$, we wish to show that Greene invariants coincide for $wxzyu$ and $wzxyu$.
-  Now suppose that $v_1,\dotsc,v_k$ are pairwise disjoint row subwords of $wxzyu$ whose lengths add up to $a_k(wxzyu)$.
-  We may write $v_i=w_ix_iz_iy_iu_i$ for each $i$, where $w_i,x_i,z_i,y_i$ and $u_i$ are row subwords of $w,x,z,y$ and $u$ respectively.
+  Since every timed row subword of $wzxyu$ is also a timed row subword of $wxzyu$, $a_k(wzxyu)\leq a_k(wxzyu)$ for all $k$.
+  
+  To prove the reverse inequality, for any set of pairwise disjoint row subwords $v_1,\dotsc,v_k$ of $wxzyu$, it suffices to construct pairwise disjoint row subwords $v_1',\dotsc,v_k'$ of $wzxyu$ such that $\sum_{i=1}^k l(v'_k)\geq \sum_{i=1}^k l(v_k)$.
+  Write $v_i=w_ix_iz_iy_iu_i$ for each $i$, where $w_i,x_i,z_i,y_i$ and $u_i$ are (possibly empty) row subwords of $w,x,z,y$ and $u$ respectively.
 
   Since the last letter of $y$ is strictly smaller than the first letter of $z$, it cannot be that $y_i\neq \emptyset$ and $z_i\neq \emptyset$ simultaneously for the same $i$.
-  Renumber $v_1,\dotsc,v_k$ in such a way that $v_i=w_ix_iz_iu_i$ for $i=1,\dotsc,r$ and $v_i=w_ix_iy_iu_i$ for $i=r+1,\dotsc,k$.
-  If $x_i=\emptyset$ for all $i=1,\dotsc,r$, or $z_i=\emptyset$ for all $i=1,\dotsc,r$, then all the $v_i$'s remain row subwords of $wzxyu$, and so $a_k(wzxyu)\geq a_k(wxzyu)$.
-  Assume that $z_1\neq \emptyset$. Then $yu_1$ is a row.
-  If $y_i=\emptyset$ for $i=r+1,\dotsc,k$, then set
-  \begin{align*}
-    v_1'&=w_1x_1yu_1,\\
-    v_i'&=w_ix_iu_i \text{ for } i=2,\dotsc,k.
-  \end{align*}
-  Then $v'_i$ are pairwise disjoint row subwords of $wzxyu$, and $l(v'_1)+\dotsb + l(v'_k)\geq l(v_1)+\dotsb+l(v_k)$, since $l(y)=l(z)\geq l(z_1)+\dotsb + l(z_r)$.
-  It follows that $a_k(wzxyu)\geq a_k(wxzyu)$.
+  If, for all $i$, $x_i=\emptyset$, or $z_i=\emptyset$, then each $v_i$ remains a row subword of $wzxyu$, so we may take $v'_i=v_i$ for all $i$.
 
-  There remains the case where at least one $x_i\neq \emptyset$ for $i=1,\dotsc,r$, at least one $y_i\neq \emptyset$ for $i=r+1,\dotsc,k$, and at least one $z_i\neq \emptyset$ for $i=1,\dotsc,r$.
-  Let $a$ be the index for which $x_i$ has the smallest first letter among all $i=1,\dotsc,k$.
-  Let $b_1$ (resp., $b_2$) be the index for which $y_i$ has the largest last letter (resp., smallest first letter) among all $i=r+1,\dotsc,k$.
-  Let $c$ be the index for which $z_i$ has the largest last letter among all $i=1,\dots,r$.
+  Otherwise, there exists $i$ such that $v_i=w_ix_iz_iu_i$, with $x_i\neq \emptyset$, and $z_i\neq \emptyset$.
+  Without loss of generality, assume that this is the case for $i=1,\dotsc,r$, and not for $i=r+1,\dotsc,k$ for some $1\leq r\leq k$.
+  If $y_i=\emptyset$ for all $i$, then set
+  \begin{displaymath}
+    v'_i =
+    \begin{cases}
+      w_1x_1yu_1&\text{for }i=1,\\
+      w_ix_iu_i&\text{for }1<i\leq r,\\
+      v_i&\text{for }r<i\leq k.
+    \end{cases}
+  \end{displaymath}
+  Since $l(y)=l(z)\geq \sum_{i=1}^r l(z_i)$, $\sum_{i=1}^k l(v'_i)\geq \sum_{i=1}^k l(v_i)$.
+  By construction the words $v'_1,\dotsc,v'_k$ are pairwise disjoint timed row subwords of $w$.
 
-  Form the timed row $x_0$ (respectively, $y_0$ and $z_0$) by concatenating all the segments of all the $x_i$ (respectively, $y_i$ and $z_i$) in the order in which they occur in $x$ (respectively, $y$ and $z$).
-  Take:
-  \begin{align*}
-    v'_a &= w_ax_0y_0u_b,\\
-    v'_b &= w_bu_a \text{(only if }\\
-    v'_c &= w_cz_0u_c.
-  \end{align*}
-  
-  If at least one $x_i\neq \emptyset$ and one $y_i\neq\emptyset$, assume that $x_1$ has the least first letter among $x_1,\dotsc,x_r$, and that $y_k$ has the largest last letter among $y_{r+1},\dotsc,y_k$.
-  Let $x_0$ be the row subword of $x$ obtained by concatenating the segments of $x_1,\dotsc,x_r$ in the order in which they appear in $x$ (so $x_0$ is a row of length $l(x_1)+\dotsb + l(x_r)$).
-  Let $y_0$ be the row subword of $y$ obtained by concatenating the segments of $y_{r+1},\dotsc, y_k$ in the order in which they appear in $y$ (so $y_0$ is a row of length $l(y_{r+1})+\dotsb + l(y_k)$).
-  Define
-  \begin{align*}
-    v'_1 &= w_1x_0y_0u_k\\
-    v'_i &= w_iz_iu_i \text{ for }i=2,\dotsc,r,\\
-    v'_i &= w_ix_iu_i \text{ for } i=r+1,\dotsc,k,\\
-    v'_k &= w_kz_1u_1.
-  \end{align*}
-  Then $v'_1,\dotsc,v'_k$ are pairwise disjoint row subwords of $wzxyu$ with total length $l(v_1)+\dotsb+l(v_k)$, so $a_k(wzxyu)\geq a_k(wxzyu)$.
-  The reverse inequality $a_k(wzxyu)\geq a_k(wxzyu)$ is obvious, since every row subword of $wzxyu$ is also a row subword of $wxzyu$.
-  It follows that $a_k(wzxyu)=a_l(wxzyu)$ for all $k$.
+  Finally, suppose there exists at least one index $i$ such that $y_i\neq \emptyset$, say $y_{r+1}\neq \emptyset$.
+  Also, assume that $\max z_1$ (the largest letter of $z_1$) is at least as large as $\max z_i$ for $i=2,\dotsc,r$.
+  Let $z_0$ be the timed row obtained by concatenating all the segments of $z_i$ for $1\leq i\leq r$ in the order in which they occur in $z$.
+  It follows that $\max z_0 = \max z_1$, and $l(z_0)=l(z_1)+\dotsb+l(z_r)$.
+  Let $x_0$ be the timed row obtained by concatenating all the segments of $x_1$ and $x_{r+1}$ in the order in which they occur in $x$.
+  If $\min x_1\leq \min x_{r+1}$, define
+  \begin{displaymath}
+    v'_i = 
+    \begin{cases}
+      w_1x_0y_{r+1}u_{r+1} & \text{for }i=1,\\
+      w_ix_iu_i & \text{for }1<i\leq r,\\
+      w_{r+1}z_0u_1 &\text{for }i=r+1,\\
+      v_i&\text{for }r+1<i\leq k.
+    \end{cases}
+  \end{displaymath}
+  If $\min x_1>\min x_{r+1}$, then interchange $w_1$ and $w_{r+1}$ in the above definition.
+  In both cases the words $v'_1,\dotsc, v'_k$ are pairwise disjoint row subwords of $wzxyu$ whose lengths add up to $l$.
 
-  For the Knuth move (\ref{eq:tk2}) a similar argument can be given, however, a more elegant method is to use Lemma~\ref{lemma:sharp-moves}, noting that $a_k(w)=a_k(w^\sharp)$ for all $k\geq 1$ and all $w\in A_n^\dagger$.
-\end{proof}
+  For the Knuth relation (\ref{eq:tk2}), a similar argument can be given.
+  However, a more elegant method is to use Lemma~\ref{lemma:sharp-moves}, noting that $a_k(w)=a_k(w^\sharp)$ for all $k\geq 1$ and all $w\in A_n^\dagger$, thereby reducing it to (\ref{eq:tk1}).
+\end{proof}\pagebreak
 \subsection{The timed version of Greene' theorem}
 \label{sec:timed-version-greene}
 \begin{theorem}
@@ -541,11 +541,15 @@ Since this equivalence is stable under left and right multiplication in $A_n^\da
   \end{displaymath}
 \end{theorem}
 \begin{proof}
-  Greene's theorem holds when $w$ is a timed tableau (Lemma~\ref{lemma:tableau-shape-greene}.
+  Greene's theorem holds when $w$ is a timed tableau (Lemma~\ref{lemma:tableau-shape-greene}).
   By Lemma~\ref{lemma:Knuth-Greene}, Greene invariants remain unchanged under the timed versions of Knuth relations.
   By Lemma~\ref{lemma:reduction-to-tab}, every timed word is Knuth equivalent to its timed insertion tableau.
   Therefore, the Greene invariants of a timed word are given by the shape of its insertion tableau as stated in the theorem.
 \end{proof}
+\begin{remark}
+  The proof of Lemma~\ref{lemma:tableau-shape-greene} shows that the supremum in the definition of Greene invariants (Definition~\ref{definition:timed-Greene-invars}) is attained for timed tableau.
+  From the proof of Lemma~\ref{lemma:Knuth-Greene}, it follows that this supremum is attained for every timed word in the Knuth equivalence class of a timed tableau, and therefore for every $w\in A_n^\dagger$.
+\end{remark}
 \section{Knuth Equivalence Classes}
 \label{sec:knuth-classes}
 \subsection{Tableaux in Knuth Equivalence Classes}
@@ -595,7 +599,7 @@ The word $\bar w$ is called the restriction of $w$ to $A_{n-1}$.
 \end{proof}
 \subsection{Characterization of Knuth Equivalence Classes}
 \label{sec:char-timed-knuth}
-Classical Knuth equivalence can be characterized in terms of Greene invariants (see \cite[Theorem~2.15]{plaxique}.
+Classical Knuth equivalence can be characterized in terms of Greene invariants (see \cite[Theorem~2.15]{plaxique}).
 The same characterization works for timed Knuth equivalence.
 \begin{theorem}
   Let $w$ and $w'$ be timed words in $A_n^\dagger$.
@@ -617,7 +621,7 @@ The same characterization works for timed Knuth equivalence.
   \end{displaymath}
   thereby proving the result.
 
-  In the general case, suppose $w=u_lu_{l-1}\dotsb u_1$ and $w'=u'_lu'_{l=1}\dotsb u'_1$ are row decompositions.
+  In the general case, suppose $w=u_lu_{l-1}\dotsb u_1$ and $w'=u'_lu'_{l-1}\dotsb u'_1$ are row decompositions.
   Let $i$ be the least integer such that $u_i\neq u'_i$.
   By the proof for rows, there exists $c\in A_n$, and $T>0$ such that when $(v,x)=\rowins(u_i,c^T)$ and $(v',x')=\rowins(u'_i,c^T)$, then $l(x)\neq l(x')$.
   Also, note that $c$ is at least $i$, the least possible value of the $i$th row of a tableau.
@@ -626,7 +630,7 @@ The same characterization works for timed Knuth equivalence.
   Take $u=1^T2^T\dotsb (i-1)^T$.
   Then we have
   \begin{align*}
-    P(uw)&=u_l\dotsb u_{i+1} i^T u'_i (i-1)^T u_{i-1} \dotsb 1^T u_1,\\
+    P(uw)&=u_l\dotsb u_{i+1} i^T u_i (i-1)^T u_{i-1} \dotsb 1^T u_1,\\
     P(uw')&=u'_l\dotsb u'_{i+1} i^T u'_i (i-1)^T u_{i-1} \dotsb 1^T u_1.\\
   \end{align*}
   Now $z=c^T(i-1)^T u_{i-1} \dotsb 1^T u_1$ is a timed tableau.
@@ -734,7 +738,7 @@ This is a direct generalization of the definition of the RSK correspondence give
 \end{proof}
 \subsection{Insertion-Recording Algorithm for $\rsk(A)$}
 \label{sec:insert-record-algor}
-Given real partitions $\lambda$ and $\mu$ such that $\lambda$ interleaves $m$, and $w\in \ttab_{m-1}(\lambda)$, define the \emph{inflation of $w$ to shape $\mu$ by $m$} to be the unique tableau $\infl_\mu(w,m)$ of shape $\mu$ whose restriction to $m-1$ is equal to $w$.
+Given real partitions $\lambda$ and $\mu$ such that $\lambda$ interleaves $\mu$, and $w\in \ttab_{m-1}(\lambda)$, define the \emph{inflation of $w$ to shape $\mu$ by $m$} to be the unique tableau $\infl_\mu(w,m)$ of shape $\mu$ whose restriction to $m-1$ is equal to $w$.
 In the notation of Section~\ref{sec:tabl-knuth-equiv}, $\overline{\infl_\mu(w,m)}=w$. 
 
 Given $A\in M_n(\rp)$, let $r_{i,A} = 1^{a_{i1}}2^{a_{i2}}\dotsb n^{a_{in}}$.
@@ -812,7 +816,7 @@ The piecewise linear nature of the RSK correspondence becomes clear from this al
       \item Let $m(A)=\min\{a_{i_1j_1},\dotsc,a_{i_r,j_r}\}$
       \item Set $a_{i_s,j_s}\ot a_{i_s,j_s}-m(A)$ for $s=1,\dotsc r$
       \item Set $s_{i_{s+1},j_s}\to s_{i_{s+1},j_s}+m$ for $s=1,\dotsc,r-1$
-      \item Set $p\ot pj_1^m$, $q\ot q_{i_r}^m$
+      \item Set $p\ot pj_1^m$, $q\ot qi_r^m$
       \end{itemize}
     \item $P\ot pP$, $Q\ot qQ$
     \item $A\ot S$
@@ -909,7 +913,7 @@ The piecewise linear nature of the RSK correspondence becomes clear from this al
 \label{sec:piecewise-linear-rsk}
 \begin{definition}
   [Gelfand-Tsetlin Pattern]
-  A Gelfand-Tsetlin pattern of size $n$ is a triangle $T=(\lambda^{(k)}_i\mid 1\leq k \leq n, 1\leq i \leq k)$ of nonegative real numbers:
+  A \emph{Gelfand-Tsetlin pattern} of size $n$ is a triangle $T=(\lambda^{(k)}_i\mid 1\leq k \leq n, 1\leq i \leq k)$ of non-negative real numbers:
   \begin{displaymath}
     \begin{matrix}
       \lambda^{(n)}_1 & & \lambda^{(n)}_2 && \dotsb && \dotsb && \lambda^{(n)}_n\\
@@ -934,7 +938,7 @@ The shape of $\lambda$ is also the shape of $GT(w)$.
 Conversely, given a Gelfand-Tsetlin pattern $T$, it is easy to reconstruct the unique timed tableau $w$ such that $T=GT(w)$.
 
 The space of all Gelfand-Tsetlin patterns of size $n$, being defined by a finite collection of homogeneous inequalities in $\binom{n+1}2$ variables, forms a polyhedral cone in $R^{\binom{n+1}2}$.
-In terms of the notation introduced in Section~\ref{sec:defin-using-timed}, we have the following fairly lemma, which is well-know for the RSK correspondence on integer matrices (see e.g., \cite[Prop.~2.26]{kir-trop}).
+In terms of the notation introduced in Section~\ref{sec:defin-using-timed}, we have the following lemma, which is well-known for the RSK correspondence on integer matrices (see e.g., \cite[Prop.~2.26]{kir-trop}).
 \begin{lemma}
   \label{lemma:pl}
   Given $A\in M_{m\times n}(\rp)$ with $\rsk(A)=(P,Q)$, let $(\lambda^{(k)}_i)=GT(P)$ and $(\mu^{(k)}_i)=GT(Q)$, Gelfand-Tsetlin patterns of size $n$ and $m$ respectively.
@@ -966,6 +970,7 @@ A more detailed analysis of the piecewise linear nature of the real RSK correspo
 I thank R. Ramanujam for introducing me to the work of Alur and Dill on timed automata.
 I thank Xavier Viennot for teaching me about the wonderful world of the RSK correspondence, and encouraging me to work on this project.
 I thank Maria Cueto, Sachin Gautam, Sridhar P. Narayanan, Digjoy Paul, K.~N.~Raghavan, Ramanathan Thinniyam, and S.~Viswanath for many interesting discussions, which helped me develop the ideas in this article.
+I thank Darij Grinberg for carefully reading, and sending me corrections to an earlier version of this article.
 \bibliographystyle{abbrv}
 \bibliography{refs}
 \end{document}
