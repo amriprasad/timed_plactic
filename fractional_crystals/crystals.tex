@@ -21,25 +21,28 @@
 
 \section{Fractional Crystal Operators}
 \label{sec:frac-ops}
-We define operators $e_i^t, f_i^t, \sigma_i:A_n^\dagger\to A_n^\dagger\cup \{0\}$, for $i=1,\dotsc,n-1$, and $t\geq 0$.
+We define operators $e_i^t, f_i^t, \sigma_i:A_n^\dagger\cup \{0\}\to A_n^\dagger\cup \{0\}$, for $i=1,\dotsc,n-1$, and $t\geq 0$.
 In order to define the operators for a given $i$ on a timed word $w$, we will freeze a certain subwords of $w$.
 To begin with freeze every term of $w$ which does not involve the letters $i$ and $j=i+1$ of $A_n$.
 The unfrozen part of $w$ is a subword of the form:
 \begin{displaymath}
-  j^{s_1}i^{r_1}j^{s_2}i^{r_2}\dotsb j^{s_l}i^{r_l},
+  \bar w = j^{s_1}i^{r_1}j^{s_2}i^{r_2}\dotsb j^{s_l}i^{r_l},
 \end{displaymath}
 for some $l$ and some positive real numbers $s_i, r_i$, except for the possibility that $s_1$ and $r_l$ are zero.
 From the above subword, freeze segments $j^{\min(s_k,r_k)}i^{\min(s_k,r_k)}$ for each $k$.
 Since one of the terms $2^{s_k}$ and $1^{r_k}$ will be entirely frozen for each $k$, the unfrozen part of $w$ will now have strictly fewer terms than before.
-Thus this process will eventually terminate, with the unfrozen part being:
+Hence finitely many repetitions of this process will result in a word of the form
 \begin{displaymath}
-  i^rj^s \text{ for some }r,s\geq 0.
+  i^rj^s \text{ for some }r,s\geq 0
 \end{displaymath}
+is obtained.
+
 We call $s$ the $e_i$-range of $w$, denoted $\range(e_i,w)$ and $r$ the $f_i$-range of $w$, denoted $\range(f_i,w)$.
 For each $t\leq s$, define $we_i^t$ to be the timed word obtained by replacing the unfrozen subword of $w$ by $i^{r+t}j^{s-t}$, and leaving the frozen part unchanged.
 For $t>s$, define $we_i^t=0$.
 Similarly, for $t\leq r$, define $wf_i^t$ to be the timed word obtained by replacing the unfrozen part of $w$ by $i^{r-t}j^{s+t}$, and leaving the frozen part unchanged.
-Finally define $w\sigma_i$ to be the timed word obtained by replacing the unfrozien subword of $w$ by $i^sj^r$, and leaving the frozen part unchanged.
+Also define $w\sigma_i$ to be the timed word obtained by replacing the unfrozien subword of $w$ by $i^sj^r$, and leaving the frozen part unchanged.
+Finally, define $0e_i^t=0$, $0f_i^t=0$ for all integers $i$ and all $t\geq 0$.
 
 Let $x\in A_{n-1}^\dagger$, say $x=c_1^{t_1}\dotsb c_k^{t_k}$.
 Then define
