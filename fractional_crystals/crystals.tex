@@ -7,6 +7,7 @@
 \newcommand{\range}{\mathrm{range}}
 \newcommand{\ot}{\leftarrow}
 \newcommand{\Tab}{\mathrm{Tab}}
+\newcommand{\wt}{\mathrm{wt}}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
@@ -36,10 +37,22 @@ Thus this process will eventually terminate, with the unfrozen part being:
   i^rj^s \text{ for some }r,s\geq 0.
 \end{displaymath}
 We call $s$ the $e_i$-range of $w$, denoted $\range(e_i,w)$ and $r$ the $f_i$-range of $w$, denoted $\range(f_i,w)$.
-For each $t\leq s$, define $we_i^t$ to be the timed word obtained by replacing the unfrozen subword of $w$ by $i^{r+t}j^{s-t}$, and leaving the frozen part unchanged.
+For each $t\leq s$, define $we_i^t$ to be the timed word obtained by transforming the unfrozen subword of $w$ as
+\begin{displaymath}
+  e_i^t: i^rj^s\mapsto i^{r+t}j^{s-t},
+\end{displaymath}
+and leaving the frozen part unchanged.
 For $t>s$, define $we_i^t=0$.
-Similarly, for $t\leq r$, define $wf_i^t$ to be the timed word obtained by replacing the unfrozen part of $w$ by $i^{r-t}j^{s+t}$, and leaving the frozen part unchanged.
-Finally define $w\sigma_i$ to be the timed word obtained by replacing the unfrozien subword of $w$ by $i^sj^r$, and leaving the frozen part unchanged.
+Similarly, for $t\leq r$, define $wf_i^t$ to be the timed word obtained by transforming the unfrozen part of $w$ as
+\begin{displaymath}
+  f_i^t: i^rj^s\mapsto i^{r-t}j^{s+t},
+\end{displaymath}
+and leaving the frozen part unchanged.
+Finally define $w\sigma_i$ to be the timed word obtained by transforming the unfrozien subword of $w$ by
+\begin{displaymath}
+  \sigma_i:i^rj^s\mapsto i^sj^r,
+\end{displaymath}
+and leaving the frozen part unchanged.
 
 Let $x\in A_{n-1}^\dagger$, say $x=c_1^{t_1}\dotsb c_k^{t_k}$.
 Then define
@@ -175,12 +188,85 @@ Then $y^0_\lambda$ is also the only timed tableau of weight $\lambda$ that is al
   \end{displaymath}
 \end{lemma}
 
+\section{Littlewood-Richardson using crystals}
+We now recall the proof of the Littlewood-Richardson rule using crystal operators:
+\label{sec:recoll-proof-littl}
+For any word $w\in A_n^*$, let $C(w)$ denote the coplactic class of $w$.
+Then the Schur function is defined by:
+\begin{displaymath}
+  s_\lambda(x_1,\dotsc,x_n) = \sum_{w\in C(y_\lambda)} \wt(w),
+\end{displaymath}
+where $y_\lambda$ is \emph{any} Yamanouchi word of wwight $\lambda$.
+We have:
+\begin{displaymath}
+  s_\mu(x_1,\dotsc,x_n)s_\nu(x_1,\dotsc,x_n)=\sum_{u\in C(y^0_\mu),v\in C(y^0_\nu)} \wt(uv).
+\end{displaymath}
+For every $i$, the effect $(uv)e_i$ of the (classical) crystal operator is either $(ue_i)v$ or $u(ve_i)$, so the sum on the right hand side is a union of coplactic classes.
+The number of coplactic classes containing a Yamanouchi word of weight $\lambda$ is equal to the number of Yamanouchi words of weight $\lambda$ in
+\begin{displaymath}
+  \{uv\mid u\in C(y^0_\mu),v\in C(y^0_\nu)\},
+\end{displaymath}
+Also, if $uv$ is Yamanouchi, then $v$ has to be Yamanouchi, hence $v=y_\nu^0$.
+We get the crystal version of the Littlewood-Richardson rule:
+\begin{displaymath}
+  c^\lambda_{\mu\nu} = \#\{u\in C(y^0_\mu)\mid uy^0_\nu\in \Yam(\lambda)\}
+\end{displaymath}
+The saturation theorem says:
+\begin{theorem}
+  Given partition $\lambda$, $\mu$, and $\nu$, and a positive integer $N$, if $c^{N\lambda}_{N\mu N\nu}>0$, then $c^\lambda_{\mu\nu}>0$.
+\end{theorem}
+The hypothesis posits the existence of $u\in C(y_{N\mu}^0)$ such that $uy_{N\nu}^0\in \Yam(N\lambda)$.
+Consider the timed word $\bar u=u^{1/N}\in A_n^\dagger$.
+This world lies in $\fcop(y_\mu^0)$, and $uy_\nu^0$ is a Yamanouchi timed word of weight $\lambda$.
+We would like to replace $\bar u$ with $\tilde u\in A_n*$ such that:
+\begin{enumerate}
+\item $\tilde u y^0_\nu\in \Yam_n(\lambda)$,
+\item $\tilde u\in \cop(y_\mu^0)$.
+\end{enumerate}
+
+We have:
+\begin{displaymath}
+  \bar u e^x=y_\mu^0,
+\end{displaymath}
+where $x\in A_n^\dagger$.
+We have $\lambda-\nu=\wt(\tilde u) = \mu-\sum_{i=1}^{n-1}\wt_i(x)(e_i-e_{i+1})$.
+It follows that $\wt_i(x)$ is a nonnegative integer for every $i$.
+Moreover, we can assume that
+\begin{displaymath}
+  x = 1^{t_{11}}\;2^{t_{22}}1^{t_{21}}\dotsb (n-1)^{t_{n-1,n-1}}\dotsb 1^{t_{n-1,1}}.
+\end{displaymath}
+It suffices to describe a rounding algorithm $x\mapsto r(x)\in A_n^*$ such $r(x)$ has the same weight as $x$, and the word $\tilde u$ determined by
+\begin{displaymath}
+  \tilde u e^{r(x)}=y_\mu^0
+\end{displaymath}
+has $\range(e_j,\tilde u)\leq \range(e_j,\bar u)$ for $j=1,\dotsc,n-1$.
+\begin{lemma}
+  For any $u\in A_n^\dagger$, $uy^0_\nu$ is Yamanouchi if and only if
+  \begin{displaymath}
+    \range(e_i,u)\leq \langle\nu,\alpha_i\rangle
+  \end{displaymath}
+  for $i=1,\dotsc,n-1$.
+\end{lemma}
 \section{Stembridge axioms}
 \label{sec:stembridge-axioms}
-
-
+\begin{theorem}
+  For any $w\in A_n^\dagger$, the following hold whenever the result of plactic operations that appear in them do not result in $0$.
+  \begin{enumerate}
+  \item $\range(e_i,w)+\range(f_i,w)=\langle\wt(w),\alpha_i\rangle$.
+  \item  We have:
+    \begin{enumerate}
+    \item $\range(e_i,we_i^t)=\range(e_i,w)-t$,
+    \item $\range(e_i,w)\leq \range(e_i,we_{i+1}^t)\leq \range(e_i,w)+t$,
+    \item $\range(e_{i+1},w)\leq \range(e_{i+1},we_i^t)\leq \range(e_{i+1},w)+t$,
+    \item if $|i-j|>1$, then $\range(e_i,we_j)=\range(e_i,w)$.
+    \end{enumerate}
+  \item Also,
+    \begin{enumerate}
+    \item $\range(e_i,wf_i^t)=\range(e_i,w)+t$,
+    \item $\range(e_i,w)\geq \range(e_i,wf_{i+1}^t)\geq \range(e_i,w)-t$,
+    \item $\range(e_{i+1},w)\geq \range(e_{i+1},wf_i^t)\geq \range(e_{i+1},w)-t$,
+    \item if $|i-j|>1$, then $\range(e_i,wf_j)=\range(e_i,w)$.
+    \end{enumerate}
+  \end{enumerate}
+\end{theorem}
 \end{document}
-We will use a notational device:
-\begin{displaymath}
-  we_i^{-t} = wf_i^t \text{ for } t>0.
-\end{displaymath}
