@@ -1,0 +1,8 @@
+from crystals import TimedTableau
+from sage.combinat.tableau import SemistandardTableaux
+
+def lr_pairs(mu,nu,la=None,n=None):
+    tmu = TimedTableau(SemistandardTableaux(mu).first())
+    for tnu in TimedTableau(SemistandardTableaux(nu,max_entry=len(nu))):
+        if tnu.concatenate(tmu).is_yamanouchi():
+            return tmu, tnu

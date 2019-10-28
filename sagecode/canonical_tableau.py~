@@ -1,0 +1,7 @@
+def canonical_tableau(la, mu, tol=1e-10)):
+    """
+    Return the canonical timed tableau of shape ``la`` and content ``mu``.
+    """
+    la = [part for part in la if part > tol]
+    if len(la) == 1:
+        return TimedTableau([[i, mu[i]] for i in range(len(mu))])

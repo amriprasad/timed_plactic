@@ -95,6 +95,23 @@ The operators $e^x$ and $f^x$, for $x\in A_{n-1}^\dagger$ are called \emph{fract
   So $P(w)e^x=P(w)e^{x'}$.
   Therefore $we^x$ and $we^{x'}$ are Yamanouchi timed words of the same weight.???
 \end{proof}
+\begin{lemma}
+  Let $w\in A_n^\dagger$.
+  Fix $1\leq i < n$, and let $j=i+1$.
+  Then $w$ admits a unique decomposition of the form:
+  \begin{displaymath}
+    w = xi^auj^bv,
+  \end{displaymath}
+  with $x,u,u^*,v^*\in \Yam_i$, $a>0$, $b>0$, $x$ does not end with $i$, $u$ does not begin with $i$ or end with $j$, and $v$ does not begin with $j$.
+  In this case, for any $0\leq t\leq b$, we have:
+  \begin{displaymath}
+    we_i^t = xi^{a+t}uj^{b-t}v,
+  \end{displaymath}
+  and for any $0\leq t\leq a$, we have:
+  \begin{displaymath}
+    wf_i^t = xi^{a-t}uj^{b+t}v.
+  \end{displaymath}
+\end{lemma}
 \section{Fractional Coplactic Classes}
 \label{sec:fract-copl-class}
 \begin{definition}[Fractional Coplactic Class]
@@ -199,7 +216,7 @@ Then the Schur function is defined by:
 \begin{displaymath}
   s_\lambda(x_1,\dotsc,x_n) = \sum_{w\in C(y_\lambda)} \wt(w),
 \end{displaymath}
-where $y_\lambda$ is \emph{any} Yamanouchi word of wwight $\lambda$.
+where $y_\lambda$ is \emph{any} Yamanouchi word of weight $\lambda$.
 We have:
 \begin{displaymath}
   s_\mu(x_1,\dotsc,x_n)s_\nu(x_1,\dotsc,x_n)=\sum_{u\in C(y^0_\mu),v\in C(y^0_\nu)} \wt(uv).
@@ -255,8 +272,8 @@ has $\range(e_j,\tilde u)\leq \range(e_j,\bar u)$ for $j=1,\dotsc,n-1$.
 \begin{theorem}
   For any $w\in A_n^\dagger$, the following hold whenever the result of plactic operations that appear in them do not result in $0$.
   \begin{enumerate}
-  \item $\range(e_i,w)+\range(f_i,w)=\langle\wt(w),\alpha_i\rangle$.
-  \item  We have:
+  \item \label{item:range-sum} $\range(e_i,w)-\range(f_i,w)=\langle\wt(w),\alpha_i\rangle$.
+  \item  \label{item:range-e} We have:
     \begin{enumerate}
     \item $\range(e_i,we_i^t)=\range(e_i,w)-t$,
     \item $\range(e_i,w)\leq \range(e_i,we_{i+1}^t)\leq \range(e_i,w)+t$,
@@ -272,4 +289,29 @@ has $\range(e_j,\tilde u)\leq \range(e_j,\bar u)$ for $j=1,\dotsc,n-1$.
     \end{enumerate}
   \end{enumerate}
 \end{theorem}
+\begin{proof}
+  As in Section~\ref{sec:frac-ops}, let $j=i+1$.
+  If $\wt(w)=(\mu_1,\dotsc,\mu_n)$, then $\langle\wt(w),\alpha_i\rangle=\mu_j-\mu_i$.
+  When the freezing process of subwords described in the definition of $e_i^t$ in Section~\ref{sec:frac-ops} is conducted, the $i$th and and $j$th components of the weights of the frozen subwords are always equal.
+  Thus, when the unfrozen word of the form $i^rj^s$ is finally obtained, $s-r=\mu_j-\mu_i$.
+  Now, from the definition of $e_i^t$ and $f_i^t$, $\range(e_i,w)=s$, while $\range(f_i,w)=r$.
+  Thus
+  \begin{align*}
+    \range(e_i,w)-\range(f_i,w) & = s - r\\
+                                & = \mu_j-\mu_i\\
+                                & = \langle\wt(w),\alpha_i\rangle,
+  \end{align*}
+  proving (\ref{item:range-sum}).
+  
+  The unfrozen part of $we_i^t$ is of the form $i^{r+t}j^{s-t}$ for all $0\leq t\leq s$, so
+  \begin{align*}
+    \range(e_i,we_i^t) & = s-t\\
+    & = \range(e_i,w)-t,
+  \end{align*}
+  proving part (a) of (\ref{item:range-e}).
+
+  Now let $k=i+2$.
+  
+\end{proof}
 \end{document}
+

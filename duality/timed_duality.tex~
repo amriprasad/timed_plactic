@@ -1,0 +1,64 @@
+\documentclass[12pt]{amsart}
+\title{Greene's Duality Theorem for Timed Words}
+\author{Amritanshu Prasad}
+
+\newcommand{\ins}{\mathrm{INS}}
+\newcommand{\rowins}{\mathrm{RINS}}
+\newcommand{\ttab}{\mathrm{Tab}^\dagger}
+
+\newtheorem{theorem}{Theorem}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\begin{document}
+\maketitle
+\begin{definition}[Vertical and Horizontal strips]
+  Let $\lambda = (\lambda_1,\dotsc,\lambda_l) \subset \mu=(mu_1,\dotsc,\mu_m)$ be real partitions.
+  Then, we say that $\lambda/\mu$ is a \emph{vertical strip} of size $r$ if $\lambda_i-\mu_i\leq 1$ for each $i=1,\dotsc, l$, and $\mu_i\leq 1$ for $i=l+1,\dotsc,m$, and $r=l(\lambda)-l(\mu)$.
+  We say that $\lambda/\mu$ is a \emph{horizontal strip} of size $r$ if $\lambda$ and $\mu$ can be padded with $0$'s in such a way that $l=m+1$, and $\lambda_i\geq \mu_i\geq \lambda_{i+1}$ for all $i=1,\dotsc,m$, and $l(\lambda)-l(\mu)=r$.
+\end{definition}
+\begin{definition}
+  A \emph{timed row} in $A_n$ is a timed word of the form
+  \begin{displaymath}
+    u = 1^{t_1} \dotsb n ^{t_n}, \text{ with } t_i\geq 0 \text{ for } i=1,\dotsc,n.
+  \end{displaymath}
+  The set of all timed rows of length $r$ is denoted $R^\dagger(r)$.
+  A \emph{timed column} in $A_n$ is a timed word of the form
+  \begin{displaymath}
+    u = n^{t_n} \dotsb 1^{t_1}, \text{ with } 0\leq t_i\leq 1 \text{ for } i=1,\dotsc, n.
+  \end{displaymath}
+  The set of all timed columns of length $r$ is denoted $C^\dagger(r)$.
+\end{definition}
+\begin{theorem}[Pieri Rule and its Dual]
+  For every real partition $\lambda$, the function
+  \begin{displaymath}
+    (t,u) \mapsto P(tu)
+  \end{displaymath}
+  defines a bijection
+  \begin{displaymath}
+    \ttab_n(\lambda) \times R_n^\dagger(r)\tilde\to\coprod_\mu \ttab_n(\mu),
+  \end{displaymath}
+  the union being over all real partitions $\mu$ such that $\mu/\lambda$ is a horizontal strip of size $r$.
+
+  Similarly, the function
+  \begin{displaymath}
+    (t,u) \mapsto P(tu)
+  \end{displaymath}
+  defines a bijection
+  \begin{displaymath}
+    \ttab_n(\lambda)\times C_n^\dagger(r)\tilde\to\coprod_\mu \ttab(\mu),
+  \end{displaymath}
+  the union being over all real partitions $\mu$ such that $\mu/\lambda$ is a vertical strip of size $r$.
+\end{theorem}
+\begin{proof}
+  Suppose that $u=1^{s_1}\dotsb n^{s_n}$ is a timed row.
+  Suppose $i,j\in A_n$ are such that $i>j$, and $s,t\in [0,1]$.
+  Let
+  \begin{align*}
+    (v_1, u_1) & = \rowins(u, i^s),\\
+    (v_2, u_2) & = \rowins(u_1, j^t).
+  \end{align*}
+  Then $v_1$ is a prefix of $(i+1)^{s_{i+1}} \dotsb n^{s_n}$ of length $\min(s, s_{i+1}+\dotsb+s_n)$.
+  Since $j<i$, 
+\end{proof}
+\end{document}
